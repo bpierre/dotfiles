@@ -1,0 +1,9 @@
+set guioptions=aAce
+
+" python use spaces
+au FileType python set noexpandtab
+
+" html use real tabs
+au FileType html set tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab
+au FileType xml set tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab
+au FileType xslt set tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab
