@@ -1,4 +1,4 @@
 Notes:
 
-- vim files (vimrc.local, gvimrc.local) should be used with janus: https://github.com/carlhuda/janus
 - .css and .js directories should be used with dotjs : https://github.com/rlr/dotjs-addon
+
