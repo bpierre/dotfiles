@@ -1,9 +1,95 @@
-set guioptions=aAce
+set nocompatible                " choose no compatibility with legacy vi
+syntax enable
+set encoding=utf-8
+set showcmd                     " display incomplete commands
+set nu
 
-" python use spaces
+"" Vim Bundle manager
+filetype off
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+
+Bundle 'gmarik/vundle'
+Bundle 'majutsushi/tagbar'
+Bundle 'scrooloose/nerdtree'
+Bundle 'wavded/vim-stylus'
+Bundle 'pangloss/vim-javascript'
+Bundle 'jelera/vim-javascript-syntax'
+"Bundle 'wincent/Command-T'
+Bundle 'kien/ctrlp.vim'
+Bundle 'tpope/vim-fugitive'
+Bundle 'vim-scripts/jshint.vim'
+Bundle 'vim-scripts/ZoomWin'
+
+"" Snipmate
+Bundle 'MarcWeber/vim-addon-mw-utils'
+Bundle 'tomtom/tlib_vim'
+Bundle 'honza/snipmate-snippets'
+Bundle 'garbas/vim-snipmate'
+
+filetype plugin indent on       " load file type plugins + indentation
+
+"" Syntax / Coloration
+syntax enable
+set background=dark
+colorscheme desert
+
+"" Ignore some files
+set wildignore+=*/.git/*,*/.hg/*,*/.svn/*
+
+"" No auto folding
+set nofoldenable
+
+"" CtrlP Plugin
+let g:ctrlp_map = '<c-t>'  " Remap CtrP plugin on Ctrl+T
+let g:ctrlp_cmd = 'CtrlP'
+let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git' " Ignore some files
+
+"" Whitespace
+set nowrap                      " don't wrap lines
+set tabstop=2 shiftwidth=2      " a tab is two spaces (or set this to 4)
+set expandtab                   " use spaces, not tabs (optional)
+set backspace=indent,eol,start  " backspace through everything in insert mode
+
+" python spaces
 au FileType python set noexpandtab
 
-" html use real tabs
+" html spaces
 au FileType html set tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab
 au FileType xml set tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab
 au FileType xslt set tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab
+
+" filetypes
+au BufRead,BufNewFile *.md setfiletype markdown
+
+"" Searching
+set hlsearch                    " highlight matches
+set incsearch                   " incremental searching
+set ignorecase                  " searches are case insensitive...
+set smartcase                   " ... unless they contain at least one capital letter
+
+" tagbar is a plugin which lists the functions of the opened file
+nmap <F8> :TagbarToggle<CR>
+
+" Command-T
+" let g:CommandTMaxHeight = 30    " Command-T height
+" map <C-t> :CommandT<CR>
+" map <C-s> :CommandTBuffer<CR>
+
+" Open NERDTree on launch
+if has("gui_running")
+  autocmd VimEnter * NERDTree
+  autocmd VimEnter * wincmd p
+endif
+
+" Toggle NERDTree shortcut
+map <F2> :NERDTreeToggle<CR>
+
+" Always show 2 lines below / above the cursor
+set so=2
+
+" Reset search
+nnoremap <F7> :let @/ = ""<CR>
+
+" Reset search
+nnoremap <C-l> :JSHint<CR>
