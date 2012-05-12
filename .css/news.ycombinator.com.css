@@ -1,13 +1,5 @@
 @import url(http://fonts.googleapis.com/css?family=Droid+Sans);
 
-/*.comhead, .subtext {
-  font-size: 12px;
-}
-
-font[size="1"] {
-  font-size: 12px;
-}*/
-
 .comment {
   display: block;
   max-width: 800px;
@@ -15,8 +7,6 @@ font[size="1"] {
   font-size: 18px;
   font-family: 'Droid Sans';
   line-height: 30px;
-  /*border: 3px solid rgba(130,130,130,.5);
-    border-radius: 3px;*/
 }
 
 .comment a {
@@ -35,3 +25,6 @@ font[size="1"] {
   margin-top: 20px;
 }
 
+pre {
+  max-width: none;
+}
