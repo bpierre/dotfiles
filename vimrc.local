@@ -20,6 +20,8 @@ Bundle 'kien/ctrlp.vim'
 Bundle 'tpope/vim-fugitive'
 Bundle 'vim-scripts/jshint.vim'
 Bundle 'vim-scripts/ZoomWin'
+Bundle 'mileszs/ack.vim'
+Bundle 'joonty/vdebug.git'
 
 "" Snipmate
 Bundle 'MarcWeber/vim-addon-mw-utils'
@@ -28,6 +30,9 @@ Bundle 'honza/snipmate-snippets'
 Bundle 'garbas/vim-snipmate'
 
 filetype plugin indent on       " load file type plugins + indentation
+
+" Set to auto read when a file is changed from the outside
+set autoread
 
 "" Syntax / Coloration
 syntax enable
@@ -40,24 +45,29 @@ set wildignore+=*/.git/*,*/.hg/*,*/.svn/*
 "" No auto folding
 set nofoldenable
 
+"" Autojump to the last edited position
+au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") |
+                     \ exe "normal g'\"" | endif
+
 "" CtrlP Plugin
 let g:ctrlp_map = '<c-t>'  " Remap CtrP plugin on Ctrl+T
 let g:ctrlp_cmd = 'CtrlP'
 let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git' " Ignore some files
 
 "" Whitespace
-set nowrap                      " don't wrap lines
-set tabstop=2 shiftwidth=2      " a tab is two spaces (or set this to 4)
-set expandtab                   " use spaces, not tabs (optional)
-set backspace=indent,eol,start  " backspace through everything in insert mode
+set expandtab                            " use spaces, not tabs
+set tabstop=2 shiftwidth=2 softtabstop=2 " a tab is two spaces
+set nowrap                               " don't wrap lines
+set backspace=indent,eol,start           " backspace through everything in insert mode
 
 " python spaces
 au FileType python set noexpandtab
 
 " html spaces
-au FileType html set tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab
-au FileType xml set tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab
-au FileType xslt set tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab
+au FileType html setlocal tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab
+au FileType xml setlocal tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab
+au FileType xslt setlocal tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab
+au FileType javascript setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
 
 " filetypes
 au BufRead,BufNewFile *.md setfiletype markdown
@@ -85,8 +95,8 @@ endif
 " Toggle NERDTree shortcut
 map <F2> :NERDTreeToggle<CR>
 
-" Always show 2 lines below / above the cursor
-set so=2
+" Show 7 lines below / above the cursor
+set so=7
 
 " Reset search
 nnoremap <F7> :let @/ = ""<CR>
