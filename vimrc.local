@@ -1,17 +1,13 @@
-set nocompatible                " choose no compatibility with legacy vi
-syntax enable
-set encoding=utf-8
-set showcmd                     " display incomplete commands
-set nu
-
-"" Vim Bundle manager
+"" PLUGINS
 filetype off
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
 Bundle 'gmarik/vundle'
+" Bundle 'Lokaltog/powerline'
+Bundle 'bling/vim-airline'
 Bundle 'majutsushi/tagbar'
-Bundle 'scrooloose/nerdtree'
+" Bundle 'scrooloose/nerdtree'
 Bundle 'wavded/vim-stylus'
 Bundle 'pangloss/vim-javascript'
 Bundle 'jelera/vim-javascript-syntax'
@@ -21,13 +17,57 @@ Bundle 'tpope/vim-fugitive'
 Bundle 'vim-scripts/jshint.vim'
 Bundle 'vim-scripts/ZoomWin'
 Bundle 'mileszs/ack.vim'
-Bundle 'joonty/vdebug.git'
+"Bundle 'joonty/vdebug.git'
+Bundle 'Lokaltog/vim-easymotion'
+"Bundle 'Valloric/YouCompleteMe'
+Bundle 'mhinz/vim-startify'
 
-"" Snipmate
-Bundle 'MarcWeber/vim-addon-mw-utils'
-Bundle 'tomtom/tlib_vim'
-Bundle 'honza/snipmate-snippets'
-Bundle 'garbas/vim-snipmate'
+" Themes
+Bundle 'junegunn/seoul256.vim'
+Bundle 'chriskempson/base16-vim'
+
+" vinegar is a file explorer (press -)
+Bundle 'tpope/vim-vinegar'
+
+"" Snippets
+" Bundle 'MarcWeber/ultisnips'
+" Bundle 'honza/vim-snippets'
+
+"" Surround
+Bundle 'tpope/vim-repeat'
+Bundle 'tpope/vim-surround'
+
+"" Haskell
+Bundle 'git://github.com/urso/haskell_syntax.vim.git'
+
+"" Comments
+Bundle 'tomtom/tcomment_vim'
+
+"" move
+"Bundle 'matze/vim-move'
+
+"" Variable select (around variable: av, inner variable: iv)
+"Bundle 'git://github.com/robmiller/vim-movar.git'
+Bundle 'robmiller/vim-movar'
+
+"" Mini buffer explorer
+"Bundle 'techlivezheng/vim-plugin-minibufexpl'
+
+Bundle 'marijnh/tern_for_vim'
+
+" Powerline activation
+set rtp+=~/.vim/bundle/powerline/powerline/bindings/vim
+"call vam#ActivateAddons(['powerline'])
+
+set nocompatible                " choose no compatibility with legacy vi
+syntax enable
+set encoding=utf-8
+set showcmd                     " display incomplete commands
+set number
+set relativenumber
+set laststatus=2
+set autoindent
+set smartindent
 
 filetype plugin indent on       " load file type plugins + indentation
 
@@ -36,8 +76,19 @@ set autoread
 
 "" Syntax / Coloration
 syntax enable
+let base16colorspace=256  " Access colors present in 256 colorspace
 set background=dark
-colorscheme desert
+
+" Base 16
+colorscheme base16-default
+
+" Seoul
+" let g:seoul256_background = 233
+" colorscheme seoul256
+
+"" Invisible characters, à la TextMate
+set listchars=nbsp:·,tab:▸\ ,eol:¬
+set list
 
 "" Ignore some files
 set wildignore+=*/.git/*,*/.hg/*,*/.svn/*
@@ -45,9 +96,52 @@ set wildignore+=*/.git/*,*/.hg/*,*/.svn/*
 "" No auto folding
 set nofoldenable
 
+"" 80 column
+set colorcolumn=80
+
 "" Autojump to the last edited position
 au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") |
                      \ exe "normal g'\"" | endif
+
+"" Map è to ` and é to ; in command/visual modes
+noremap è `
+noremap é ;
+
+"" Map sentences () to paragraphs [] (more useful)
+noremap ( [
+noremap [ (
+noremap ) ]
+noremap ] )
+
+"" Enable / disable the search highlight
+nnoremap <C-i> :set hlsearch!<CR>
+
+"" Move on wrapped lines
+"nnoremap j gj
+"nnoremap k gk
+"xnoremap j gj
+"xnoremap k gk
+
+"" Switch between tabs
+nmap <C-l> gt
+nmap <C-h> gT
+
+"" Close the current tab, thanks http://andrewradev.com/2011/04/26/my-vim-workflow-basic-moves/
+nnoremap QQ :QuitTab<cr>
+command! QuitTab call s:QuitTab()
+function! s:QuitTab()
+  try
+    tabclose
+  catch /E784/ " Can't close last tab
+    qall
+  endtry
+endfunction
+
+"" Mouse support
+" set mouse=a
+
+"" sudo write
+cmap w!! w !sudo tee > /dev/null %
 
 "" CtrlP Plugin
 let g:ctrlp_map = '<c-t>'  " Remap CtrP plugin on Ctrl+T
@@ -57,17 +151,44 @@ let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git' " Ignore some files
 "" Whitespace
 set expandtab                            " use spaces, not tabs
 set tabstop=2 shiftwidth=2 softtabstop=2 " a tab is two spaces
-set nowrap                               " don't wrap lines
+set wrap                                 " wrap lines
 set backspace=indent,eol,start           " backspace through everything in insert mode
 
 " python spaces
 au FileType python set noexpandtab
 
 " html spaces
-au FileType html setlocal tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab
-au FileType xml setlocal tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab
-au FileType xslt setlocal tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab
+au FileType html setlocal tabstop=4 softtabstop=4 shiftwidth=4 expandtab
+au FileType xml setlocal tabstop=4 softtabstop=4 shiftwidth=4 expandtab
+au FileType xslt setlocal tabstop=4 softtabstop=4 shiftwidth=4 expandtab
 au FileType javascript setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
+
+" Set tabstop, softtabstop and shiftwidth to the same value
+command! -nargs=* Stab call Stab()
+function! Stab()
+  let l:tabstop = 1 * input('set tabstop = softtabstop = shiftwidth = ')
+  if l:tabstop > 0
+    let &l:sts = l:tabstop
+    let &l:ts = l:tabstop
+    let &l:sw = l:tabstop
+  endif
+  call SummarizeTabs()
+endfunction
+function! SummarizeTabs()
+  try
+    echohl ModeMsg
+    echon 'tabstop='.&l:ts
+    echon ' shiftwidth='.&l:sw
+    echon ' softtabstop='.&l:sts
+    if &l:et
+      echon ' expandtab'
+    else
+      echon ' noexpandtab'
+    endif
+  finally
+    echohl None
+  endtry
+endfunction
 
 " filetypes
 au BufRead,BufNewFile *.md setfiletype markdown
@@ -78,28 +199,25 @@ set incsearch                   " incremental searching
 set ignorecase                  " searches are case insensitive...
 set smartcase                   " ... unless they contain at least one capital letter
 
+" Exit remap
+"inoremap <C-.> <Esc>
+"vnoremap <C-.> <Esc>
+
 " tagbar is a plugin which lists the functions of the opened file
-nmap <F8> :TagbarToggle<CR>
+"nmap <F8> :TagbarToggle<CR>
+nmap <F12> :TagbarToggle<CR>
 
-" Command-T
-" let g:CommandTMaxHeight = 30    " Command-T height
-" map <C-t> :CommandT<CR>
-" map <C-s> :CommandTBuffer<CR>
-
-" Open NERDTree on launch
-if has("gui_running")
-  autocmd VimEnter * NERDTree
-  autocmd VimEnter * wincmd p
-endif
-
-" Toggle NERDTree shortcut
-map <F2> :NERDTreeToggle<CR>
-
-" Show 7 lines below / above the cursor
-set so=7
+" Show 3 lines below / above the cursor
+set so=3
 
 " Reset search
-nnoremap <F7> :let @/ = ""<CR>
+nmap <F7> :nohlsearch<CR>
 
-" Reset search
-nnoremap <C-l> :JSHint<CR>
+" JSHint
+"nnoremap <C-l> :JSHint<CR>
+
+" Follow links in help
+" Follow the link
+nmap <buffer> <Enter> <C-]>
+" Follow the help topic in a new split (often useful)
+nmap <buffer> <C-Enter> <C-w><C-]><C-w>T
