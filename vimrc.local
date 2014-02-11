@@ -1,75 +1,72 @@
-"" PLUGINS
+" Vundle
+set nocompatible
 filetype off
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
-
 Bundle 'gmarik/vundle'
-" Bundle 'Lokaltog/powerline'
-Bundle 'bling/vim-airline'
-Bundle 'majutsushi/tagbar'
-" Bundle 'scrooloose/nerdtree'
-Bundle 'wavded/vim-stylus'
-Bundle 'pangloss/vim-javascript'
-Bundle 'jelera/vim-javascript-syntax'
-"Bundle 'wincent/Command-T'
-Bundle 'kien/ctrlp.vim'
-Bundle 'tpope/vim-fugitive'
-Bundle 'vim-scripts/jshint.vim'
-Bundle 'vim-scripts/ZoomWin'
-Bundle 'mileszs/ack.vim'
-"Bundle 'joonty/vdebug.git'
-Bundle 'Lokaltog/vim-easymotion'
-"Bundle 'Valloric/YouCompleteMe'
-Bundle 'mhinz/vim-startify'
 
-" Themes
-Bundle 'junegunn/seoul256.vim'
-Bundle 'chriskempson/base16-vim'
+" The nice status bar
+Bundle 'bling/vim-airline'
 
 " vinegar is a file explorer (press -)
 Bundle 'tpope/vim-vinegar'
 
-"" Snippets
-" Bundle 'MarcWeber/ultisnips'
-" Bundle 'honza/vim-snippets'
+" Minimalist start screen
+Bundle 'mhinz/vim-startify'
 
-"" Surround
+" Rename the current file in the vim buffer + retain relative path.
+Bundle 'danro/rename.vim'
+
+" Textmate-like Ctrl+T
+Bundle 'kien/ctrlp.vim'
+
+" git in Vim
+Bundle 'tpope/vim-fugitive'
+
+" ack in Vim
+Bundle 'mileszs/ack.vim'
+
+" Zoom in/out of a window
+Bundle 'vim-scripts/ZoomWin'
+
+" Variable select (around variable: av, inner variable: iv)
+Bundle 'robmiller/vim-movar'
+
+" Surround
 Bundle 'tpope/vim-repeat'
 Bundle 'tpope/vim-surround'
 
-"" Haskell
-Bundle 'git://github.com/urso/haskell_syntax.vim.git'
-
-"" Comments
+" Comments
 Bundle 'tomtom/tcomment_vim'
 
-"" move
-"Bundle 'matze/vim-move'
+" Languages-related plugins
+Bundle 'wavded/vim-stylus'
+Bundle 'pangloss/vim-javascript'
+Bundle 'jelera/vim-javascript-syntax'
+Bundle 'vim-scripts/jshint.vim'
+Bundle 'git://github.com/urso/haskell_syntax.vim.git'
+Bundle 'vim-scripts/HTML-AutoCloseTag'
+Bundle "mattn/emmet-vim"
 
-"" Variable select (around variable: av, inner variable: iv)
-"Bundle 'git://github.com/robmiller/vim-movar.git'
-Bundle 'robmiller/vim-movar'
+" Themes
+Bundle 'junegunn/seoul256.vim'
+Bundle 'chriskempson/base16-vim'
+Bundle 'zenorocha/dracula-theme'
 
-"" Mini buffer explorer
-"Bundle 'techlivezheng/vim-plugin-minibufexpl'
+filetype on
+filetype plugin on
+filetype indent on
 
-Bundle 'marijnh/tern_for_vim'
-
-" Powerline activation
-set rtp+=~/.vim/bundle/powerline/powerline/bindings/vim
-"call vam#ActivateAddons(['powerline'])
-
-set nocompatible                " choose no compatibility with legacy vi
+set nocompatible
 syntax enable
 set encoding=utf-8
-set showcmd                     " display incomplete commands
+set showcmd
 set number
 set relativenumber
 set laststatus=2
-set autoindent
-set smartindent
+set scrolloff=3 " Show 3 lines below / above the cursor
 
-filetype plugin indent on       " load file type plugins + indentation
+let mapleader = ","
 
 " Set to auto read when a file is changed from the outside
 set autoread
@@ -79,89 +76,64 @@ syntax enable
 let base16colorspace=256  " Access colors present in 256 colorspace
 set background=dark
 
-" Base 16
+" Theme
 colorscheme base16-default
 
-" Seoul
-" let g:seoul256_background = 233
-" colorscheme seoul256
-
-"" Invisible characters, à la TextMate
+" Invisible characters, à la TextMate
 set listchars=nbsp:·,tab:▸\ ,eol:¬
 set list
 
-"" Ignore some files
+" Ignore some files
 set wildignore+=*/.git/*,*/.hg/*,*/.svn/*
 
-"" No auto folding
+" No auto folding
 set nofoldenable
 
-"" 80 column
+" 80 column
 set colorcolumn=80
 
-"" Autojump to the last edited position
+" Autojump to the last edited position when a file is reopened
 au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") |
                      \ exe "normal g'\"" | endif
 
-"" Map è to ` and é to ; in command/visual modes
+" Map è to ` and é to ; in command/visual modes
 noremap è `
 noremap é ;
 
-"" Map sentences () to paragraphs [] (more useful)
+" Map sentences () to paragraphs [] (more useful)
 noremap ( [
 noremap [ (
 noremap ) ]
 noremap ] )
 
-"" Enable / disable the search highlight
-nnoremap <C-i> :set hlsearch!<CR>
-
-"" Move on wrapped lines
-"nnoremap j gj
-"nnoremap k gk
-"xnoremap j gj
-"xnoremap k gk
-
-"" Switch between tabs
+" Switch between tabs
 nmap <C-l> gt
 nmap <C-h> gT
+" New tab
+nmap <c-n> :tabnew<cr>
 
-"" Close the current tab, thanks http://andrewradev.com/2011/04/26/my-vim-workflow-basic-moves/
-nnoremap QQ :QuitTab<cr>
-command! QuitTab call s:QuitTab()
-function! s:QuitTab()
-  try
-    tabclose
-  catch /E784/ " Can't close last tab
-    qall
-  endtry
-endfunction
-
-"" Mouse support
-" set mouse=a
-
-"" sudo write
+" sudo write
 cmap w!! w !sudo tee > /dev/null %
 
-"" CtrlP Plugin
+" CtrlP Plugin
 let g:ctrlp_map = '<c-t>'  " Remap CtrP plugin on Ctrl+T
 let g:ctrlp_cmd = 'CtrlP'
 let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git' " Ignore some files
 
-"" Whitespace
-set expandtab                            " use spaces, not tabs
-set tabstop=2 shiftwidth=2 softtabstop=2 " a tab is two spaces
-set wrap                                 " wrap lines
-set backspace=indent,eol,start           " backspace through everything in insert mode
+" Emmet
+" imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
+" let g:user_emmet_leader_key='<Tab>'
 
-" python spaces
+" Whitespace
+set expandtab
+set tabstop=2 shiftwidth=2 softtabstop=2
+set wrap
+set backspace=indent,eol,start
+set autoindent
+set smartindent
+
+" Language-specific spaces
 au FileType python set noexpandtab
-
-" html spaces
-au FileType html setlocal tabstop=4 softtabstop=4 shiftwidth=4 expandtab
-au FileType xml setlocal tabstop=4 softtabstop=4 shiftwidth=4 expandtab
-au FileType xslt setlocal tabstop=4 softtabstop=4 shiftwidth=4 expandtab
-au FileType javascript setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
 
 " Set tabstop, softtabstop and shiftwidth to the same value
 command! -nargs=* Stab call Stab()
@@ -193,28 +165,47 @@ endfunction
 " filetypes
 au BufRead,BufNewFile *.md setfiletype markdown
 
-"" Searching
-set hlsearch                    " highlight matches
-set incsearch                   " incremental searching
-set ignorecase                  " searches are case insensitive...
-set smartcase                   " ... unless they contain at least one capital letter
+" Searching
+set hlsearch
+set incsearch
+set ignorecase
+set smartcase
 
-" Exit remap
-"inoremap <C-.> <Esc>
-"vnoremap <C-.> <Esc>
+" Turn off highlight search
+nmap <silent> <Leader>n :set hlsearch!<CR>
 
-" tagbar is a plugin which lists the functions of the opened file
-"nmap <F8> :TagbarToggle<CR>
-nmap <F12> :TagbarToggle<CR>
+" Toggle paste mode
+nmap <silent> <Leader>p :set invpaste<CR>:set paste?<CR>
 
-" Show 3 lines below / above the cursor
-set so=3
+" local cd to the directory containing the file in the buffer
+nmap <silent> <Leader>cd :lcd %:h<CR>:pwd<CR>
 
-" Reset search
-nmap <F7> :nohlsearch<CR>
+" local cd to the parent git directory (if exists)
+nmap <silent> <Leader>cr :lcd <c-r>=FindGitDirOrCurrent()<CR><CR>:pwd<CR>
+
+" create the directories to the current file
+nmap <silent> <Leader>md :call CreateDirectoriesToFile()<CR>
+
+" create the directories to the current file
+function! CreateDirectoriesToFile()
+  let curdir = expand('%:p:h')
+  call system('mkdir -p "'.curdir.'"')
+  echo 'created '.curdir
+endfunction
+
+" returns the parent git directories, or '.'
+function! FindGitDirOrCurrent()
+  let curdir = expand('%:p:h')
+  let gitdir = finddir('.git', curdir . ';')
+  if gitdir != ''
+    return substitute(gitdir, '\/\.git$', '', '')
+  else
+    return '.'
+  endif
+endfunction
 
 " JSHint
-"nnoremap <C-l> :JSHint<CR>
+" nnoremap <C-l> :JSHint<CR>
 
 " Follow links in help
 " Follow the link
