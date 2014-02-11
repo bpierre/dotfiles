@@ -38,7 +38,13 @@
     var nested = nextAll(row, function(tr) {
       return !tr.querySelector('td > table > tbody > tr > td > img[width="0"]');
     });
-    nested.push(button.parentNode.parentNode.nextElementSibling.nextElementSibling);
+    var firstComment = button.parentNode.parentNode.nextElementSibling.nextElementSibling;
+    var replyButton = firstComment.nextElementSibling;
+    nested.push(firstComment);
+    // Not always present
+    if (replyButton) {
+      nested.push(replyButton);
+    }
     return nested;
   }
 
