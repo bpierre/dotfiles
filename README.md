@@ -1,5 +1,8 @@
 # My dotfiles
 
-The .vimrc config assumes that Vundle is installed: https://github.com/gmarik/Vundle.vim
+The .vimrc config assumes that:
 
-.css and .js directories are meant to be used with dotjs: https://github.com/rlr/dotjs-addon
+- [Vundle](https://github.com/gmarik/Vundle.vim) is installed
+- iTerm colors are using the [base16-default.dark theme](https://github.com/chriskempson/base16-iterm2)
+
+The .css and .js directories are meant to be used with dotjs: https://github.com/rlr/dotjs-addon

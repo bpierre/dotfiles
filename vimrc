@@ -20,6 +20,9 @@ Bundle 'danro/rename.vim'
 " Textmate-like Ctrl+T
 Bundle 'kien/ctrlp.vim'
 
+" Undo tree
+Bundle "sjl/gundo.vim"
+
 " git in Vim
 Bundle 'tpope/vim-fugitive'
 
@@ -48,14 +51,19 @@ Bundle 'git://github.com/urso/haskell_syntax.vim.git'
 Bundle 'vim-scripts/HTML-AutoCloseTag'
 Bundle "mattn/emmet-vim"
 
+" JS-stringify text
+Bundle '29decibel/vim-stringify'
+
 " Themes
-Bundle 'junegunn/seoul256.vim'
 Bundle 'chriskempson/base16-vim'
-Bundle 'zenorocha/dracula-theme'
 
 filetype on
 filetype plugin on
 filetype indent on
+
+" Coloration
+set background=dark
+colorscheme base16-default
 
 set nocompatible
 syntax enable
@@ -70,14 +78,6 @@ let mapleader = ","
 
 " Set to auto read when a file is changed from the outside
 set autoread
-
-"" Syntax / Coloration
-syntax enable
-let base16colorspace=256  " Access colors present in 256 colorspace
-set background=dark
-
-" Theme
-colorscheme base16-default
 
 " Invisible characters, à la TextMate
 set listchars=nbsp:·,tab:▸\ ,eol:¬
@@ -110,7 +110,7 @@ noremap ] )
 nmap <C-l> gt
 nmap <C-h> gT
 " New tab
-nmap <c-n> :tabnew<cr>
+nmap <C-n> :tabnew<cr>
 
 " sudo write
 cmap w!! w !sudo tee > /dev/null %
@@ -186,6 +186,12 @@ nmap <silent> <Leader>cr :lcd <c-r>=FindGitDirOrCurrent()<CR><CR>:pwd<CR>
 " create the directories to the current file
 nmap <silent> <Leader>md :call CreateDirectoriesToFile()<CR>
 
+" JSHint
+" nmap <silent> <Leader>l :JSHint<CR>
+
+" JS-Stringify strings
+map <leader>g :call Stringify()<CR>
+
 " create the directories to the current file
 function! CreateDirectoriesToFile()
   let curdir = expand('%:p:h')
@@ -203,9 +209,6 @@ function! FindGitDirOrCurrent()
     return '.'
   endif
 endfunction
-
-" JSHint
-" nnoremap <C-l> :JSHint<CR>
 
 " Follow links in help
 " Follow the link
