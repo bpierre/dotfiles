@@ -215,3 +215,7 @@ endfunction
 nmap <buffer> <Enter> <C-]>
 " Follow the help topic in a new split (often useful)
 nmap <buffer> <C-Enter> <C-w><C-]><C-w>T
+
+if has("gui_running")
+  set guifont=SourceCodePro-Regular:h14
+endif
