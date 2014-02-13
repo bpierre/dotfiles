@@ -2,7 +2,7 @@
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-ln -s ${DIR}/vimrc ~/.vimrc.local
+ln -s ${DIR}/vimrc ~/.vimrc
 ln -s ${DIR}/tmux ~/.tmux.conf
 ln -s ${DIR}/zshrc ~/.zshrc
 ln -s ${DIR}/zpreztorc ~/.zpreztorc
