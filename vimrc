@@ -57,6 +57,9 @@ Bundle '29decibel/vim-stringify'
 " Themes
 Bundle 'chriskempson/base16-vim'
 
+" tmux interaction
+Bundle 'benmills/vimux'
+
 filetype on
 filetype plugin on
 filetype indent on
@@ -74,6 +77,7 @@ set relativenumber
 set laststatus=2
 set scrolloff=3 " Show 3 lines below / above the cursor
 
+" Leader key
 let mapleader = ","
 
 " Set to auto read when a file is changed from the outside
@@ -96,7 +100,11 @@ set colorcolumn=80
 au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") |
                      \ exe "normal g'\"" | endif
 
-" Map è to ` and é to ; in command/visual modes
+" Split to the right / below
+set splitright
+set splitbelow
+
+" Map è to ` and é to ; in command/visual modes (bépo layout)
 noremap è `
 noremap é ;
 
@@ -119,6 +127,29 @@ cmap w!! w !sudo tee > /dev/null %
 let g:ctrlp_map = '<c-t>'  " Remap CtrP plugin on Ctrl+T
 let g:ctrlp_cmd = 'CtrlP'
 let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git' " Ignore some files
+
+" Vimux
+let VimuxUseNearestPane = 1
+let g:VimuxOrientation = "v"
+let g:VimuxHeight = "15"
+
+" Prompt for a command to run in a tmux pane
+nmap <Leader>tc :call OpenVimuxPrompt('v', '15')<CR>
+nmap <Leader>tvc :call OpenVimuxPrompt('h', '40')<CR>
+function! OpenVimuxPrompt(orientation, size)
+  let g:VimuxOrientation=a:orientation
+  let g:VimuxHeight=a:size
+  execute 'VimuxPromptCommand'
+endfunction
+
+" Run last command executed by RunVimTmuxCommand
+nmap <Leader>tr :VimuxRunLastCommand<CR>
+
+" Inspect runner pane
+nmap <Leader>ti :VimuxInspectRunner<CR>
+
+" Close all other tmux panes in current window
+nmap <Leader>tx :VimuxCloseRunner<CR>
 
 " Emmet
 " imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
@@ -172,19 +203,22 @@ set ignorecase
 set smartcase
 
 " Turn off highlight search
-nmap <silent> <Leader>n :set hlsearch!<CR>
+noremap <silent> <Leader>n :set hlsearch!<CR>
 
 " Toggle paste mode
-nmap <silent> <Leader>p :set invpaste<CR>:set paste?<CR>
+noremap <silent> <Leader>p :set invpaste<CR>:set paste?<CR>
 
 " local cd to the directory containing the file in the buffer
-nmap <silent> <Leader>cd :lcd %:h<CR>:pwd<CR>
+noremap <silent> <Leader>cd :lcd %:h<CR>:pwd<CR>
 
 " local cd to the parent git directory (if exists)
-nmap <silent> <Leader>cr :lcd <c-r>=FindGitDirOrCurrent()<CR><CR>:pwd<CR>
+noremap <silent> <Leader>cr :lcd <c-r>=FindGitDirOrCurrent()<CR><CR>:pwd<CR>
 
 " create the directories to the current file
-nmap <silent> <Leader>md :call CreateDirectoriesToFile()<CR>
+noremap <silent> <Leader>md :call CreateDirectoriesToFile()<CR>
+
+" toggle between last open buffers
+noremap <leader><leader> <c-^>
 
 " JSHint
 " nmap <silent> <Leader>l :JSHint<CR>
