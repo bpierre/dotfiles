@@ -39,11 +39,16 @@ Bundle 'robmiller/vim-movar'
 Bundle 'tpope/vim-repeat'
 Bundle 'tpope/vim-surround'
 
+" Easymotion
+Bundle 'Lokaltog/vim-easymotion'
+map <Leader> <Plug>(easymotion-prefix)
+
 " Comments
 Bundle 'tomtom/tcomment_vim'
 
 " Languages-related plugins
 Bundle 'wavded/vim-stylus'
+Bundle 'digitaltoad/vim-jade'
 Bundle 'pangloss/vim-javascript'
 Bundle 'jelera/vim-javascript-syntax'
 Bundle 'vim-scripts/jshint.vim'
@@ -60,6 +65,16 @@ Bundle 'chriskempson/base16-vim'
 " tmux interaction
 Bundle 'benmills/vimux'
 
+" Syntastic
+Bundle 'scrooloose/syntastic'
+
+" SnipMate (the fork, not the original: https://github.com/garbas/vim-snipmate)
+Bundle "MarcWeber/vim-addon-mw-utils"
+Bundle "tomtom/tlib_vim"
+Bundle "garbas/vim-snipmate"
+Bundle "honza/vim-snippets"
+
+syntax on
 filetype on
 filetype plugin on
 filetype indent on
@@ -68,8 +83,6 @@ filetype indent on
 set background=dark
 colorscheme base16-default
 
-set nocompatible
-syntax enable
 set encoding=utf-8
 set showcmd
 set number
@@ -79,6 +92,9 @@ set scrolloff=3 " Show 3 lines below / above the cursor
 
 " Leader key
 let mapleader = ","
+
+" Insert a new line (Ctrl+J)
+nnoremap <NL> i<CR><ESC>
 
 " Set to auto read when a file is changed from the outside
 set autoread
@@ -93,6 +109,9 @@ set wildignore+=*/.git/*,*/.hg/*,*/.svn/*
 " No auto folding
 set nofoldenable
 
+" No Ex mode (see :help Q)
+nnoremap Q <nop>
+
 " 80 column
 set colorcolumn=80
 
@@ -104,9 +123,12 @@ au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") |
 set splitright
 set splitbelow
 
-" Map è to ` and é to ; in command/visual modes (bépo layout)
+" Bépo layout:
+" Map è to ` and é to ; in command/visual modes
 noremap è `
 noremap é ;
+" More accessible C-]
+noremap <Leader>c <C-]>
 
 " Map sentences () to paragraphs [] (more useful)
 noremap ( [
@@ -151,6 +173,9 @@ nmap <Leader>ti :VimuxInspectRunner<CR>
 " Close all other tmux panes in current window
 nmap <Leader>tx :VimuxCloseRunner<CR>
 
+" OS X Copy
+vnoremap <Leader>cp :!pbcopy<CR>u :echo "copied"<CR>
+
 " Emmet
 " imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
 " let g:user_emmet_leader_key='<Tab>'
@@ -164,7 +189,13 @@ set autoindent
 set smartindent
 
 " Language-specific spaces
-au FileType python set noexpandtab
+autocmd FileType python setlocal noexpandtab
+autocmd FileType html setlocal autoindent
+autocmd FileType php setlocal autoindent
+
+" HTML
+let g:html_indent_script1 = "zero"
+let g:html_indent_style1 = "zero"
 
 " Set tabstop, softtabstop and shiftwidth to the same value
 command! -nargs=* Stab call Stab()
@@ -194,7 +225,7 @@ function! SummarizeTabs()
 endfunction
 
 " filetypes
-au BufRead,BufNewFile *.md setfiletype markdown
+autocmd BufRead,BufNewFile *.md setfiletype markdown
 
 " Searching
 set hlsearch
