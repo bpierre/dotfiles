@@ -51,10 +51,11 @@ Bundle 'wavded/vim-stylus'
 Bundle 'digitaltoad/vim-jade'
 Bundle 'pangloss/vim-javascript'
 Bundle 'jelera/vim-javascript-syntax'
-Bundle 'vim-scripts/jshint.vim'
+" Bundle 'vim-scripts/jshint.vim'
 Bundle 'git://github.com/urso/haskell_syntax.vim.git'
 Bundle 'vim-scripts/HTML-AutoCloseTag'
 Bundle "mattn/emmet-vim"
+Bundle '2072/PHP-Indenting-for-VIm'
 
 " JS-stringify text
 Bundle '29decibel/vim-stringify'
@@ -193,7 +194,7 @@ autocmd FileType python setlocal noexpandtab
 autocmd FileType html setlocal autoindent
 autocmd FileType php setlocal autoindent
 
-" HTML
+" HTML: no indentation inside <script> and <style>
 let g:html_indent_script1 = "zero"
 let g:html_indent_style1 = "zero"
 
