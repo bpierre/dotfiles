@@ -51,3 +51,15 @@ prezto-update() {
   git pull && git submodule update --init --recursive
   cd -
 }
+
+# Template
+tpl() {
+  if [[ $# -eq 0 ]]; then
+    printf "\nUsage: tpl <name>\n\n"
+    printf "Available tpls: "
+    ls "$HOME/dotfiles/tpls"
+    printf "\n"
+  else
+    cp -r $HOME/dotfiles/tpls/$1/* .
+  fi
+}
