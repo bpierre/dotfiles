@@ -67,12 +67,10 @@ Bundle 'chriskempson/base16-vim'
 Bundle 'benmills/vimux'
 
 " Syntastic
-Bundle 'scrooloose/syntastic'
+" Bundle 'scrooloose/syntastic'
 
-" SnipMate (the fork, not the original: https://github.com/garbas/vim-snipmate)
-Bundle "MarcWeber/vim-addon-mw-utils"
-Bundle "tomtom/tlib_vim"
-Bundle "garbas/vim-snipmate"
+" UltiSnips
+Bundle "SirVer/ultisnips"
 Bundle "honza/vim-snippets"
 
 syntax on
@@ -156,6 +154,11 @@ let VimuxUseNearestPane = 1
 let g:VimuxOrientation = "v"
 let g:VimuxHeight = "15"
 
+" UltiSnips
+let g:UltiSnipsExpandTrigger = "<tab>"
+let g:UltiSnipsJumpForwardTrigger = "<c-j>"
+let g:UltiSnipsJumpBackwardTrigger = "<c-k>"
+
 " Prompt for a command to run in a tmux pane
 nmap <Leader>tc :call OpenVimuxPrompt('v', '15')<CR>
 nmap <Leader>tvc :call OpenVimuxPrompt('h', '40')<CR>
@@ -164,6 +167,9 @@ function! OpenVimuxPrompt(orientation, size)
   let g:VimuxHeight=a:size
   execute 'VimuxPromptCommand'
 endfunction
+
+" Save
+nmap <Leader>s :write<CR>
 
 " Run last command executed by RunVimTmuxCommand
 nmap <Leader>tr :VimuxRunLastCommand<CR>
@@ -227,12 +233,16 @@ endfunction
 
 " filetypes
 autocmd BufRead,BufNewFile *.md setfiletype markdown
+autocmd BufRead,BufNewFile .eslintrc setfiletype javascript
 
 " Searching
 set hlsearch
 set incsearch
 set ignorecase
 set smartcase
+
+" No F1
+noremap <F1> <Nop>
 
 " Turn off highlight search
 noremap <silent> <Leader>n :set hlsearch!<CR>
