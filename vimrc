@@ -46,6 +46,9 @@ map <Leader> <Plug>(easymotion-prefix)
 " Comments
 Bundle 'tomtom/tcomment_vim'
 
+" Match everything with %
+Bundle 'edsono/vim-matchit'
+
 " Languages-related plugins
 Bundle 'wavded/vim-stylus'
 Bundle 'digitaltoad/vim-jade'
@@ -160,25 +163,25 @@ let g:UltiSnipsJumpForwardTrigger = "<c-j>"
 let g:UltiSnipsJumpBackwardTrigger = "<c-k>"
 
 " Prompt for a command to run in a tmux pane
-nmap <Leader>tc :call OpenVimuxPrompt('v', '15')<CR>
-nmap <Leader>tvc :call OpenVimuxPrompt('h', '40')<CR>
+nmap <Leader>tc :wa<CR> :call OpenVimuxPrompt('v', '15')<CR>
+nmap <Leader>tvc :wa<CR> :call OpenVimuxPrompt('h', '40')<CR>
 function! OpenVimuxPrompt(orientation, size)
   let g:VimuxOrientation=a:orientation
   let g:VimuxHeight=a:size
   execute 'VimuxPromptCommand'
 endfunction
 
-" Save
-nmap <Leader>s :write<CR>
-
 " Run last command executed by RunVimTmuxCommand
-nmap <Leader>tr :VimuxRunLastCommand<CR>
+nmap <Leader>tr :wa<CR> :VimuxRunLastCommand<CR>
 
 " Inspect runner pane
 nmap <Leader>ti :VimuxInspectRunner<CR>
 
 " Close all other tmux panes in current window
 nmap <Leader>tx :VimuxCloseRunner<CR>
+
+" Save
+nmap <Leader>s :write<CR>
 
 " OS X Copy
 vnoremap <Leader>cp :!pbcopy<CR>u :echo "copied"<CR>
@@ -236,7 +239,7 @@ autocmd BufRead,BufNewFile *.md setfiletype markdown
 autocmd BufRead,BufNewFile .eslintrc setfiletype javascript
 
 " Searching
-set hlsearch
+set nohlsearch
 set incsearch
 set ignorecase
 set smartcase
