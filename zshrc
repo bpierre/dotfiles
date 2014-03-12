@@ -64,3 +64,29 @@ tpl() {
     cp -r $HOME/dotfiles/tpls/$1/* .
   fi
 }
+
+# Get an HTML page from a JS string
+#
+# Usage:
+#   $ echo "alert('foo')" | jspage
+#   $ jspage "alert('foo')"
+#
+jspage() {
+  if [[ $# -eq 0 ]]; then
+    JS=$(cat -)
+  else
+    JS=$1
+  fi
+  printf "<!doctype html>
+<html>
+<head>
+<meta charset=\"utf-8\">
+<title>jspage</title>
+<script>
+%s
+</script>
+</head>
+<body>
+</body>
+</html>\n" $JS
+}
