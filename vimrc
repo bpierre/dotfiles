@@ -158,6 +158,9 @@ cmap w!! w !sudo tee > /dev/null %
 let g:ctrlp_map = '<c-t>'  " Remap CtrP plugin on Ctrl+T
 let g:ctrlp_cmd = 'CtrlP'
 let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git' " Ignore some files
+" From http://sheerun.net/2014/03/21/how-to-boost-your-vim-productivity/
+" let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files . -co --exclude-standard', 'find %s -type f']
+let g:ctrlp_use_caching = 0
 
 " Vimux
 let VimuxUseNearestPane = 1
