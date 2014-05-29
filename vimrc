@@ -173,8 +173,8 @@ let g:UltiSnipsJumpForwardTrigger = "<c-j>"
 let g:UltiSnipsJumpBackwardTrigger = "<c-k>"
 
 " Prompt for a command to run in a tmux pane
-nmap <Leader>tc :wa<CR> :call OpenVimuxPrompt('v', '15')<CR>
-nmap <Leader>tvc :wa<CR> :call OpenVimuxPrompt('h', '40')<CR>
+nmap <Leader>tc :wa<CR>:call OpenVimuxPrompt('v', '15')<CR>
+nmap <Leader>tvc :wa<CR>:call OpenVimuxPrompt('h', '40')<CR>
 function! OpenVimuxPrompt(orientation, size)
   let g:VimuxOrientation=a:orientation
   let g:VimuxHeight=a:size
@@ -182,7 +182,7 @@ function! OpenVimuxPrompt(orientation, size)
 endfunction
 
 " Run last command executed by RunVimTmuxCommand
-nmap <Leader>tr :wa<CR> :VimuxRunLastCommand<CR>
+nmap <Leader>tr :wa<CR>:VimuxRunLastCommand<CR>
 
 " Inspect runner pane
 nmap <Leader>ti :VimuxInspectRunner<CR>
