@@ -196,10 +196,6 @@ nmap <Leader>s :write<CR>
 " OS X Copy
 vnoremap <Leader>cp :!pbcopy<CR>u :echo "copied"<CR>
 
-" Emmet
-" imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
-" let g:user_emmet_leader_key='<Tab>'
-
 " Whitespace
 set expandtab
 set tabstop=2 shiftwidth=2 softtabstop=2
