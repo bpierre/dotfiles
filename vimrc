@@ -39,9 +39,8 @@ Bundle 'robmiller/vim-movar'
 Bundle 'tpope/vim-repeat'
 Bundle 'tpope/vim-surround'
 
-" Easymotion
-Bundle 'Lokaltog/vim-easymotion'
-map <Leader> <Plug>(easymotion-prefix)
+" sneak.vim (jumps to any location specified by two characters)
+Bundle 'justinmk/vim-sneak'
 
 " Comments
 Bundle 'tomtom/tcomment_vim'
@@ -120,6 +119,14 @@ set colorcolumn=80
 " Autojump to the last edited position when a file is reopened
 au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") |
                      \ exe "normal g'\"" | endif
+
+" sneak.vim
+let g:sneak#s_next = 1 " Use 's' again to move to the next match
+let g:sneak#streak = 1 " streak mode (easymotion-like)
+hi link SneakPluginTarget IncSearch
+hi link SneakPluginScope Visual
+hi link SneakStreakTarget IncSearch
+hi SneakStreakMask ctermfg=red
 
 " Split to the right / below
 set splitright
