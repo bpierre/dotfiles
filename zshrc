@@ -18,6 +18,7 @@ alias l=" LC_ALL=en_US.UTF-8 LANG=en ls++ "
 alias la=" LC_ALL=en_US.UTF-8 LANG=en ls++ -a "
 alias vi="vim"
 alias v="vim"
+alias gti="echo 'vroom vroom';git"
 alias json='python -mjson.tool'
 alias pjson='pbpaste | json'
 alias glog="git log --oneline --graph --decorate --color=always"
@@ -29,6 +30,8 @@ alias pgstop="pg_ctl -D /usr/local/var/postgres stop -s -m fast"
 alias mongodb_start="mongod run --config /usr/local/etc/mongod.conf"
 alias pubkey="more ~/.ssh/id_rsa.pub | pbcopy | printf 'Public SSH key copied.\n'";
 alias gist="gist --copy --shorten";
+alias killphantom="ps aux | grep phantomjs | awk '{print }' | xargs kill -9"
+alias firefox="/Applications/FirefoxAurora.app/Contents/MacOS/firefox"
 
 # RVM (Ruby)
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm" # Load RVM function
@@ -82,11 +85,15 @@ jspage() {
 <head>
 <meta charset=\"utf-8\">
 <title>jspage</title>
+</head>
+<body>
 <script>
 %s
 </script>
-</head>
-<body>
 </body>
 </html>\n" $JS
 }
+
+source <(npm completion)
+
+unalias lt
