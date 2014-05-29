@@ -43,7 +43,7 @@ Bundle 'tpope/vim-surround'
 Bundle 'justinmk/vim-sneak'
 
 " Comments
-Bundle 'tomtom/tcomment_vim'
+Bundle 'tpope/vim-commentary'
 
 " Match everything with %
 Bundle 'edsono/vim-matchit'
