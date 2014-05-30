@@ -68,32 +68,6 @@ tpl() {
   fi
 }
 
-# Get an HTML page from a JS string
-#
-# Usage:
-#   $ echo "alert('foo')" | jspage
-#   $ jspage "alert('foo')"
-#
-jspage() {
-  if [[ $# -eq 0 ]]; then
-    JS=$(cat -)
-  else
-    JS=$1
-  fi
-  printf "<!doctype html>
-<html>
-<head>
-<meta charset=\"utf-8\">
-<title>jspage</title>
-</head>
-<body>
-<script>
-%s
-</script>
-</body>
-</html>\n" $JS
-}
-
 source <(npm completion)
 
 unalias lt
