@@ -32,6 +32,7 @@ alias pubkey="more ~/.ssh/id_rsa.pub | pbcopy | printf 'Public SSH key copied.\n
 alias gist="gist --copy --shorten";
 alias killphantom="ps aux | grep phantomjs | awk '{print }' | xargs kill -9"
 alias firefox="/Applications/FirefoxAurora.app/Contents/MacOS/firefox"
+alias git=hub
 
 # RVM (Ruby)
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm" # Load RVM function

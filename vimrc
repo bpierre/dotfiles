@@ -30,7 +30,7 @@ Bundle 'tpope/vim-fugitive'
 Bundle 'mileszs/ack.vim'
 
 " Zoom in/out of a window
-Bundle 'vim-scripts/ZoomWin'
+" Bundle 'vim-scripts/ZoomWin'
 
 " Variable select (around variable: av, inner variable: iv)
 Bundle 'robmiller/vim-movar'
@@ -53,11 +53,13 @@ Bundle 'wavded/vim-stylus'
 Bundle 'digitaltoad/vim-jade'
 Bundle 'pangloss/vim-javascript'
 Bundle 'jelera/vim-javascript-syntax'
+Bundle 'rodjek/vim-puppet'
 " Bundle 'vim-scripts/jshint.vim'
 Bundle 'git://github.com/urso/haskell_syntax.vim.git'
 Bundle 'vim-scripts/HTML-AutoCloseTag'
-Bundle "mattn/emmet-vim"
+Bundle 'mattn/emmet-vim'
 Bundle '2072/PHP-Indenting-for-VIm'
+Bundle 'moll/vim-node'
 
 " JS-stringify text
 Bundle '29decibel/vim-stringify'
@@ -122,7 +124,7 @@ au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") |
 
 " sneak.vim
 let g:sneak#s_next = 1 " Use 's' again to move to the next match
-let g:sneak#streak = 1 " streak mode (easymotion-like)
+" let g:sneak#streak = 1 " streak mode (easymotion-like)
 hi link SneakPluginTarget IncSearch
 hi link SneakPluginScope Visual
 hi link SneakStreakTarget IncSearch

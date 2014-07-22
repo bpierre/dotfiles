@@ -14,7 +14,7 @@ export ACLOCAL_FLAGS='-I /usr/local/share/aclocal'
 export LDFLAGS='-L /usr/local/opt/cairo/lib'
 export CPPFLAGS='-I /usr/local/opt/cairo/include'
 export ANDROID_HOME='/usr/local/opt/android-sdk'
-export VAGRANT_HOME="/Volumes/LE HD/vagrand.d"
+export VAGRANT_HOME="~/vagrand.d"
 
 # Cairo fix, see https://github.com/LearnBoost/node-canvas/wiki/Installation---OSX
 export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/opt/X11/lib/pkgconfig
