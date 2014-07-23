@@ -35,7 +35,7 @@ typeset -gU cdpath fpath mailpath path
 path=(
   ~/bin
   $(npm prefix --global)/bin # Node
-  $(brew --prefix josegonzalez/php/php54)/bin # PHP
+  $(brew --prefix homebrew/php/php55)/bin # PHP
   $(brew --prefix python)/bin # Python
   $(brew --prefix ruby)/bin # Ruby
   ~/.rvm/bin # RVM (Ruby)

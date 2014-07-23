@@ -13,9 +13,12 @@ unsetopt nomatch
 # Vim mode ESC delay
 export KEYTIMEOUT=10
 
+# force ls-- to switch to 256 colors
+export DISPLAY=1
+
 # Aliases
-alias l=" LC_ALL=en_US.UTF-8 LANG=en ls++ "
-alias la=" LC_ALL=en_US.UTF-8 LANG=en ls++ -a "
+alias l="LC_ALL=en_US.UTF-8 LANG=en ls++"
+alias la="LC_ALL=en_US.UTF-8 LANG=en ls++ -a"
 alias vi="vim"
 alias v="vim"
 alias gti="echo 'vroom vroom';git"
@@ -71,4 +74,4 @@ tpl() {
 
 source <(npm completion)
 
-unalias lt
+# unalias lt
