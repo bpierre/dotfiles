@@ -37,6 +37,11 @@ alias killphantom="ps aux | grep phantomjs | awk '{print }' | xargs kill -9"
 alias firefox="/Applications/FirefoxAurora.app/Contents/MacOS/firefox"
 alias git=hub
 
+# tmux
+alias ta="tmux attach -d -t"
+alias tn="tmux new -s '$(basename $(pwd))'"
+alias tl="tmux list-sessions"
+
 # RVM (Ruby)
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm" # Load RVM function
 
