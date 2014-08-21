@@ -27,7 +27,7 @@ alias pjson='pbpaste | json'
 alias glog="git log --oneline --graph --decorate --color=always"
 alias stylus="stylus -I `npm prefix -g`/lib/node_modules/nib/lib/"
 alias redis_start="redis-server /usr/local/etc/redis.conf"
-alias my="mysql.server"
+# alias my="mysql.server"
 alias pgstart="pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log start"
 alias pgstop="pg_ctl -D /usr/local/var/postgres stop -s -m fast"
 alias mongodb_start="mongod run --config /usr/local/etc/mongod.conf"
@@ -36,6 +36,7 @@ alias gist="gist --copy --shorten";
 alias killphantom="ps aux | grep phantomjs | awk '{print }' | xargs kill -9"
 alias firefox="/Applications/FirefoxAurora.app/Contents/MacOS/firefox"
 alias git=hub
+alias ip="ifconfig | grep inet | grep -v inet6 | grep -v 127.0.0.1 | awk '{print \$2}'"
 
 # tmux
 alias ta="tmux attach -d -t"

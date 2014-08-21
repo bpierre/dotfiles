@@ -29,6 +29,9 @@ Bundle 'tpope/vim-fugitive'
 " ack in Vim
 Bundle 'mileszs/ack.vim'
 
+" Unicode
+" Bundle 'chrisbra/unicode.vim'
+
 " Zoom in/out of a window
 " Bundle 'vim-scripts/ZoomWin'
 
