@@ -110,7 +110,7 @@ set listchars=nbsp:·,tab:▸\ ,eol:¬
 set list
 
 " Ignore some files
-set wildignore+=*/.git/*,*/.hg/*,*/.svn/*
+set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*.png,*.jpg,*.gif,*.psd
 
 " No auto folding
 set nofoldenable
