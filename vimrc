@@ -56,6 +56,8 @@ Bundle 'wavded/vim-stylus'
 Bundle 'digitaltoad/vim-jade'
 Bundle 'pangloss/vim-javascript'
 Bundle 'jelera/vim-javascript-syntax'
+Bundle 'heavenshell/vim-jsdoc'
+
 Bundle 'rodjek/vim-puppet'
 " Bundle 'vim-scripts/jshint.vim'
 Bundle 'git://github.com/urso/haskell_syntax.vim.git'
@@ -151,10 +153,10 @@ noremap ) ]
 noremap ] )
 
 " Switch between tabs
-nmap <C-l> gt
-nmap <C-h> gT
+nnoremap <C-l> gt
+nnoremap <C-h> gT
 " New tab
-nmap <C-n> :tabnew<cr>
+nnoremap <C-n> :tabnew<cr>
 
 " sudo write
 cmap w!! w !sudo tee > /dev/null %
@@ -171,6 +173,9 @@ let g:ctrlp_use_caching = 0
 let VimuxUseNearestPane = 1
 let g:VimuxOrientation = "v"
 let g:VimuxHeight = "15"
+
+" JSDoc generation
+noremap <Leader>j :JsDoc<cr>
 
 " UltiSnips
 let g:UltiSnipsExpandTrigger = "<tab>"
