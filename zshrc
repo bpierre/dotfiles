@@ -47,7 +47,7 @@ alias tl="tmux list-sessions"
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm" # Load RVM function
 
 # Go language
-source $(brew --prefix)/share/zsh/site-functions/go
+# source $(brew --prefix)/share/zsh/site-functions/go
 
 # Autojump
 [[ -s `brew --prefix`/etc/autojump.sh ]] && . `brew --prefix`/etc/autojump.sh
@@ -79,5 +79,7 @@ tpl() {
 }
 
 source <(npm completion)
+
+source `brew --prefix`/etc/profile.d/z.sh
 
 # unalias lt
