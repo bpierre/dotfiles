@@ -188,7 +188,7 @@ nmap <Leader>tvc :wa<CR>:call OpenVimuxPrompt('h', '40')<CR>
 function! OpenVimuxPrompt(orientation, size)
   let g:VimuxOrientation=a:orientation
   let g:VimuxHeight=a:size
-  execute 'VimuxPromptCommand("make")'
+  execute 'VimuxPromptCommand("make ")'
 endfunction
 
 " Run last command executed by RunVimTmuxCommand
