@@ -49,8 +49,8 @@ alias tl="tmux list-sessions"
 # Go language
 # source $(brew --prefix)/share/zsh/site-functions/go
 
-# Autojump
-[[ -s `brew --prefix`/etc/autojump.sh ]] && . `brew --prefix`/etc/autojump.sh
+# z
+. `brew --prefix`/etc/profile.d/z.sh
 
 # Search in LimeChat logs with ack
 alias -g irclogs="/Users/pierre/Documents/LimeChat\ Transcripts/"
