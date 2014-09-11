@@ -13,6 +13,14 @@ $ chsh -s /usr/local/bin/zsh
 $ git clone --recursive https://github.com/sorin-ionescu/prezto.git "${ZDOTDIR:-$HOME}/.zprezto"
 ```
 
+### ack
+
+Install [ack](http://beyondgrep.com/):
+
+```
+$ brew install ack
+```
+
 ### tmux
 
 Install [tmux](http://tmux.sourceforge.net/):
