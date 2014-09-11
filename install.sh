@@ -9,5 +9,6 @@ ln -s ${DIR}/zprofile ~/.zprofile
 ln -s ${DIR}/zshenv ~/.zshenv
 ln -s ${DIR}/zpreztorc ~/.zpreztorc
 ln -s ${DIR}/zlogin ~/.zlogin
+ln -s ${DIR}/ackrc ~/.ackrc
 ln -s -n ${DIR}/dotjs/css ~/.css
 ln -s -n ${DIR}/dotjs/js ~/.js
