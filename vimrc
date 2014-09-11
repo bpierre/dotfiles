@@ -175,6 +175,7 @@ let g:VimuxOrientation = "v"
 let g:VimuxHeight = "15"
 
 " JSDoc generation
+let g:jsdoc_default_mapping = 0
 noremap <Leader>j :JsDoc<cr>
 
 " UltiSnips
