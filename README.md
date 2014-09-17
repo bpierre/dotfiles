@@ -63,7 +63,19 @@ Install the [dotjs](https://github.com/rlr/dotjs-addon) addon in Firefox
 - In Profiles → Default → Text → Cursor, check “Box”.
 - Change the font to 13pt Source Code Pro Light, antialiased.
 - Import the [base16-default.dark theme](https://github.com/chriskempson/base16-iterm2), and use it as a color preset.
-- In Keys → Global Shortcut Keys, add ⌘h → Send Hex Code → `0x01 0x68` and ⌘l → Send Hex Code → `0x01 0x6C`.
+- In Keys → Global Shortcut Keys, add the following shortcuts (select “Send Hex Code”):
+
+Shortcut | Hex code
+---------|------------
+⌘h       | `0x01 0x68`
+⌘l       | `0x01 0x6C`
+⌘t       | `0x01 0x63`
+⌘"       | `0x01 0x31`
+⌘<       | `0x01 0x32`
+⌘>       | `0x01 0x33`
+⌘(       | `0x01 0x34`
+⌘)       | `0x01 0x35`
+⌘@       | `0x01 0x36`
 
 ### Run the install script
 
