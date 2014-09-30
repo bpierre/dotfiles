@@ -4,7 +4,7 @@
 
 ### ZSH
 
-Install [ZSH](http://www.zsh.org/) and [Prezto]()
+Install [ZSH](http://www.zsh.org/) and [Prezto](https://github.com/sorin-ionescu/prezto)
 
 ```
 $ brew install zsh
