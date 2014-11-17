@@ -89,7 +89,7 @@ filetype indent on
 
 " Coloration
 set background=dark
-colorscheme base16-default
+colorscheme base16-tomorrow
 
 set encoding=utf-8
 set showcmd
