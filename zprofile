@@ -4,8 +4,10 @@
 export EDITOR='vim'
 export VISUAL='vim'
 export PAGER='less'
-export LANG='fr_FR.UTF-8'
-export LC_CTYPE='en_US.UTF-8'
+export LANG='en_GB.UTF-8'
+export LC_CTYPE='en_GB.UTF-8'
+export LC_ALL='en_GB.UTF-8'
+export LANG='en_GB.UTF-8'
 export BROWSER='open'
 
 export NODE_PATH='/usr/local/lib/node'
