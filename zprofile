@@ -15,7 +15,7 @@ export XULRUNNER_BIN=/Applications/Firefox.app/Contents/MacOS/firefox-bin
 export ACLOCAL_FLAGS='-I /usr/local/share/aclocal'
 export LDFLAGS='-L /usr/local/opt/cairo/lib'
 export CPPFLAGS='-I /usr/local/opt/cairo/include'
-export ANDROID_HOME='/usr/local/Cellar/android-sdk/23.0.2'
+export ANDROID_HOME='/usr/local/opt/android-sdk'
 export VAGRANT_HOME="~/vagrand.d"
 
 # Cairo fix, see https://github.com/LearnBoost/node-canvas/wiki/Installation---OSX
@@ -46,8 +46,8 @@ path=(
   /usr/texbin # Latex
   $ANDROID_HOME/platform-tools # Android SDK
   $ANDROID_HOME/tools # Android SDK
-  /usr/local/{bin,sbin}
   /usr/local/opt/coreutils/libexec/gnubin # GNU coreutils
+  /usr/local/{bin,sbin}
   $path
 )
 
