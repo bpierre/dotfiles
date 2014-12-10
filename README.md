@@ -2,6 +2,30 @@
 
 ## Installation
 
+### Homebrew
+
+Install [Homebrew](http://brew.sh/)
+
+### Node.js / npm
+
+Install [Node.js](http://nodejs.org/)
+
+### ack
+
+Install [ack](http://beyondgrep.com/):
+
+```
+$ brew install ack
+```
+
+### The Silver Searcher
+
+Install [The Silver Searcher (ag)](http://geoff.greer.fm/ag/):
+
+```
+$ brew install ag
+```
+
 ### ZSH
 
 Install [ZSH](http://www.zsh.org/) and [Prezto](https://github.com/sorin-ionescu/prezto)
@@ -11,14 +35,6 @@ $ brew install zsh
 $ sudo echo "/usr/local/bin/zsh" >> /etc/shells
 $ chsh -s /usr/local/bin/zsh
 $ git clone --recursive https://github.com/sorin-ionescu/prezto.git "${ZDOTDIR:-$HOME}/.zprezto"
-```
-
-### ack
-
-Install [ack](http://beyondgrep.com/):
-
-```
-$ brew install ack
 ```
 
 ### tmux
@@ -54,6 +70,11 @@ $ git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 ### dotjs Firefox Addon
 
 Install the [dotjs](https://github.com/rlr/dotjs-addon) addon in Firefox
+
+### Fonts
+
+- Install [Source Code Pro](http://sourceforge.net/projects/sourcecodepro.adobe/files/?source=navbar)
+- Install the [Droid Family](http://damieng.com/blog/2007/11/14/droid-font-family-courtesy-of-google-ascender)
 
 ### iTerm2 configuration
 
