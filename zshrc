@@ -47,6 +47,9 @@ alias svndiff="svn diff | vim -R -"
 alias dl="curl -O"
 
 # tmux
+if [[ "$(uname)" = "Darwin" ]]; then
+  alias tmux='tmux -f ~/.tmux-osx.conf'
+fi
 alias ta="tmux attach -d -t"
 alias tn="tmux new -s '$(basename $(pwd))'"
 alias tl="tmux list-sessions"
