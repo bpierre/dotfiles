@@ -13,8 +13,14 @@ unsetopt nomatch
 # Vim mode ESC delay
 export KEYTIMEOUT=10
 
-# force ls-- to switch to 256 colors
-export DISPLAY=1
+# force ls-- to switch to 256 colors (OS X)
+if [[ "$OSTYPE" = darwin* ]]; then
+  export DISPLAY=1
+fi
+
+# Base16 Shell
+BASE16_SHELL="$HOME/dotfiles/base16-shell/base16-tomorrow.dark.sh"
+[[ -s $BASE16_SHELL ]] && source $BASE16_SHELL
 
 # Aliases
 alias l="LC_ALL=en_US.UTF-8 LANG=en ls++"

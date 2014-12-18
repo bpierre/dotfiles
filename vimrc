@@ -88,6 +88,7 @@ filetype plugin on
 filetype indent on
 
 " Coloration
+let base16colorspace=256
 set background=dark
 colorscheme base16-tomorrow
 
