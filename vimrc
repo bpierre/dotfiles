@@ -57,6 +57,7 @@ Bundle 'digitaltoad/vim-jade'
 Bundle 'pangloss/vim-javascript'
 Bundle 'jelera/vim-javascript-syntax'
 Bundle 'heavenshell/vim-jsdoc'
+Bundle 'peterhoeg/vim-qml'
 
 Bundle 'rodjek/vim-puppet'
 " Bundle 'vim-scripts/jshint.vim'
