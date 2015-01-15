@@ -83,6 +83,9 @@ Bundle 'benmills/vimux'
 Bundle "SirVer/ultisnips"
 Bundle "honza/vim-snippets"
 
+" Automatically adjusts 'shiftwidth' and 'expandtab' heuristically
+Bundle "tpope/vim-sleuth"
+
 syntax on
 filetype on
 filetype plugin on
@@ -221,6 +224,7 @@ set smartindent
 autocmd FileType python setlocal noexpandtab
 autocmd FileType html setlocal autoindent
 autocmd FileType php setlocal autoindent
+autocmd FileType qml setlocal tabstop=4 shiftwidth=4 softtabstop=4
 
 " HTML: no indentation inside <script> and <style>
 let g:html_indent_script1 = "zero"
