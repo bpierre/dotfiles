@@ -25,8 +25,8 @@ BASE16_SHELL="$HOME/dotfiles/base16-shell/base16-tomorrow.dark.sh"
 # Aliases
 alias l="LC_ALL=en_US.UTF-8 LANG=en ls++"
 alias la="LC_ALL=en_US.UTF-8 LANG=en ls++ -a"
-alias vi="vim"
-alias v="vim"
+alias vi="nvim"
+alias v="nvim"
 alias gti="echo 'vroom vroom';git"
 alias json='python -mjson.tool'
 alias pjson='pbpaste | json'
