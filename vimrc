@@ -86,6 +86,9 @@ Bundle 'honza/vim-snippets'
 " Automatically adjusts 'shiftwidth' and 'expandtab' heuristically
 Bundle 'tpope/vim-sleuth'
 
+" Tabular alignment
+Bundle 'godlygeek/tabular'
+
 syntax on
 filetype on
 filetype plugin on
