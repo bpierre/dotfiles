@@ -106,6 +106,9 @@ set scrolloff=3 " Show 3 lines below / above the cursor
 " Leader key
 let mapleader = ","
 
+" Remap increment as C-g (C-a is used by tmux)
+nnoremap <C-g> <C-a>
+
 " Insert a new line (Ctrl+J)
 nnoremap <NL> i<CR><ESC>
 
