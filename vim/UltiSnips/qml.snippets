@@ -1,0 +1,74 @@
+snippet cl "console.log()"
+console.log(${1:'$2'})
+endsnippet
+
+snippet cc "Component Completed event"
+Component.onCompleted: ${1}
+endsnippet
+
+snippet fl "Flickable"
+Flickable {
+	id: ${1:flickable}
+	clip: ${2:true}
+	flickableDirection: ${3:Flickable.VerticalFlick}
+	interactive: ${4:true}$0
+}
+endsnippet
+
+snippet af "Anchors fill"
+snippet af
+anchors.fill: ${1:parent}
+endsnippet
+
+snippet am "Anchors margins"
+anchors.topMargin: $1{0}
+anchors.rightMargin: $2{0}
+anchors.bottomMargin: $3{0}
+anchors.leftMargin: $4{0}
+endsnippet
+
+snippet p "Property"
+property ${1:var} ${2:name}${3:: $4}
+endsnippet
+
+snippet b "Behavior"
+Behavior on ${1:propertyName} {
+	enabled: ${2:true}
+	${3:NumberAnimation {
+		duration: ${3:UbuntuAnimation.BriskDuration}
+		easing: ${4:UbuntuAnimation.StandardEasing}
+	}}
+}
+endsnippet
+
+snippet na "NumberAnimation"
+NumberAnimation {
+	duration: ${1:UbuntuAnimation.BriskDuration}
+	easing: ${2:UbuntuAnimation.StandardEasing}
+}
+endsnippet
+
+snippet tr "Translate component"
+Translate {
+	x: 0
+	y: 0
+}
+endsnippet
+
+snippet sc "Scale component"
+Scale {
+	xScale: 1
+	yScale: 1
+	origin.x: 0
+	origin.y: 0
+}
+endsnippet
+
+snippet i "Import"
+import ${1:QtQuick} ${2:2.2}${3: as ${4:Alias}}
+endsnippet
+
+snippet ib "Import base"
+import QtQuick 2.2
+import Ubuntu.Components 1.1
+endsnippet

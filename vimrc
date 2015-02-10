@@ -1,7 +1,7 @@
 " Vundle
 set nocompatible
 filetype off
-set rtp+=~/.vim/bundle/Vundle.vim
+set rtp+=~/dotfiles/vim/bundle/Vundle.vim
 call vundle#rc()
 Bundle 'gmarik/Vundle.vim'
 
@@ -232,6 +232,9 @@ autocmd FileType qml setlocal tabstop=4 shiftwidth=4 softtabstop=4
 " HTML: no indentation inside <script> and <style>
 let g:html_indent_script1 = "zero"
 let g:html_indent_style1 = "zero"
+
+" QML: Watch a property, myVar => onMyVarChanged: console.log(myVar)
+autocmd FileType qml nmap <buffer> <Leader>w yyp"tyt:ion<Esc>lgUlt:aChanged<Esc>lwCconsole.log()<Esc>b"tp^
 
 " Set tabstop, softtabstop and shiftwidth to the same value
 command! -nargs=* Stab call Stab()
