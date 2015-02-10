@@ -80,11 +80,11 @@ Bundle 'benmills/vimux'
 " Bundle 'scrooloose/syntastic'
 
 " UltiSnips
-Bundle "SirVer/ultisnips"
-Bundle "honza/vim-snippets"
+Bundle 'SirVer/ultisnips'
+Bundle 'honza/vim-snippets'
 
 " Automatically adjusts 'shiftwidth' and 'expandtab' heuristically
-Bundle "tpope/vim-sleuth"
+Bundle 'tpope/vim-sleuth'
 
 syntax on
 filetype on
