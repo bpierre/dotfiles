@@ -64,7 +64,7 @@ alias tl="tmux list-sessions"
 # source $(brew --prefix)/share/zsh/site-functions/go
 
 # z
-. `brew --prefix`/etc/profile.d/z.sh
+source "$HOME/dotfiles/vendor/z/z.sh"
 
 # Search in LimeChat logs with ack
 alias -g irclogs="/Users/pierre/Documents/LimeChat\ Transcripts/"
@@ -93,7 +93,5 @@ tpl() {
 }
 
 source <(npm completion)
-
-source `brew --prefix`/etc/profile.d/z.sh
 
 # unalias lt
