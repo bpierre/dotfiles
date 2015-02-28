@@ -89,6 +89,9 @@ Bundle 'tpope/vim-sleuth'
 " Tabular alignment
 Bundle 'godlygeek/tabular'
 
+" Image preview!
+Bundle 'ashisha/image.vim'
+
 syntax on
 filetype on
 filetype plugin on
