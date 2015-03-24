@@ -66,6 +66,7 @@ Bundle 'vim-scripts/HTML-AutoCloseTag'
 Bundle 'mattn/emmet-vim'
 Bundle '2072/PHP-Indenting-for-VIm'
 Bundle 'moll/vim-node'
+Bundle 'mxw/vim-jsx'
 
 " JS-stringify text
 Bundle '29decibel/vim-stringify'
