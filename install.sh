@@ -4,6 +4,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 ln -s ${DIR}/vimrc ~/.vimrc
 ln -s ${DIR}/tmux.conf ~/.tmux.conf
+ln -s ${DIR}/tmux-osx.conf ~/.tmux-osx.conf
 ln -s ${DIR}/zshrc ~/.zshrc
 ln -s ${DIR}/zprofile ~/.zprofile
 ln -s ${DIR}/zshenv ~/.zshenv
