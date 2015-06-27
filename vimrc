@@ -86,9 +86,6 @@ Plug 'tpope/vim-sleuth'
 " Tabular alignment
 Plug 'godlygeek/tabular'
 
-" Image preview!
-Plug 'ashisha/image.vim'
-
 call plug#end()
 
 syntax on
