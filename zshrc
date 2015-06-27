@@ -23,11 +23,13 @@ BASE16_SHELL="$HOME/dotfiles/base16-shell/base16-tomorrow.dark.sh"
 [[ -s $BASE16_SHELL ]] && source $BASE16_SHELL
 
 # Aliases
-alias l="LC_ALL=en_US.UTF-8 LANG=en ls++"
-alias la="LC_ALL=en_US.UTF-8 LANG=en ls++ -a"
-alias vi="vim"
-alias v="vim"
+alias l="exa -l"
+alias la="exa -la"
+alias vi="nvim"
+alias v="nvim"
 alias gti="echo 'vroom vroom';git"
+alias bz="bzr"
+alias bzd="bzr diff | vim -d -R -"
 alias json='python -mjson.tool'
 alias pjson='pbpaste | json'
 alias glog="git log --oneline --graph --decorate --color=always"
@@ -40,11 +42,12 @@ alias mongodb_start="mongod run --config /usr/local/etc/mongod.conf"
 alias pubkey="more ~/.ssh/id_rsa.pub | pbcopy | printf 'Public SSH key copied.\n'";
 alias gist="gist --copy --shorten";
 alias killphantom="ps aux | grep phantomjs | awk '{print }' | xargs kill -9"
-alias firefox="/Applications/FirefoxAurora.app/Contents/MacOS/firefox"
+# alias firefox="/Applications/FirefoxAurora.app/Contents/MacOS/firefox"
 alias git=hub
 alias ip="ifconfig | grep inet | grep -v inet6 | grep -v 127.0.0.1 | awk '{print \$2}'"
 alias svndiff="svn diff | vim -R -"
 alias dl="curl -O"
+alias ts="t stream timeline"
 
 # tmux
 if [[ "$(uname)" = "Darwin" ]]; then
@@ -61,7 +64,7 @@ alias tl="tmux list-sessions"
 # source $(brew --prefix)/share/zsh/site-functions/go
 
 # z
-. `brew --prefix`/etc/profile.d/z.sh
+source "$HOME/dotfiles/vendor/z/z.sh"
 
 # Search in LimeChat logs with ack
 alias -g irclogs="/Users/pierre/Documents/LimeChat\ Transcripts/"
@@ -91,6 +94,7 @@ tpl() {
 
 source <(npm completion)
 
-source `brew --prefix`/etc/profile.d/z.sh
-
 # unalias lt
+
+PERL_MB_OPT="--install_base \"/Users/pierre/perl5\""; export PERL_MB_OPT;
+PERL_MM_OPT="INSTALL_BASE=/Users/pierre/perl5"; export PERL_MM_OPT;

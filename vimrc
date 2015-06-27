@@ -1,90 +1,95 @@
-" Vundle
-set nocompatible
-filetype off
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#rc()
-Bundle 'gmarik/vundle'
+" Plugins
+
+call plug#begin()
 
 " The nice status bar
-Bundle 'bling/vim-airline'
+Plug 'bling/vim-airline'
 
 " vinegar is a file explorer (press -)
-Bundle 'tpope/vim-vinegar'
+Plug 'tpope/vim-vinegar'
 
 " Minimalist start screen
-Bundle 'mhinz/vim-startify'
+Plug 'mhinz/vim-startify'
 
 " Rename the current file in the vim buffer + retain relative path.
-Bundle 'danro/rename.vim'
+Plug 'danro/rename.vim'
 
 " Textmate-like Ctrl+T
-Bundle 'kien/ctrlp.vim'
+Plug 'kien/ctrlp.vim'
 
 " Undo tree
-Bundle "sjl/gundo.vim"
+Plug "sjl/gundo.vim"
 
 " git in Vim
-Bundle 'tpope/vim-fugitive'
+Plug 'tpope/vim-fugitive'
 
 " ack in Vim
-Bundle 'mileszs/ack.vim'
+Plug 'mileszs/ack.vim'
 
 " Unicode
-" Bundle 'chrisbra/unicode.vim'
+" Plug 'chrisbra/unicode.vim'
 
 " Zoom in/out of a window
-" Bundle 'vim-scripts/ZoomWin'
+" Plug 'vim-scripts/ZoomWin'
 
 " Variable select (around variable: av, inner variable: iv)
-Bundle 'robmiller/vim-movar'
+Plug 'robmiller/vim-movar'
 
 " Surround
-Bundle 'tpope/vim-repeat'
-Bundle 'tpope/vim-surround'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-surround'
 
 " sneak.vim (jumps to any location specified by two characters)
-Bundle 'justinmk/vim-sneak'
+Plug 'justinmk/vim-sneak'
 
 " Comments
-Bundle 'tpope/vim-commentary'
+Plug 'tpope/vim-commentary'
 
 " Match everything with %
-Bundle 'edsono/vim-matchit'
+Plug 'edsono/vim-matchit'
 
 " Languages-related plugins
-Bundle 'wavded/vim-stylus'
-Bundle 'digitaltoad/vim-jade'
-Bundle 'pangloss/vim-javascript'
-Bundle 'jelera/vim-javascript-syntax'
-Bundle 'heavenshell/vim-jsdoc'
-Bundle 'peterhoeg/vim-qml'
+Plug 'wavded/vim-stylus'
+Plug 'digitaltoad/vim-jade'
+Plug 'pangloss/vim-javascript'
+Plug 'jelera/vim-javascript-syntax'
+Plug 'heavenshell/vim-jsdoc'
+Plug 'peterhoeg/vim-qml'
 
-Bundle 'rodjek/vim-puppet'
-" Bundle 'vim-scripts/jshint.vim'
-Bundle 'git://github.com/urso/haskell_syntax.vim.git'
-Bundle 'vim-scripts/HTML-AutoCloseTag'
-Bundle 'mattn/emmet-vim'
-Bundle '2072/PHP-Indenting-for-VIm'
-Bundle 'moll/vim-node'
+Plug 'rodjek/vim-puppet'
+" Plug 'vim-scripts/jshint.vim'
+Plug 'git://github.com/urso/haskell_syntax.vim.git'
+Plug 'vim-scripts/HTML-AutoCloseTag'
+Plug 'mattn/emmet-vim'
+Plug '2072/PHP-Indenting-for-VIm'
+Plug 'moll/vim-node'
+Plug 'mxw/vim-jsx'
 
 " JS-stringify text
-Bundle '29decibel/vim-stringify'
+Plug '29decibel/vim-stringify'
 
 " Themes
-Bundle 'chriskempson/base16-vim'
+Plug 'chriskempson/base16-vim'
 
 " tmux interaction
-Bundle 'benmills/vimux'
+Plug 'benmills/vimux'
 
 " Syntastic
-" Bundle 'scrooloose/syntastic'
+" Plug 'scrooloose/syntastic'
 
 " UltiSnips
-Bundle "SirVer/ultisnips"
-Bundle "honza/vim-snippets"
+Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 
 " Automatically adjusts 'shiftwidth' and 'expandtab' heuristically
-Bundle "tpope/vim-sleuth"
+Plug 'tpope/vim-sleuth'
+
+" Tabular alignment
+Bundle 'godlygeek/tabular'
+
+" Image preview!
+Bundle 'ashisha/image.vim'
+
+call plug#end()
 
 syntax on
 filetype on
@@ -105,6 +110,9 @@ set scrolloff=3 " Show 3 lines below / above the cursor
 
 " Leader key
 let mapleader = ","
+
+" Remap increment as C-g (C-a is used by tmux)
+nnoremap <C-g> <C-a>
 
 " Insert a new line (Ctrl+J)
 nnoremap <NL> i<CR><ESC>
@@ -179,6 +187,15 @@ let VimuxUseNearestPane = 1
 let g:VimuxOrientation = "v"
 let g:VimuxHeight = "15"
 
+" JavaScript
+let g:javascript_conceal_function   = "ƒ"
+" let g:javascript_conceal_null       = "ø"
+" let g:javascript_conceal_this       = "@"
+let g:javascript_conceal_return     = "⇚"
+" let g:javascript_conceal_undefined  = "¿"
+" let g:javascript_conceal_NaN        = "ℕ"
+" let g:javascript_conceal_prototype  = "¶"
+
 " JSDoc generation
 let g:jsdoc_default_mapping = 0
 noremap <Leader>j :JsDoc<cr>
@@ -229,6 +246,9 @@ autocmd FileType qml setlocal tabstop=4 shiftwidth=4 softtabstop=4
 " HTML: no indentation inside <script> and <style>
 let g:html_indent_script1 = "zero"
 let g:html_indent_style1 = "zero"
+
+" QML: Watch a property, myVar => onMyVarChanged: console.log(myVar)
+autocmd FileType qml nmap <buffer> <Leader>w yyp"tyt:ion<Esc>lgUlt:aChanged<Esc>lwCconsole.log()<Esc>b"tp^
 
 " Set tabstop, softtabstop and shiftwidth to the same value
 command! -nargs=* Stab call Stab()
