@@ -16,7 +16,6 @@ linkFile() {
 }
 
 linkFile vimrc     ~/.vimrc
-linkFile vimrc     ~/.vimrc
 linkFile vimrc     ~/.nvimrc
 linkFile vim       ~/.vim
 linkFile vim       ~/.nvim

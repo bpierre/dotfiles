@@ -18,7 +18,7 @@ Plug 'danro/rename.vim'
 Plug 'kien/ctrlp.vim'
 
 " Undo tree
-Plug "sjl/gundo.vim"
+Plug 'sjl/gundo.vim'
 
 " git in Vim
 Plug 'tpope/vim-fugitive'
@@ -84,10 +84,10 @@ Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 Plug 'tpope/vim-sleuth'
 
 " Tabular alignment
-Bundle 'godlygeek/tabular'
+Plug 'godlygeek/tabular'
 
 " Image preview!
-Bundle 'ashisha/image.vim'
+Plug 'ashisha/image.vim'
 
 call plug#end()
 
