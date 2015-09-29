@@ -40,6 +40,12 @@ Behavior on ${1:propertyName} {
 }
 endsnippet
 
+snippet it "Item"
+Item {
+	$0
+}
+endsnippet
+
 snippet na "NumberAnimation"
 NumberAnimation {
 	duration: ${1:UbuntuAnimation.BriskDuration}
@@ -74,7 +80,25 @@ snippet i "Import"
 import ${1:QtQuick} ${2:2.2}${3: as ${4:Alias}}
 endsnippet
 
+snippet timer "Timer component"
+Timer {
+	running: true
+	repeat: false
+	interval: ${1:1000}
+	onTriggered: $0
+}
+endsnippet
+
 snippet ib "Import base"
 import QtQuick 2.2
 import Ubuntu.Components 1.1
+endsnippet
+
+snippet wh "Set width and height properties"
+width: parent.width
+height: parent.height
+endsnippet
+
+snippet un "Ubuntu Number Animation"
+UbuntuNumberAnimation {}
 endsnippet
