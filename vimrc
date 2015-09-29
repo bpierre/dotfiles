@@ -26,6 +26,9 @@ Plug 'tpope/vim-fugitive'
 " ack in Vim
 Plug 'mileszs/ack.vim'
 
+" ag in Vim
+Plug 'gabesoft/vim-ags'
+
 " Unicode
 " Plug 'chrisbra/unicode.vim'
 
@@ -52,7 +55,8 @@ Plug 'edsono/vim-matchit'
 Plug 'wavded/vim-stylus'
 Plug 'digitaltoad/vim-jade'
 Plug 'pangloss/vim-javascript'
-Plug 'jelera/vim-javascript-syntax'
+Plug 'othree/yajs.vim'
+Plug 'othree/javascript-libraries-syntax.vim'
 Plug 'heavenshell/vim-jsdoc'
 Plug 'peterhoeg/vim-qml'
 
@@ -86,6 +90,15 @@ Plug 'tpope/vim-sleuth'
 " Tabular alignment
 Plug 'godlygeek/tabular'
 
+" Org Mode
+Plug 'jceb/vim-orgmode'
+
+" ctags viewer
+Plug 'majutsushi/tagbar'
+
+" Calculate vim selections
+Plug 'sk1418/HowMuch'
+
 call plug#end()
 
 syntax on
@@ -93,10 +106,12 @@ filetype on
 filetype plugin on
 filetype indent on
 
+" set shellcmdflag+=i
+
 " Coloration
 let base16colorspace=256
 set background=dark
-colorscheme base16-tomorrow
+colorscheme base16-ocean
 
 set encoding=utf-8
 set showcmd
@@ -130,8 +145,8 @@ set nofoldenable
 " No Ex mode (see :help Q)
 nnoremap Q <nop>
 
-" 80 column
-set colorcolumn=80
+" 70 column
+set colorcolumn=70
 
 " Autojump to the last edited position when a file is reopened
 au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") |
@@ -171,13 +186,29 @@ nnoremap <C-n> :tabnew<cr>
 " sudo write
 cmap w!! w !sudo tee > /dev/null %
 
-" CtrlP Plugin
-let g:ctrlp_map = '<c-t>'  " Remap CtrP plugin on Ctrl+T
+" Ags plugin
+let g:ags_agexe = '/usr/local/bin/ag'
+nnoremap <Leader>r :Ags 
+
+" ctrlp.vim plugin
+let g:ctrlp_map = '<c-t>'  " Remap ctrlp.vim to Ctrl+T
 let g:ctrlp_cmd = 'CtrlP'
 let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git' " Ignore some files
 " From http://sheerun.net/2014/03/21/how-to-boost-your-vim-productivity/
 " let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files . -co --exclude-standard', 'find %s -type f']
 let g:ctrlp_use_caching = 0
+nnoremap <C-s> :CtrlPTag<cr>
+
+function! ToggleCtrlpMode()
+  if g:ctrlp_working_path_mode == 'r'
+    let g:ctrlp_working_path_mode = 'ra'
+    echo '[ctrlp.vim] root directory (.git, …) '
+  else
+    let g:ctrlp_working_path_mode = 'r'
+    echo '[ctrlp.vim] current file directory'
+  endif
+endfunction
+nmap <Leader>l :call ToggleCtrlpMode()<CR>
 
 " Vimux
 let VimuxUseNearestPane = 1
@@ -201,6 +232,9 @@ noremap <Leader>j :JsDoc<cr>
 let g:UltiSnipsExpandTrigger = "<tab>"
 let g:UltiSnipsJumpForwardTrigger = "<c-j>"
 let g:UltiSnipsJumpBackwardTrigger = "<c-k>"
+
+" javascript-libraries-syntax
+let g:used_javascript_libs = 'underscore,react'
 
 " Prompt for a command to run in a tmux pane
 nmap <Leader>tc :wa<CR>:call OpenVimuxPrompt('v', '15')<CR>
@@ -246,6 +280,7 @@ let g:html_indent_style1 = "zero"
 
 " QML: Watch a property, myVar => onMyVarChanged: console.log(myVar)
 autocmd FileType qml nmap <buffer> <Leader>w yyp"tyt:ion<Esc>lgUlt:aChanged<Esc>lwCconsole.log()<Esc>b"tp^
+" autocmd FileType qml nmap <buffer> <Leader>w yyp:s/^\( \+\)property .+ /\1/<CR>^"tyt:ion<Esc>lgUlt:aChanged<Esc>lwCconsole.log()<Esc>b"tp^
 
 " Set tabstop, softtabstop and shiftwidth to the same value
 command! -nargs=* Stab call Stab()
@@ -284,6 +319,10 @@ set incsearch
 set ignorecase
 set smartcase
 
+" No matching paren highlight
+let loaded_matchparen = 1
+" highlight MatchParen cterm=bold ctermbg=none ctermfg=red
+
 " No F1
 noremap <F1> <Nop>
 
@@ -304,6 +343,9 @@ noremap <silent> <Leader>md :call CreateDirectoriesToFile()<CR>
 
 " toggle between last open buffers
 noremap <leader><leader> <c-^>
+
+" Zoom / Unzoom the current window
+" nnoremap <silent> <C-w>o :ZoomToggle<CR>
 
 " JSHint
 " nmap <silent> <Leader>l :JSHint<CR>
@@ -328,6 +370,20 @@ function! FindGitDirOrCurrent()
     return '.'
   endif
 endfunction
+
+" Zoom / Restore window.
+function! s:ZoomToggle() abort
+    if exists('t:zoomed') && t:zoomed
+        execute t:zoom_winrestcmd
+        let t:zoomed = 0
+    else
+        let t:zoom_winrestcmd = winrestcmd()
+        resize
+        vertical resize
+        let t:zoomed = 1
+    endif
+endfunction
+command! ZoomToggle call s:ZoomToggle()
 
 " Follow links in help
 " Follow the link
