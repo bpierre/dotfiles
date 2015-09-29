@@ -20,6 +20,7 @@ fi
 
 # Base16 Shell
 BASE16_SHELL="$HOME/dotfiles/base16-shell/base16-tomorrow.dark.sh"
+# BASE16_SHELL="$HOME/dotfiles/base16-shell/base16-ocean.dark.sh"
 [[ -s $BASE16_SHELL ]] && source $BASE16_SHELL
 
 # Aliases
@@ -27,7 +28,7 @@ alias l="exa -l"
 alias la="exa -la"
 alias vi="nvim"
 alias v="nvim"
-alias gti="echo 'vroom vroom';git"
+alias gti="echo '🚗  vroom vroom';git"
 alias bz="bzr"
 alias bzd="bzr diff | vim -d -R -"
 alias json='python -mjson.tool'
@@ -48,6 +49,7 @@ alias ip="ifconfig | grep inet | grep -v inet6 | grep -v 127.0.0.1 | awk '{print
 alias svndiff="svn diff | vim -R -"
 alias dl="curl -O"
 alias ts="t stream timeline"
+alias ag="ag --ignore node_modules"
 
 # tmux
 if [[ "$(uname)" = "Darwin" ]]; then
@@ -71,6 +73,10 @@ alias -g irclogs="/Users/pierre/Documents/LimeChat\ Transcripts/"
 irclog() {
   search=$1; shift 1
   ack -i $search ~/Documents/LimeChat\ Transcripts/\#main $@
+}
+
+f() {
+  find -iname *$1*
 }
 
 # Updates Prezto
