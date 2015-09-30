@@ -312,6 +312,7 @@ endfunction
 " filetypes
 autocmd BufRead,BufNewFile *.md setfiletype markdown
 autocmd BufRead,BufNewFile .eslintrc setfiletype javascript
+autocmd BufRead,BufNewFile *.cocoascript setfiletype javascript
 
 " Searching
 set nohlsearch
