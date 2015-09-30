@@ -1,0 +1,18 @@
+snippet cl "console.log()"
+console.log(${1:''})
+endsnippet
+
+snippet comp "React component"
+import React from 'react/addons'
+
+class ${1:`!p snip.rv = snip.basename`} extends React.Component {
+  render() {
+    return (
+      <div>
+      </div>
+    )
+  }
+}
+
+export default $1
+endsnippet
