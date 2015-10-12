@@ -33,21 +33,34 @@ export GOPATH=$HOME/go
 # Ensure path arrays do not contain duplicates.
 typeset -gU cdpath fpath mailpath path
 
-# $PATH
+# OS X $PATH
+if [[ "$OSTYPE" = darwin* ]]; then
+  path=(
+    $(brew --prefix homebrew/php/php55)/bin # PHP
+    $(brew --prefix python)/bin # Python
+    $(brew --prefix ruby)/bin # Ruby
+    $(npm prefix --global)/bin # Node
+    ~/.rvm/bin # RVM (Ruby)
+    ~/.cabal/bin # Haskell
+    /opt/rust/bin # Rust
+    /usr/texbin # Latex
+    $ANDROID_HOME/platform-tools # Android SDK
+    $ANDROID_HOME/tools # Android SDK
+    /usr/local/opt/coreutils/libexec/gnubin # GNU coreutils
+    /usr/local/{bin,sbin}
+    $path
+  )
+
+# Linux Path
+else
+  path=(
+    $path
+  )
+fi
+
+# Common Path
 path=(
   ~/bin
-  $(npm prefix --global)/bin # Node
-  $(brew --prefix homebrew/php/php55)/bin # PHP
-  $(brew --prefix python)/bin # Python
-  $(brew --prefix ruby)/bin # Ruby
-  ~/.rvm/bin # RVM (Ruby)
-  ~/.cabal/bin # Haskell
-  /opt/rust/bin # Rust
-  /usr/texbin # Latex
-  $ANDROID_HOME/platform-tools # Android SDK
-  $ANDROID_HOME/tools # Android SDK
-  /usr/local/opt/coreutils/libexec/gnubin # GNU coreutils
-  /usr/local/{bin,sbin}
   $path
 )
 
