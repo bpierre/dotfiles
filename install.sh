@@ -1,7 +1,6 @@
 #!/bin/sh
 
-SCRIPT=$(readlink -f "$0")
-SCRIPTDIR=$(dirname "$SCRIPT")
+SCRIPTDIR=~/dotfiles
 
 linkFile() {
   if [ -L $2 ]; then
