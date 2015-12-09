@@ -145,8 +145,8 @@ set nofoldenable
 " No Ex mode (see :help Q)
 nnoremap Q <nop>
 
-" 70 column
-set colorcolumn=70
+" 80 column
+set colorcolumn=80
 
 " Autojump to the last edited position when a file is reopened
 au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") |
