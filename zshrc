@@ -31,6 +31,7 @@ alias v="nvim"
 alias gti="echo '🚗  vroom vroom';git"
 alias bz="bzr"
 alias bzd="bzr diff | vim -d -R -"
+alias bzl="bzr log | less"
 alias json='python -mjson.tool'
 alias pjson='pbpaste | json'
 alias glog="git log --oneline --graph --decorate --color=always"
