@@ -311,7 +311,8 @@ endfunction
 
 " filetypes
 autocmd BufRead,BufNewFile *.md setfiletype markdown
-autocmd BufRead,BufNewFile .eslintrc setfiletype javascript
+autocmd BufRead,BufNewFile .eslintrc setfiletype json
+autocmd BufRead,BufNewFile .babelrc setfiletype json
 autocmd BufRead,BufNewFile *.cocoascript setfiletype javascript
 autocmd BufRead,BufNewFile *.sketchscript setfiletype javascript
 
