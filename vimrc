@@ -113,7 +113,9 @@ let base16colorspace=256
 set background=dark
 colorscheme base16-ocean
 
-set encoding=utf-8
+if !has('nvim')
+  set encoding=utf-8
+endif
 set showcmd
 set number
 set relativenumber
@@ -193,7 +195,8 @@ nnoremap <Leader>r :Ags
 " ctrlp.vim plugin
 let g:ctrlp_map = '<c-t>'  " Remap ctrlp.vim to Ctrl+T
 let g:ctrlp_cmd = 'CtrlP'
-let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git' " Ignore some files
+let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git\|\.swp' " Ignore some files
+let g:ctrlp_show_hidden = 1
 " From http://sheerun.net/2014/03/21/how-to-boost-your-vim-productivity/
 " let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files . -co --exclude-standard', 'find %s -type f']
 let g:ctrlp_use_caching = 0
@@ -273,6 +276,7 @@ autocmd FileType python setlocal noexpandtab
 autocmd FileType html setlocal autoindent
 autocmd FileType php setlocal autoindent
 autocmd FileType qml setlocal tabstop=4 shiftwidth=4 softtabstop=4
+autocmd FileType cpp setlocal tabstop=4 shiftwidth=4 softtabstop=4
 
 " HTML: no indentation inside <script> and <style>
 let g:html_indent_script1 = "zero"
