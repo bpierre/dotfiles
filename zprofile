@@ -10,12 +10,13 @@ export LC_ALL='en_GB.UTF-8'
 export LANG='en_GB.UTF-8'
 export BROWSER='open'
 
-export NODE_PATH='/usr/local/lib/node'
-export XULRUNNER_BIN=/Applications/Firefox.app/Contents/MacOS/firefox-bin
-export ACLOCAL_FLAGS='-I /usr/local/share/aclocal'
-export LDFLAGS='-L /usr/local/opt/cairo/lib'
-export CPPFLAGS='-I /usr/local/opt/cairo/include'
-export ANDROID_HOME='/usr/local/opt/android-sdk'
+export GOPATH="$HOME/go"
+export NODE_PATH="/usr/local/lib/node"
+export XULRUNNER_BIN="/Applications/Firefox.app/Contents/MacOS/firefox-bin"
+export ACLOCAL_FLAGS="-I /usr/local/share/aclocal"
+export LDFLAGS="-L /usr/local/opt/cairo/lib"
+export CPPFLAGS="-I /usr/local/opt/cairo/include"
+export ANDROID_HOME="/usr/local/opt/android-sdk"
 export VAGRANT_HOME="~/vagrand.d"
 
 # Cairo fix, see https://github.com/LearnBoost/node-canvas/wiki/Installation---OSX
@@ -26,9 +27,6 @@ export WORKON_HOME=$HOME/.virtualenvs
 export PIP_VIRTUALENV_BASE=$WORKON_HOME
 export PIP_RESPECT_VIRTUALENV=true
 # source /usr/local/bin/virtualenvwrapper.sh
-
-# Go
-export GOPATH=$HOME/go
 
 # Ensure path arrays do not contain duplicates.
 typeset -gU cdpath fpath mailpath path

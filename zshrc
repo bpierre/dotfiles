@@ -14,9 +14,9 @@ unsetopt nomatch
 export KEYTIMEOUT=10
 
 # force ls-- to switch to 256 colors (OS X)
-if [[ "$OSTYPE" = darwin* ]]; then
-  export DISPLAY=1
-fi
+# if [[ "$OSTYPE" = darwin* ]]; then
+#   export DISPLAY=1
+# fi
 
 # Base16 Shell
 BASE16_SHELL="$HOME/dotfiles/base16-shell/base16-tomorrow.dark.sh"
