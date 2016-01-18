@@ -111,7 +111,7 @@ filetype indent on
 " Coloration
 let base16colorspace=256
 set background=dark
-colorscheme base16-ocean
+colorscheme base16-tomorrow
 
 if !has('nvim')
   set encoding=utf-8
