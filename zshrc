@@ -26,6 +26,7 @@ BASE16_SHELL="$HOME/dotfiles/base16-shell/base16-tomorrow.dark.sh"
 # Aliases
 alias l="exa -l"
 alias la="exa -la"
+alias vim="nvim"
 alias vi="nvim"
 alias v="nvim"
 alias gti="echo '🚗  vroom vroom';git"
