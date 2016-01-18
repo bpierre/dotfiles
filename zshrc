@@ -100,6 +100,11 @@ tpl() {
   fi
 }
 
+docker-cleanup() {
+  docker rm $(docker ps -a -q)
+  docker rmi $(docker images -q)
+}
+
 source <(npm completion)
 
 # unalias lt
