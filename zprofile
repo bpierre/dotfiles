@@ -37,8 +37,8 @@ if [[ "$OSTYPE" = darwin* ]]; then
     $(brew --prefix homebrew/php/php55)/bin # PHP
     $(brew --prefix python)/bin # Python
     $(brew --prefix ruby)/bin # Ruby
-    ~/.rvm/bin # RVM (Ruby)
-    ~/.cabal/bin # Haskell
+    $HOME/.rvm/bin # RVM (Ruby)
+    $HOME/.cabal/bin # Haskell
     /opt/rust/bin # Rust
     /usr/texbin # Latex
     $ANDROID_HOME/platform-tools # Android SDK
@@ -57,7 +57,7 @@ fi
 
 # Common Path
 path=(
-  ~/bin
+  $HOME/bin
   $(npm prefix --global)/bin # Node
   $GOPATH/bin # Go
   $path
