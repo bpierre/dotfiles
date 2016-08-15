@@ -76,13 +76,20 @@
   //   selector = 'center > table > tbody > tr > td > table span.comhead';
   // }
 
+  // Background color
+  document.querySelector('#hnmain').setAttribute('bgcolor', '#fcfcfc')
+
   if (!comHeads || !comHeads.length) return;
 
   function initButton(button){
     button.style.cursor = 'pointer';
+    button.style.width = '26px';
+    button.style.height = button.style.width;
     button.style.marginLeft = '10px';
+    button.style.padding = '0';
+    button.style.textAlign = 'center';
     button.textContent = '-';
-    button.addEventListener('click', function(){
+    button.addEventListener('click', function() {
       if (this.textContent == '-') {
         collapse(this);
       } else {
@@ -90,6 +97,7 @@
       }
     }, false);
   }
+
   for (var i=0; i < comHeads.length; i++) {
     initButton(comHeads[i].appendChild(document.createElement('button')));
   }

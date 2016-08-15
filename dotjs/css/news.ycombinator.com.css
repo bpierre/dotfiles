@@ -1,30 +1,55 @@
-@import url(http://fonts.googleapis.com/css?family=Droid+Sans);
+@import url(http://fonts.googleapis.com/css?family=Droid+Serif);
 
 .comment {
   display: block;
   max-width: 800px;
   padding: 20px;
-  font-size: 18px;
-  font-family: 'Droid Sans';
-  line-height: 30px;
-}
 
+  font-size: 20px;
+  line-height: 1.8;
+  font-family: 'Droid Serif', Georgia, serif;
+  text-rendering: optimizeLegibility;
+  -moz-osx-font-smoothing: grayscale;
+}
 .comment a {
   color: #dd6600;
 }
-
 .comment u a {
   color: #000000;
 }
-
 .comment font {
   color: #333;
 }
-
 .comment p {
   margin-top: 20px;
 }
-
 pre {
   max-width: none;
+}
+.votearrow {
+  margin: 3px 7px;
+}
+.subtext {
+  padding-bottom: 7px;
+}
+.rank {
+  margin: 0 0 0 7px;
+}
+#hnmain {
+  background: #FFFFFF;
+}
+#hnmain > tbody > tr:first-child > td:first-child td:first-child {
+  display: none;
+}
+#hnmain > tbody > tr:first-child > td:first-child td:first-child + td {
+  padding-left: 4px;
+}
+#hnmain td[bgcolor="#ffaa00"] {
+  background: #DDD;
+}
+#hnmain td[bgcolor="#ffaa00"] td:first-child {
+  display: none;
+}
+#hnmain > tbody > tr:last-child td td {
+  background: #DDD;
 }
