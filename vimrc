@@ -4,6 +4,7 @@ call plug#begin()
 
 " The nice status bar
 Plug 'bling/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 
 " vinegar is a file explorer (press -)
 Plug 'tpope/vim-vinegar'
@@ -18,7 +19,8 @@ Plug 'danro/rename.vim'
 Plug 'kien/ctrlp.vim'
 
 " Undo tree
-Plug 'sjl/gundo.vim'
+" Plug 'sjl/gundo.vim'
+Plug 'simnalamburt/vim-mundo'
 
 " git in Vim
 Plug 'tpope/vim-fugitive'
@@ -27,7 +29,8 @@ Plug 'tpope/vim-fugitive'
 Plug 'mileszs/ack.vim'
 
 " ag in Vim
-Plug 'gabesoft/vim-ags'
+" Plug 'gabesoft/vim-ags'
+Plug 'rking/ag.vim'
 
 " Unicode
 " Plug 'chrisbra/unicode.vim'
@@ -59,7 +62,7 @@ Plug 'othree/yajs.vim'
 Plug 'othree/javascript-libraries-syntax.vim'
 Plug 'heavenshell/vim-jsdoc'
 Plug 'peterhoeg/vim-qml'
-
+Plug 'nginx.vim'
 Plug 'rodjek/vim-puppet'
 " Plug 'vim-scripts/jshint.vim'
 Plug 'git://github.com/urso/haskell_syntax.vim.git'
@@ -68,6 +71,9 @@ Plug 'mattn/emmet-vim'
 Plug '2072/PHP-Indenting-for-VIm'
 Plug 'moll/vim-node'
 Plug 'mxw/vim-jsx'
+Plug 'tomlion/vim-solidity'
+Plug 'rust-lang/rust.vim'
+Plug 'justinj/vim-pico8-syntax'
 
 " JS-stringify text
 Plug '29decibel/vim-stringify'
@@ -82,7 +88,7 @@ Plug 'benmills/vimux'
 " Plug 'scrooloose/syntastic'
 
 " UltiSnips
-Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
+Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets' | Plug 'justinj/vim-react-snippets'
 
 " Automatically adjusts 'shiftwidth' and 'expandtab' heuristically
 Plug 'tpope/vim-sleuth'
@@ -162,6 +168,10 @@ hi link SneakPluginScope Visual
 hi link SneakStreakTarget IncSearch
 hi SneakStreakMask ctermfg=red
 
+" vim-commentary
+autocmd FileType lua setlocal commentstring=--\ %s
+autocmd FileType pico8 setlocal commentstring=--\ %s
+
 " Split to the right / below
 set splitright
 set splitbelow
@@ -190,7 +200,7 @@ cmap w!! w !sudo tee > /dev/null %
 
 " Ags plugin
 let g:ags_agexe = '/usr/local/bin/ag'
-nnoremap <Leader>r :Ags 
+nnoremap <Leader>r :Ags
 
 " ctrlp.vim plugin
 let g:ctrlp_map = '<c-t>'  " Remap ctrlp.vim to Ctrl+T
@@ -263,6 +273,9 @@ nmap <Leader>s :write<CR>
 " OS X Copy
 vnoremap <Leader>cp :!pbcopy<CR>u :echo "copied"<CR>
 
+" Vertical split
+nmap <Leader>v :vs<CR>
+
 " Whitespace
 set expandtab
 set tabstop=2 shiftwidth=2 softtabstop=2
@@ -319,6 +332,7 @@ autocmd BufRead,BufNewFile .eslintrc setfiletype json
 autocmd BufRead,BufNewFile .babelrc setfiletype json
 autocmd BufRead,BufNewFile *.cocoascript setfiletype javascript
 autocmd BufRead,BufNewFile *.sketchscript setfiletype javascript
+" autocmd BufRead,BufNewFile *.p8 setfiletype lua
 
 " Searching
 set nohlsearch
@@ -397,6 +411,8 @@ command! ZoomToggle call s:ZoomToggle()
 nmap <buffer> <Enter> <C-]>
 " Follow the help topic in a new split (often useful)
 nmap <buffer> <C-Enter> <C-w><C-]><C-w>T
+
+" osascript -e 'tell application "PICO-8" to activate' -e 'tell application "System Events" \n key code 53 \n "load $file_name" \n key code 36 \n delay .1 \n key code 15 using control down \n end tell' -e 'tell application "Sublime Text" to activate'
 
 if has("gui_running")
   set guifont=SourceCodePro-Regular:h14
