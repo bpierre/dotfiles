@@ -24,6 +24,7 @@ BASE16_SHELL="$HOME/dotfiles/base16-shell/base16-tomorrow.dark.sh"
 [[ -s $BASE16_SHELL ]] && source $BASE16_SHELL
 
 # Aliases
+alias t="task"
 alias l="exa -l"
 alias la="exa -la"
 alias vim="nvim"
@@ -36,7 +37,7 @@ alias bzl="bzr log | less"
 alias json='python -mjson.tool'
 alias pjson='pbpaste | json'
 alias glog="git log --oneline --graph --decorate --color=always"
-alias stylus="stylus -I `npm prefix -g`/lib/node_modules/nib/lib/"
+# alias stylus="stylus -I `npm prefix -g`/lib/node_modules/nib/lib/"
 alias redis_start="redis-server /usr/local/etc/redis.conf"
 # alias my="mysql.server"
 alias pgstart="pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log start"
@@ -52,6 +53,7 @@ alias svndiff="svn diff | vim -R -"
 alias dl="curl -O"
 alias ts="t stream timeline"
 alias ag="ag --ignore node_modules"
+alias pico8="/Applications/PICO-8.app/Contents/MacOS/pico8"
 
 # tmux
 if [[ "$(uname)" = "Darwin" ]]; then
@@ -62,7 +64,7 @@ alias tn="tmux new -s '$(basename $(pwd))'"
 alias tl="tmux list-sessions"
 
 # RVM (Ruby)
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm" # Load RVM function
+# [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm" # Load RVM function
 
 # Go language
 # source $(brew --prefix)/share/zsh/site-functions/go
@@ -102,10 +104,16 @@ tpl() {
 
 docker-cleanup() {
   docker rm $(docker ps -a -q)
-  docker rmi $(docker images -q)
+  docker rmi $(docker images -a -q)
 }
 
 source <(npm completion)
+
+# tag-ag (https://github.com/aykamko/tag)
+if (( $+commands[tag] )); then
+  tag() { command tag "$@"; source ${TAG_ALIAS_FILE:-/tmp/tag_aliases} 2>/dev/null }
+  # alias ag=tag
+fi
 
 # unalias lt
 
