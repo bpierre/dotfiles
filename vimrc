@@ -18,8 +18,7 @@ Plug 'danro/rename.vim'
 " Textmate-like Ctrl+T
 Plug 'kien/ctrlp.vim'
 
-" Undo tree
-" Plug 'sjl/gundo.vim'
+" Undo tree (Mundo is a fork of Gundo with Neovim support and other things)
 Plug 'simnalamburt/vim-mundo'
 
 " git in Vim
@@ -340,6 +339,10 @@ set incsearch
 set ignorecase
 set smartcase
 
+" Persistent undo across vim sessions
+set undofile
+set undodir=~/.vim/undo
+
 " No matching paren highlight
 let loaded_matchparen = 1
 " highlight MatchParen cterm=bold ctermbg=none ctermfg=red
@@ -373,6 +376,10 @@ noremap <leader><leader> <c-^>
 
 " JS-Stringify strings
 map <leader>g :call Stringify()<CR>
+
+" Mundo plugin
+noremap <leader>u :MundoToggle<CR>
+let g:mundo_preview_bottom = 1
 
 " create the directories to the current file
 function! CreateDirectoriesToFile()
