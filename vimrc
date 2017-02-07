@@ -175,24 +175,6 @@ hi link SneakPluginScope Visual
 hi link SneakStreakTarget IncSearch
 hi SneakStreakMask ctermfg=red
 
-" vim-airline
-" let g:airline_powerline_fonts = 1
-" let g:airline#extensions#tabline#enabled = 1
-" let g:airline#extensions#tabline#left_sep = ' '
-" let g:airline#extensions#tabline#left_alt_sep = '|'
-
-" function! Render_Only_File(...)
-"   let builder = a:1
-"   let context = a:2
-
-"   call builder.add_section('file', '!! %F')
-
-  "return 0   " the default: draw the rest of the statusline
-  "return -1  " do not modify the statusline
-  "return 1   " modify the statusline with the current contents of the builder
-" endfunction
-" call airline#add_inactive_statusline_func('Render_Only_File')
-
 " vim-commentary
 autocmd FileType lua setlocal commentstring=--\ %s
 autocmd FileType pico8 setlocal commentstring=--\ %s
@@ -215,10 +197,6 @@ noremap ) ]
 noremap ] )
 
 " Switch between tabs
-" nnoremap <C-Tab> :tabnext<cr>
-" nnoremap <C-S-Tab> :tabprev<cr>
-" nnoremap <C-l> :tabm +1<cr>
-" nnoremap <C-h> :tabm -1<cr>
 nnoremap <C-l> :tabnext<cr>
 nnoremap <C-h> :tabprev<cr>
 
