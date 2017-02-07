@@ -3,9 +3,9 @@ console.log(${1:''})
 endsnippet
 
 snippet comp "React component"
-import React from 'react/addons'
+import React, { Component } from 'react'
 
-class ${1:`!p snip.rv = snip.basename`} extends React.Component {
+class ${1:`!p snip.rv = snip.basename`} extends Component {
   render() {
     return (
       <div>
@@ -15,4 +15,34 @@ class ${1:`!p snip.rv = snip.basename`} extends React.Component {
 }
 
 export default $1
+endsnippet
+
+snippet pcomp "React component"
+import React, { PureComponent } from 'react'
+
+class ${1:`!p snip.rv = snip.basename`} extends PureComponent {
+  render() {
+    return (
+      <div>
+      </div>
+    )
+  }
+}
+
+export default $1
+endsnippet
+
+snippet ir "Import React"
+import React from 'react'
+
+endsnippet
+
+snippet irc "Import React and React.Component"
+import React, { Component } from 'react'
+
+endsnippet
+
+snippet irp "Import React and React.PureComponent"
+import React, { PureComponent } from 'react'
+
 endsnippet
