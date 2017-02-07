@@ -1,5 +1,9 @@
 # Executes commands at login pre-zshrc.
 
+if [[ -s "$HOME/dotfiles/private.zsh" ]]; then
+  source "$HOME/dotfiles/private.zsh"
+fi
+
 # Env
 export EDITOR='vim'
 export VISUAL='vim'
