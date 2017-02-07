@@ -294,6 +294,9 @@ autocmd FileType cpp setlocal tabstop=4 shiftwidth=4 softtabstop=4
 let g:html_indent_script1 = "zero"
 let g:html_indent_style1 = "zero"
 
+" JSX for JS files too
+let g:jsx_ext_required = 0
+
 " QML: Watch a property, myVar => onMyVarChanged: console.log(myVar)
 autocmd FileType qml nmap <buffer> <Leader>w yyp"tyt:ion<Esc>lgUlt:aChanged<Esc>lwCconsole.log()<Esc>b"tp^
 " autocmd FileType qml nmap <buffer> <Leader>w yyp:s/^\( \+\)property .+ /\1/<CR>^"tyt:ion<Esc>lgUlt:aChanged<Esc>lwCconsole.log()<Esc>b"tp^
