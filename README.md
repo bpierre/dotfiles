@@ -71,6 +71,15 @@ $ git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 
 Install the [dotjs](https://github.com/rlr/dotjs-addon) addon in Firefox
 
+## Firefox
+
+Set these values in `about:config`:
+
+```
+browser.fixup.alternate.enabled = false
+browser.urlbar.trimURLs = false
+```
+
 ### Fonts
 
 - Install [Source Code Pro](http://sourceforge.net/projects/sourcecodepro.adobe/files/?source=navbar)
