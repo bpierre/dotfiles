@@ -23,6 +23,7 @@ Plug 'simnalamburt/vim-mundo'
 
 " git in Vim
 Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
 
 " ack in Vim
 Plug 'mileszs/ack.vim'
@@ -95,6 +96,9 @@ Plug 'tpope/vim-sleuth'
 " Tabular alignment
 Plug 'godlygeek/tabular'
 
+" Vim Markdown (requires godlygeek/tabular)
+Plug 'plasticboy/vim-markdown'
+
 " Org Mode
 Plug 'jceb/vim-orgmode'
 
@@ -103,6 +107,10 @@ Plug 'majutsushi/tagbar'
 
 " Calculate vim selections
 Plug 'sk1418/HowMuch'
+
+" Notes
+Plug 'xolox/vim-misc'
+Plug 'xolox/vim-notes'
 
 call plug#end()
 
