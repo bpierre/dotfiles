@@ -55,6 +55,9 @@ alias ts="t stream timeline"
 alias ag="ag --ignore node_modules"
 alias pico8="/Applications/PICO-8.app/Contents/MacOS/pico8"
 
+# unalias gm from the zprezto git module (used by GraphicsMagick)
+unalias gm >/dev/null 2>/dev/null
+
 # tmux
 if [[ "$(uname)" = "Darwin" ]]; then
   alias tmux='tmux -f ~/.tmux-osx.conf'
@@ -121,3 +124,11 @@ PERL_MB_OPT="--install_base \"/Users/pierre/perl5\""; export PERL_MB_OPT;
 PERL_MM_OPT="INSTALL_BASE=/Users/pierre/perl5"; export PERL_MM_OPT;
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# virtualenvwrapper
+export WORKON_HOME=$HOME/.virtualenvs
+export PROJECT_HOME=$HOME/dev
+source /usr/local/bin/virtualenvwrapper.sh
+
+export NVM_DIR="/Users/pierre/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm

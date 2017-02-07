@@ -175,6 +175,24 @@ hi link SneakPluginScope Visual
 hi link SneakStreakTarget IncSearch
 hi SneakStreakMask ctermfg=red
 
+" vim-airline
+" let g:airline_powerline_fonts = 1
+" let g:airline#extensions#tabline#enabled = 1
+" let g:airline#extensions#tabline#left_sep = ' '
+" let g:airline#extensions#tabline#left_alt_sep = '|'
+
+" function! Render_Only_File(...)
+"   let builder = a:1
+"   let context = a:2
+
+"   call builder.add_section('file', '!! %F')
+
+  "return 0   " the default: draw the rest of the statusline
+  "return -1  " do not modify the statusline
+  "return 1   " modify the statusline with the current contents of the builder
+" endfunction
+" call airline#add_inactive_statusline_func('Render_Only_File')
+
 " vim-commentary
 autocmd FileType lua setlocal commentstring=--\ %s
 autocmd FileType pico8 setlocal commentstring=--\ %s
@@ -197,8 +215,13 @@ noremap ) ]
 noremap ] )
 
 " Switch between tabs
-nnoremap <C-l> gt
-nnoremap <C-h> gT
+" nnoremap <C-Tab> :tabnext<cr>
+" nnoremap <C-S-Tab> :tabprev<cr>
+" nnoremap <C-l> :tabm +1<cr>
+" nnoremap <C-h> :tabm -1<cr>
+nnoremap <C-l> :tabnext<cr>
+nnoremap <C-h> :tabprev<cr>
+
 " New tab
 nnoremap <C-n> :tabnew<cr>
 
@@ -209,22 +232,26 @@ cmap w!! w !sudo tee > /dev/null %
 let g:ags_agexe = '/usr/local/bin/ag'
 nnoremap <Leader>r :Ags
 
+" vim-markdown
+let g:vim_markdown_fenced_languages = ['jsx=javascript']
+
 " ctrlp.vim plugin
 let g:ctrlp_map = '<c-t>'  " Remap ctrlp.vim to Ctrl+T
 let g:ctrlp_cmd = 'CtrlP'
 let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git\|\.swp' " Ignore some files
 let g:ctrlp_show_hidden = 1
+let g:ctrlp_working_path_mode = 'r'
 " From http://sheerun.net/2014/03/21/how-to-boost-your-vim-productivity/
 " let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files . -co --exclude-standard', 'find %s -type f']
 let g:ctrlp_use_caching = 0
 nnoremap <C-s> :CtrlPTag<cr>
 
 function! ToggleCtrlpMode()
-  if g:ctrlp_working_path_mode == 'r'
-    let g:ctrlp_working_path_mode = 'ra'
+  if g:ctrlp_working_path_mode == 'c'
+    let g:ctrlp_working_path_mode = 'r'
     echo '[ctrlp.vim] root directory (.git, …) '
   else
-    let g:ctrlp_working_path_mode = 'r'
+    let g:ctrlp_working_path_mode = 'c'
     echo '[ctrlp.vim] current file directory'
   endif
 endfunction
