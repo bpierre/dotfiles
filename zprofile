@@ -39,9 +39,9 @@ typeset -gU cdpath fpath mailpath path
 if [[ "$OSTYPE" = darwin* ]]; then
   path=(
     $HOME/.yarn/bin
-    $(brew --prefix homebrew/php/php55)/bin # PHP
-    $(brew --prefix python)/bin # Python
-    $(brew --prefix ruby)/bin # Ruby
+    /usr/local/opt/php56/bin/php # PHP
+    /usr/local/opt/python/bin # Python
+    /usr/local/opt/ruby/bin # Ruby
     $HOME/.rvm/bin # RVM (Ruby)
     $HOME/.cabal/bin # Haskell
     /opt/rust/bin # Rust
@@ -63,7 +63,6 @@ fi
 # Common Path
 path=(
   $HOME/bin
-  $(npm prefix --global)/bin # Node
   $GOPATH/bin # Go
   $path
 )
