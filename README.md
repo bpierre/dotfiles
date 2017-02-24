@@ -28,13 +28,13 @@ $ brew install ag
 
 ### ZSH
 
-Install [ZSH](http://www.zsh.org/) and [Prezto](https://github.com/sorin-ionescu/prezto)
+Install [ZSH](http://www.zsh.org/) and [zplug](https://zplug.sh)
 
 ```
-$ brew install zsh
+$ brew install zsh zplug
 $ sudo echo "/usr/local/bin/zsh" >> /etc/shells
 $ chsh -s /usr/local/bin/zsh
-$ git clone --recursive https://github.com/sorin-ionescu/prezto.git "${ZDOTDIR:-$HOME}/.zprezto"
+$ zplug install
 ```
 
 ### tmux

@@ -1,7 +1,40 @@
-# Source Prezto
-if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
-  source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
+# Profile startup time utility
+# From https://kev.inburke.com/kevin/profiling-zsh-startup-time/
+PROFILE_STARTUP=false
+if [[ "$PROFILE_STARTUP" == true ]]; then
+  zmodload zsh/zprof # Output load-time statistics
+  # http://zsh.sourceforge.net/Doc/Release/Prompt-Expansion.html
+  PS4=$'%D{%M%S%.} %N:%i> '
+  exec 3>&2 2>"${XDG_CACHE_HOME:-$HOME/tmp}/zsh_statup.$$"
+  setopt xtrace prompt_subst
 fi
+
+# Load zplug
+source $HOME/dotfiles/plug.zsh
+
+# Completion style
+zstyle ':completion:*' menu select
+
+# History
+HISTFILE="${ZDOTDIR:-$HOME}/.zhistory"
+HISTSIZE=10000
+SAVEHIST=10000
+setopt BANG_HIST
+setopt EXTENDED_HISTORY
+setopt INC_APPEND_HISTORY
+setopt SHARE_HISTORY
+setopt HIST_EXPIRE_DUPS_FIRST
+setopt HIST_IGNORE_DUPS
+setopt HIST_IGNORE_ALL_DUPS
+setopt HIST_FIND_NO_DUPS
+setopt HIST_IGNORE_SPACE
+setopt HIST_SAVE_NO_DUPS
+setopt HIST_VERIFY
+setopt HIST_BEEP
+
+# History substring search options
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
 
 # Disable autocorrect
 unsetopt correct_all
@@ -13,14 +46,8 @@ unsetopt nomatch
 # Vim mode ESC delay
 export KEYTIMEOUT=10
 
-# force ls-- to switch to 256 colors (OS X)
-# if [[ "$OSTYPE" = darwin* ]]; then
-#   export DISPLAY=1
-# fi
-
 # Base16 Shell
 BASE16_SHELL="$HOME/dotfiles/base16-shell/base16-tomorrow.dark.sh"
-# BASE16_SHELL="$HOME/dotfiles/base16-shell/base16-ocean.dark.sh"
 [[ -s $BASE16_SHELL ]] && source $BASE16_SHELL
 
 # Aliases
@@ -54,9 +81,7 @@ alias dl="curl -O"
 alias ts="t stream timeline"
 alias ag="ag --ignore node_modules"
 alias pico8="/Applications/PICO-8.app/Contents/MacOS/pico8"
-
-# unalias gm from the zprezto git module (used by GraphicsMagick)
-unalias gm >/dev/null 2>/dev/null
+alias history-stat="history 0 | awk '{print \$2}' | sort | uniq -c | sort -n -r | head"
 
 # tmux
 if [[ "$(uname)" = "Darwin" ]]; then
@@ -75,22 +100,8 @@ alias tl="tmux list-sessions"
 # z
 source "$HOME/dotfiles/vendor/z/z.sh"
 
-# Search in LimeChat logs with ack
-alias -g irclogs="/Users/pierre/Documents/LimeChat\ Transcripts/"
-irclog() {
-  search=$1; shift 1
-  ack -i $search ~/Documents/LimeChat\ Transcripts/\#main $@
-}
-
 f() {
   find -iname *$1*
-}
-
-# Updates Prezto
-prezto-update() {
-  cd "${ZDOTDIR:-$HOME}/.zprezto"
-  git pull && git submodule update --init --recursive
-  cd -
 }
 
 # Template
@@ -110,19 +121,13 @@ docker-cleanup() {
   docker rmi $(docker images -a -q)
 }
 
-source <(npm completion)
-
 # tag-ag (https://github.com/aykamko/tag)
 if (( $+commands[tag] )); then
   tag() { command tag "$@"; source ${TAG_ALIAS_FILE:-/tmp/tag_aliases} 2>/dev/null }
   # alias ag=tag
 fi
 
-# unalias lt
-
-PERL_MB_OPT="--install_base \"/Users/pierre/perl5\""; export PERL_MB_OPT;
-PERL_MM_OPT="INSTALL_BASE=/Users/pierre/perl5"; export PERL_MM_OPT;
-
+# fzf
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # virtualenvwrapper
@@ -131,4 +136,12 @@ export PROJECT_HOME=$HOME/dev
 source /usr/local/bin/virtualenvwrapper.sh
 
 export NVM_DIR="/Users/pierre/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+
+# Profile startup time utility
+# From https://kev.inburke.com/kevin/profiling-zsh-startup-time/
+if [[ "$PROFILE_STARTUP" == true ]]; then
+  zprof
+  unsetopt xtrace
+  exec 2>&3 3>&-
+fi
