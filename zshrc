@@ -12,6 +12,8 @@ fi
 # Load zplug
 source $HOME/dotfiles/plug.zsh
 
+zplug "changyuheng/zsh-interactive-cd", use:zsh-interactive-cd.plugin.zsh
+
 # Completion style
 zstyle ':completion:*' menu select
 
@@ -46,14 +48,20 @@ unsetopt nomatch
 # Vim mode ESC delay
 export KEYTIMEOUT=10
 
-# Base16 Shell
-BASE16_SHELL="$HOME/dotfiles/base16-shell/base16-tomorrow.dark.sh"
-[[ -s $BASE16_SHELL ]] && source $BASE16_SHELL
+function expand-dot-to-parent-directory-path {
+  if [[ $LBUFFER = *.. ]]; then
+    LBUFFER+='/..'
+  else
+    LBUFFER+='.'
+  fi
+}
+zle -N expand-dot-to-parent-directory-path
 
 # Aliases
 alias t="task"
-alias l="exa -l"
-alias la="exa -la"
+alias l="exa"
+alias ll="exa -l --git"
+alias la="exa -la --git"
 alias vim="nvim"
 alias vi="nvim"
 alias v="nvim"
@@ -90,6 +98,7 @@ fi
 alias ta="tmux attach -d -t"
 alias tn="tmux new -s '$(basename $(pwd))'"
 alias tl="tmux list-sessions"
+alias ctags="ctags -R --exclude=.git --exclude=node_modules"
 
 # RVM (Ruby)
 # [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm" # Load RVM function
@@ -128,7 +137,6 @@ if (( $+commands[tag] )); then
 fi
 
 # fzf
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # virtualenvwrapper
 export WORKON_HOME=$HOME/.virtualenvs
@@ -145,3 +153,11 @@ if [[ "$PROFILE_STARTUP" == true ]]; then
   unsetopt xtrace
   exec 2>&3 3>&-
 fi
+
+export PATH="$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+
+export FZF_DEFAULT_COMMAND='ag -g ""'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
