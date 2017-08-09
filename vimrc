@@ -16,7 +16,8 @@ Plug 'mhinz/vim-startify'
 Plug 'danro/rename.vim'
 
 " Textmate-like Ctrl+T
-Plug 'kien/ctrlp.vim'
+" Plug 'ctrlpvim/ctrlp.vim'
+Plug '/usr/local/opt/fzf' | Plug 'junegunn/fzf.vim'
 
 " Undo tree (Mundo is a fork of Gundo with Neovim support and other things)
 Plug 'simnalamburt/vim-mundo'
@@ -52,7 +53,7 @@ Plug 'justinmk/vim-sneak'
 Plug 'tpope/vim-commentary'
 
 " Match everything with %
-Plug 'edsono/vim-matchit'
+" Plug 'edsono/vim-matchit'
 
 " Languages-related plugins
 Plug 'wavded/vim-stylus'
@@ -62,11 +63,11 @@ Plug 'othree/yajs.vim'
 Plug 'othree/javascript-libraries-syntax.vim'
 Plug 'heavenshell/vim-jsdoc'
 Plug 'peterhoeg/vim-qml'
-Plug 'nginx.vim'
+Plug 'vim-scripts/nginx.vim'
 Plug 'rodjek/vim-puppet'
 " Plug 'vim-scripts/jshint.vim'
 Plug 'git://github.com/urso/haskell_syntax.vim.git'
-Plug 'vim-scripts/HTML-AutoCloseTag'
+"Plug 'vim-scripts/HTML-AutoCloseTag'
 Plug 'mattn/emmet-vim'
 Plug '2072/PHP-Indenting-for-VIm'
 Plug 'moll/vim-node'
@@ -122,7 +123,6 @@ filetype indent on
 " set shellcmdflag+=i
 
 " Coloration
-let base16colorspace=256
 set background=dark
 colorscheme base16-tomorrow
 
@@ -206,21 +206,73 @@ nnoremap <C-n> :tabnew<cr>
 " sudo write
 cmap w!! w !sudo tee > /dev/null %
 
-" Ags plugin
-let g:ags_agexe = '/usr/local/bin/ag'
-nnoremap <Leader>r :Ags
-
 " vim-markdown
 let g:vim_markdown_fenced_languages = ['jsx=javascript']
+
+" fzf plugin
+
+" let FZF_DEFAULT_COMMAND='ag -g ""'
+
+nmap <c-t> :Files<cr>
+" nnoremap <silent> <Leader>C :Colors<CR>
+nnoremap <silent> <Leader><Enter> :Buffers<CR>
+
+command! -bang -nargs=? -complete=dir Files
+\ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
+
+let g:fzf_action = {
+  \ 'ctrl-t': 'tab split',
+  \ 'ctrl-x': 'split',
+  \ 'ctrl-v': 'vsplit' }
+
+" [Buffers] Jump to the existing window if possible
+let g:fzf_buffers_jump = 1
+
+" fzf layout
+" - down / up / left / right
+let g:fzf_layout = { 'down': '~40%' }
+
+" fzf window (NeoVim only)
+let g:fzf_layout = { 'window': 'enew' }
+" let g:fzf_layout = { 'window': '-tabnew' }
+
+" [Tags] Command to generate tags file
+let g:fzf_tags_command = 'ctags -R'
+
+" fzf colors
+let g:fzf_colors =
+\ { 'fg':      ['fg', 'Normal'],
+  \ 'bg':      ['bg', 'Normal'],
+  \ 'hl':      ['fg', 'Comment'],
+  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+  \ 'hl+':     ['fg', 'Statement'],
+  \ 'info':    ['fg', 'PreProc'],
+  \ 'prompt':  ['fg', 'Conditional'],
+  \ 'pointer': ['fg', 'Exception'],
+  \ 'marker':  ['fg', 'Keyword'],
+  \ 'spinner': ['fg', 'Label'],
+  \ 'header':  ['fg', 'Comment'] }
+
+
+" Enable per-command history.
+" CTRL-N and CTRL-P will be automatically bound to next-history and
+" previous-history instead of down and up. If you don't like the change,
+" explicitly bind the keys to down and up in your $FZF_DEFAULT_OPTS.
+let g:fzf_history_dir = '~/.local/share/fzf-history'
 
 " ctrlp.vim plugin
 let g:ctrlp_map = '<c-t>'  " Remap ctrlp.vim to Ctrl+T
 let g:ctrlp_cmd = 'CtrlP'
 let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git\|\.swp' " Ignore some files
+" let g:ctrlp_custom_ignore = '' " Ignore some files
 let g:ctrlp_show_hidden = 1
 let g:ctrlp_working_path_mode = 'r'
-" From http://sheerun.net/2014/03/21/how-to-boost-your-vim-productivity/
-" let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files . -co --exclude-standard', 'find %s -type f']
+
+" Exclude files listed in .gitignore
+let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
+
+" Disable caching for small amount of files (less than 200 files)
 let g:ctrlp_use_caching = 0
 nnoremap <C-s> :CtrlPTag<cr>
 
@@ -260,6 +312,26 @@ let g:UltiSnipsJumpBackwardTrigger = "<c-k>"
 
 " javascript-libraries-syntax
 let g:used_javascript_libs = 'underscore,react'
+
+" run prettier on the file content
+nmap <Leader>r :call Prettier()<CR>
+function! Prettier()
+  let l:currentLine = line('.')
+  silent execute '%!prettier --trailing-comma es5 --single-quote'
+  " let l:exitcode = system('echo $?')
+  " silent execute 'r!echo $?'
+  execute 'normal! '. l:currentLine .'G'
+  " echom 'prettier done.' . l:exitcode
+  echom 'prettier done.'
+endfunction
+
+nmap <Leader>d :call PrettierCalypso()<CR>
+function! PrettierCalypso()
+  let l:currentLine = line('.')
+  silent execute '%!./node_modules/.bin/prettier'
+  execute 'normal! '. l:currentLine .'G'
+  echom 'prettier (calpyso) done.'
+endfunction
 
 " Prompt for a command to run in a tmux pane
 nmap <Leader>tc :wa<CR>:call OpenVimuxPrompt('v', '15')<CR>
@@ -302,6 +374,7 @@ autocmd FileType html setlocal autoindent
 autocmd FileType php setlocal autoindent
 autocmd FileType qml setlocal tabstop=4 shiftwidth=4 softtabstop=4
 autocmd FileType cpp setlocal tabstop=4 shiftwidth=4 softtabstop=4
+" autocmd FileType javascript set formatprg=prettier\ --single-quote\ --trailing-comma\ all\ --stdin
 
 " HTML: no indentation inside <script> and <style>
 let g:html_indent_script1 = "zero"
@@ -382,7 +455,8 @@ noremap <silent> <Leader>cr :lcd <c-r>=FindGitDirOrCurrent()<CR><CR>:pwd<CR>
 noremap <silent> <Leader>md :call CreateDirectoriesToFile()<CR>
 
 " toggle between last open buffers
-noremap <leader><leader> <c-^>
+" noremap <leader><leader> <c-^>
+noremap <backspace> <c-^>
 
 " Zoom / Unzoom the current window
 " nnoremap <silent> <C-w>o :ZoomToggle<CR>
