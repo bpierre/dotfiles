@@ -16,7 +16,6 @@ Plug 'mhinz/vim-startify'
 Plug 'danro/rename.vim'
 
 " Textmate-like Ctrl+T
-" Plug 'ctrlpvim/ctrlp.vim'
 Plug '/usr/local/opt/fzf' | Plug 'junegunn/fzf.vim'
 
 " Undo tree (Mundo is a fork of Gundo with Neovim support and other things)
@@ -210,15 +209,23 @@ cmap w!! w !sudo tee > /dev/null %
 let g:vim_markdown_fenced_languages = ['jsx=javascript']
 
 " fzf plugin
-
 " let FZF_DEFAULT_COMMAND='ag -g ""'
 
 nmap <c-t> :Files<cr>
-" nnoremap <silent> <Leader>C :Colors<CR>
 nnoremap <silent> <Leader><Enter> :Buffers<CR>
 
+" Files command with preview window
 command! -bang -nargs=? -complete=dir Files
-\ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
+\ call fzf#vim#files(<q-args>, fzf#vim#with_preview('right:60%'), <bang>0)
+
+" Ripgrep search
+command! -bang -nargs=* Rg
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
+  \   <bang>0 ? fzf#vim#with_preview('up:60%')
+  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+  \   <bang>0)
+nnoremap <C-s> :Rg<cr>
 
 let g:fzf_action = {
   \ 'ctrl-t': 'tab split',
@@ -254,38 +261,11 @@ let g:fzf_colors =
   \ 'spinner': ['fg', 'Label'],
   \ 'header':  ['fg', 'Comment'] }
 
-
 " Enable per-command history.
 " CTRL-N and CTRL-P will be automatically bound to next-history and
 " previous-history instead of down and up. If you don't like the change,
 " explicitly bind the keys to down and up in your $FZF_DEFAULT_OPTS.
 let g:fzf_history_dir = '~/.local/share/fzf-history'
-
-" ctrlp.vim plugin
-let g:ctrlp_map = '<c-t>'  " Remap ctrlp.vim to Ctrl+T
-let g:ctrlp_cmd = 'CtrlP'
-let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git\|\.swp' " Ignore some files
-" let g:ctrlp_custom_ignore = '' " Ignore some files
-let g:ctrlp_show_hidden = 1
-let g:ctrlp_working_path_mode = 'r'
-
-" Exclude files listed in .gitignore
-let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
-
-" Disable caching for small amount of files (less than 200 files)
-let g:ctrlp_use_caching = 0
-nnoremap <C-s> :CtrlPTag<cr>
-
-function! ToggleCtrlpMode()
-  if g:ctrlp_working_path_mode == 'c'
-    let g:ctrlp_working_path_mode = 'r'
-    echo '[ctrlp.vim] root directory (.git, …) '
-  else
-    let g:ctrlp_working_path_mode = 'c'
-    echo '[ctrlp.vim] current file directory'
-  endif
-endfunction
-nmap <Leader>l :call ToggleCtrlpMode()<CR>
 
 " Vimux
 let VimuxUseNearestPane = 1
