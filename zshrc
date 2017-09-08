@@ -136,15 +136,15 @@ if (( $+commands[tag] )); then
   # alias ag=tag
 fi
 
-# fzf
-
 # virtualenvwrapper
-export WORKON_HOME=$HOME/.virtualenvs
-export PROJECT_HOME=$HOME/dev
-source /usr/local/bin/virtualenvwrapper.sh
+# export WORKON_HOME=$HOME/.virtualenvs
+# export PROJECT_HOME=$HOME/dev
+# export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python
+# source /usr/local/bin/virtualenvwrapper.sh
 
-export NVM_DIR="/Users/pierre/.nvm"
+# export NVM_DIR="/Users/pierre/.nvm"
 # [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+eval "$(nodenv init -)"
 
 # Profile startup time utility
 # From https://kev.inburke.com/kevin/profiling-zsh-startup-time/
@@ -160,4 +160,4 @@ export FZF_DEFAULT_COMMAND='ag -g ""'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion

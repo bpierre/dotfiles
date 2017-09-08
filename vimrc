@@ -74,6 +74,7 @@ Plug 'mxw/vim-jsx'
 Plug 'tomlion/vim-solidity'
 Plug 'rust-lang/rust.vim'
 Plug 'justinj/vim-pico8-syntax'
+Plug 'jparise/vim-graphql'
 
 " JS-stringify text
 Plug '29decibel/vim-stringify'
@@ -199,6 +200,9 @@ noremap ] )
 nnoremap <C-l> :tabnext<cr>
 nnoremap <C-h> :tabprev<cr>
 
+" Close window
+nnoremap <Leader>w :tabclose<cr>
+
 " New tab
 nnoremap <C-n> :tabnew<cr>
 
@@ -209,10 +213,13 @@ cmap w!! w !sudo tee > /dev/null %
 let g:vim_markdown_fenced_languages = ['jsx=javascript']
 
 " fzf plugin
-" let FZF_DEFAULT_COMMAND='ag -g ""'
+let FZF_DEFAULT_COMMAND='ag -g ""'
 
 nmap <c-t> :Files<cr>
 nnoremap <silent> <Leader><Enter> :Buffers<CR>
+
+autocmd VimEnter * command! -bang -nargs=* Ag
+  \ call fzf#vim#ag(<q-args>, '--skip-vcs-ignores', <bang>0)
 
 " Files command with preview window
 command! -bang -nargs=? -complete=dir Files

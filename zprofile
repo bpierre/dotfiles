@@ -38,6 +38,7 @@ typeset -gU cdpath fpath mailpath path
 # OS X $PATH
 if [[ "$OSTYPE" = darwin* ]]; then
   path=(
+    $HOME/bin
     $HOME/.yarn/bin
     /usr/local/opt/php56/bin/php # PHP
     /usr/local/opt/python/bin # Python
