@@ -5,14 +5,12 @@ if [[ "$PROFILE_STARTUP" == true ]]; then
   zmodload zsh/zprof # Output load-time statistics
   # http://zsh.sourceforge.net/Doc/Release/Prompt-Expansion.html
   PS4=$'%D{%M%S%.} %N:%i> '
-  exec 3>&2 2>"${XDG_CACHE_HOME:-$HOME/tmp}/zsh_statup.$$"
+  exec 3>&2 2>"${XDG_CACHE_HOME:-$HOME/tmp}/zsh_startup.$$"
   setopt xtrace prompt_subst
 fi
 
 # Load zplug
 source $HOME/dotfiles/plug.zsh
-
-zplug "changyuheng/zsh-interactive-cd", use:zsh-interactive-cd.plugin.zsh
 
 # Completion style
 zstyle ':completion:*' menu select
@@ -21,6 +19,7 @@ zstyle ':completion:*' menu select
 HISTFILE="${ZDOTDIR:-$HOME}/.zhistory"
 HISTSIZE=10000
 SAVEHIST=10000
+setopt AUTO_CD
 setopt BANG_HIST
 setopt EXTENDED_HISTORY
 setopt INC_APPEND_HISTORY
@@ -72,9 +71,7 @@ alias bzl="bzr log | less"
 alias json='python -mjson.tool'
 alias pjson='pbpaste | json'
 alias glog="git log --oneline --graph --decorate --color=always"
-# alias stylus="stylus -I `npm prefix -g`/lib/node_modules/nib/lib/"
 alias redis_start="redis-server /usr/local/etc/redis.conf"
-# alias my="mysql.server"
 alias pgstart="pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log start"
 alias pgstop="pg_ctl -D /usr/local/var/postgres stop -s -m fast"
 alias mongodb_start="mongod run --config /usr/local/etc/mongod.conf"
@@ -96,18 +93,9 @@ if [[ "$(uname)" = "Darwin" ]]; then
   alias tmux='tmux -f ~/.tmux-osx.conf'
 fi
 alias ta="tmux attach -d -t"
-alias tn="tmux new -s '$(basename $(pwd))'"
+alias tn="tmux new"
 alias tl="tmux list-sessions"
 alias ctags="ctags -R --exclude=.git --exclude=node_modules"
-
-# RVM (Ruby)
-# [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm" # Load RVM function
-
-# Go language
-# source $(brew --prefix)/share/zsh/site-functions/go
-
-# z
-source "$HOME/dotfiles/vendor/z/z.sh"
 
 f() {
   find -iname *$1*
@@ -136,16 +124,6 @@ if (( $+commands[tag] )); then
   # alias ag=tag
 fi
 
-# virtualenvwrapper
-# export WORKON_HOME=$HOME/.virtualenvs
-# export PROJECT_HOME=$HOME/dev
-# export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python
-# source /usr/local/bin/virtualenvwrapper.sh
-
-# export NVM_DIR="/Users/pierre/.nvm"
-# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-eval "$(nodenv init -)"
-
 # Profile startup time utility
 # From https://kev.inburke.com/kevin/profiling-zsh-startup-time/
 if [[ "$PROFILE_STARTUP" == true ]]; then
@@ -159,5 +137,15 @@ export PATH="$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 export FZF_DEFAULT_COMMAND='ag -g ""'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# tabtab source for electron-forge package
+# uninstall by removing these lines or running `tabtab uninstall electron-forge`
+[[ -f /Users/pierre/src/ganache/node_modules/tabtab/.completions/electron-forge.zsh ]] && . /Users/pierre/src/ganache/node_modules/tabtab/.completions/electron-forge.zsh
+
+# Prevent create-react-app to try to launch vim / crash the tmux tab
+export REACT_EDITOR=none
+
+# nodenv
+export PATH="$HOME/.nodenv/bin:$PATH"
+eval "$(nodenv init -)"

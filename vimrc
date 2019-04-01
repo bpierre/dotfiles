@@ -2,12 +2,13 @@
 
 call plug#begin()
 
+" Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer' }
+
+Plug 'mcchrish/nnn.vim'
+
 " The nice status bar
 Plug 'bling/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-
-" vinegar is a file explorer (press -)
-Plug 'tpope/vim-vinegar'
 
 " Minimalist start screen
 Plug 'mhinz/vim-startify'
@@ -18,100 +19,85 @@ Plug 'danro/rename.vim'
 " Textmate-like Ctrl+T
 Plug '/usr/local/opt/fzf' | Plug 'junegunn/fzf.vim'
 
-" Undo tree (Mundo is a fork of Gundo with Neovim support and other things)
-Plug 'simnalamburt/vim-mundo'
+" " Undo tree (Mundo is a fork of Gundo with Neovim support and other things)
+" Plug 'simnalamburt/vim-mundo'
 
-" git in Vim
+" " git in Vim
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 
-" ack in Vim
-Plug 'mileszs/ack.vim'
-
-" ag in Vim
-" Plug 'gabesoft/vim-ags'
-Plug 'rking/ag.vim'
-
-" Unicode
-" Plug 'chrisbra/unicode.vim'
-
-" Zoom in/out of a window
-" Plug 'vim-scripts/ZoomWin'
-
-" Variable select (around variable: av, inner variable: iv)
-Plug 'robmiller/vim-movar'
+" " Variable select (around variable: av, inner variable: iv)
+" Plug 'robmiller/vim-movar'
 
 " Surround
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 
-" sneak.vim (jumps to any location specified by two characters)
-Plug 'justinmk/vim-sneak'
+" " sneak.vim (jumps to any location specified by two characters)
+" Plug 'justinmk/vim-sneak'
 
-" Comments
+" " Comments
 Plug 'tpope/vim-commentary'
 
-" Match everything with %
-" Plug 'edsono/vim-matchit'
-
-" Languages-related plugins
-Plug 'wavded/vim-stylus'
-Plug 'digitaltoad/vim-jade'
+" " Languages-related plugins
 Plug 'pangloss/vim-javascript'
-Plug 'othree/yajs.vim'
-Plug 'othree/javascript-libraries-syntax.vim'
 Plug 'heavenshell/vim-jsdoc'
-Plug 'peterhoeg/vim-qml'
-Plug 'vim-scripts/nginx.vim'
-Plug 'rodjek/vim-puppet'
-" Plug 'vim-scripts/jshint.vim'
-Plug 'git://github.com/urso/haskell_syntax.vim.git'
-"Plug 'vim-scripts/HTML-AutoCloseTag'
-Plug 'mattn/emmet-vim'
-Plug '2072/PHP-Indenting-for-VIm'
-Plug 'moll/vim-node'
 Plug 'mxw/vim-jsx'
+Plug 'jxnblk/vim-mdx-js'
+Plug 'styled-components/vim-styled-components'
+Plug 'reasonml-editor/vim-reason-plus'
+Plug 'jparise/vim-graphql'
+Plug 'vim-scripts/nginx.vim'
+Plug 'moll/vim-node'
 Plug 'tomlion/vim-solidity'
 Plug 'rust-lang/rust.vim'
 Plug 'justinj/vim-pico8-syntax'
-Plug 'jparise/vim-graphql'
 
-" JS-stringify text
-Plug '29decibel/vim-stringify'
+" " JS-stringify text
+" Plug '29decibel/vim-stringify'
+
+" " tmux interaction
+Plug 'benmills/vimux'
+
+" " UltiSnips
+Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets' | Plug 'justinj/vim-react-snippets'
+
+" " Automatically adjusts 'shiftwidth' and 'expandtab' heuristically
+Plug 'tpope/vim-sleuth'
+
+" " Tabular alignment
+" Plug 'godlygeek/tabular'
+
+" " Vim Markdown (requires godlygeek/tabular)
+" Plug 'plasticboy/vim-markdown'
+
+" " Org Mode
+" Plug 'jceb/vim-orgmode'
+
+" " ctags viewer
+" Plug 'majutsushi/tagbar'
+
+" " Calculate vim selections
+" Plug 'sk1418/HowMuch'
+
+" " Notes
+" Plug 'xolox/vim-misc'
+" Plug 'xolox/vim-notes'
+
+Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
+Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
+
+Plug 'ternjs/tern_for_vim', { 'do': 'yarn install' }
+
+" ncm2 (nvim-yarp is required)
+Plug 'roxma/nvim-yarp'
+Plug 'ncm2/ncm2'
+Plug 'ncm2/ncm2-bufword'
+Plug 'ncm2/ncm2-path'
+Plug 'ncm2/ncm2-tern',  {'do': 'yarn install'}
 
 " Themes
 Plug 'chriskempson/base16-vim'
-
-" tmux interaction
-Plug 'benmills/vimux'
-
-" Syntastic
-" Plug 'scrooloose/syntastic'
-
-" UltiSnips
-Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets' | Plug 'justinj/vim-react-snippets'
-
-" Automatically adjusts 'shiftwidth' and 'expandtab' heuristically
-Plug 'tpope/vim-sleuth'
-
-" Tabular alignment
-Plug 'godlygeek/tabular'
-
-" Vim Markdown (requires godlygeek/tabular)
-Plug 'plasticboy/vim-markdown'
-
-" Org Mode
-Plug 'jceb/vim-orgmode'
-
-" ctags viewer
-Plug 'majutsushi/tagbar'
-
-" Calculate vim selections
-Plug 'sk1418/HowMuch'
-
-" Notes
-Plug 'xolox/vim-misc'
-Plug 'xolox/vim-notes'
 
 call plug#end()
 
@@ -120,7 +106,9 @@ filetype on
 filetype plugin on
 filetype indent on
 
-" set shellcmdflag+=i
+set cursorline
+
+set mouse=a
 
 " Coloration
 set background=dark
@@ -175,6 +163,16 @@ hi link SneakPluginScope Visual
 hi link SneakStreakTarget IncSearch
 hi SneakStreakMask ctermfg=red
 
+"""""""""""""""""" ncm2 completion
+
+" enable ncm2 for all buffers
+autocmd BufEnter * call ncm2#enable_for_buffer()
+
+" important: :help Ncm2PopupOpen for more information
+set completeopt=noinsert,menuone,noselect
+
+"""""""""""""""""" /ncm2 completion
+
 " vim-commentary
 autocmd FileType lua setlocal commentstring=--\ %s
 autocmd FileType pico8 setlocal commentstring=--\ %s
@@ -208,6 +206,9 @@ nnoremap <C-n> :tabnew<cr>
 
 " sudo write
 cmap w!! w !sudo tee > /dev/null %
+
+" TernJS
+nnoremap td :TernDef<cr>
 
 " vim-markdown
 let g:vim_markdown_fenced_languages = ['jsx=javascript']
@@ -279,7 +280,7 @@ let VimuxUseNearestPane = 1
 let g:VimuxOrientation = "v"
 let g:VimuxHeight = "15"
 
-" JavaScript
+" JavaScript (vim-javascript)
 let g:javascript_conceal_function   = "ƒ"
 " let g:javascript_conceal_null       = "ø"
 " let g:javascript_conceal_this       = "@"
@@ -287,6 +288,7 @@ let g:javascript_conceal_return     = "⇚"
 " let g:javascript_conceal_undefined  = "¿"
 " let g:javascript_conceal_NaN        = "ℕ"
 " let g:javascript_conceal_prototype  = "¶"
+let g:javascript_plugin_flow = 1
 
 " JSDoc generation
 let g:jsdoc_default_mapping = 0
@@ -300,25 +302,58 @@ let g:UltiSnipsJumpBackwardTrigger = "<c-k>"
 " javascript-libraries-syntax
 let g:used_javascript_libs = 'underscore,react'
 
-" run prettier on the file content
-nmap <Leader>r :call Prettier()<CR>
-function! Prettier()
-  let l:currentLine = line('.')
-  silent execute '%!prettier --trailing-comma es5 --single-quote'
-  " let l:exitcode = system('echo $?')
-  " silent execute 'r!echo $?'
-  execute 'normal! '. l:currentLine .'G'
-  " echom 'prettier done.' . l:exitcode
-  echom 'prettier done.'
-endfunction
+" vim-flow options
+let g:flow#autoclose = 1
 
-nmap <Leader>d :call PrettierCalypso()<CR>
-function! PrettierCalypso()
+" You Complete Me options
+let g:ycm_key_list_select_completion = ['<Down>']
+" inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "ᐅ"
+
+" prettier and other prettiers
+" function! Prettier()
+"   let l:currentLine = line('.')
+"   silent execute '%!prettier --trailing-comma es5 --no-semi --single-quote --stdin-filepath %'
+"   " silent execute '%!prettier --stdin-filepath %'
+"   execute 'normal! '. l:currentLine .'Gzz'
+"   echom 'prettier done.'
+" endfunction
+function! LuaFmt()
   let l:currentLine = line('.')
-  silent execute '%!./node_modules/.bin/prettier'
+  silent execute '%!luafmt --stdin %'
   execute 'normal! '. l:currentLine .'G'
-  echom 'prettier (calpyso) done.'
+  echom 'luafmt done.'
 endfunction
+function! Refmt()
+  let l:currentLine = line('.')
+  silent execute '%!refmt -w 80'
+  execute 'normal! '. l:currentLine .'G'
+  echom 'refmt done.'
+endfunction
+" nmap <Leader>r :call Prettier()<CR>
+
+let g:prettier#config#trailing_comma = 'es5'
+let g:prettier#config#bracket_spacing = 'true'
+let g:prettier#config#jsx_bracket_same_line = 'false'
+let g:prettier#config#single_quote = 'true'
+let g:prettier#config#semi = 'false'
+" let g:prettier#config#parser = 'babylon'
+
+nmap <Leader>r <Plug>(Prettier)
+autocmd FileType pico8 nmap<Leader>r :call LuaFmt()<CR>
+autocmd FileType reason nmap<Leader>r :call Refmt()<CR>
+" :RustFmt is defined by rust.vim
+autocmd FileType rust nmap<Leader>r :RustFmt<CR>
+
+" Vue.js
+" autocmd FileType vue noremap <buffer> <Leader>r :%!prettier --parser parse5 --stdin-filepath<CR>
+" autocmd FileType vue noremap <buffer> <Leader>r :%!/Users/pierre/.nodenv/versions/8.4.0/bin/vue-formatter<CR>
+" autocmd FileType vue noremap <buffer> <Leader>r :%!/Users/pierre/dev/vue-formatter/src/cli.js<CR>
+" autocmd FileType vue noremap <buffer> <Leader>r :%!/Users/pierre/dev/sublime-vue-formatter/scripts/vue/vue-formatter<CR>
+" autocmd FileType vue syntax sync fromstart
+" let g:vue_disable_pre_processors=1
+
+" Rust
+" let g:rustfmt_autosave = 1
 
 " Prompt for a command to run in a tmux pane
 nmap <Leader>tc :wa<CR>:call OpenVimuxPrompt('v', '15')<CR>
@@ -346,6 +381,9 @@ vnoremap <Leader>cp :!pbcopy<CR>u :echo "copied"<CR>
 
 " Vertical split
 nmap <Leader>v :vs<CR>
+
+nmap <Leader>l :m +1<CR>
+nmap <Leader>h :m -2<CR>
 
 " Whitespace
 set expandtab
