@@ -28,6 +28,8 @@ else
   /bin/echo -e "[\e[0;36mz\e[0m] already cloned"
 fi
 
+# TODO: use GNU stow
+
 linkFile vimrc     ~/.vimrc
 linkFile vimrc     ~/.nvimrc
 linkFile vim       ~/.vim

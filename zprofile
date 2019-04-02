@@ -45,7 +45,6 @@ if [[ "$OSTYPE" = darwin* ]]; then
     /usr/local/opt/ruby/bin # Ruby
     $HOME/.rvm/bin # RVM (Ruby)
     $HOME/.cabal/bin # Haskell
-    /opt/rust/bin # Rust
     /usr/texbin # Latex
     $ANDROID_HOME/platform-tools # Android SDK
     $ANDROID_HOME/tools # Android SDK
@@ -94,3 +93,5 @@ TMPPREFIX="${TMPDIR%/}/zsh"
 if [[ ! -d "$TMPPREFIX" ]]; then
   mkdir -p "$TMPPREFIX"
 fi
+
+export PATH="$HOME/.cargo/bin:$PATH"
