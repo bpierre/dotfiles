@@ -144,7 +144,7 @@ fi
 
 # export NVM_DIR="/Users/pierre/.nvm"
 # [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-eval "$(nodenv init -)"
+#eval "$(nodenv init -)"
 
 # Profile startup time utility
 # From https://kev.inburke.com/kevin/profiling-zsh-startup-time/

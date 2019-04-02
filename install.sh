@@ -33,13 +33,13 @@ linkFile vimrc     ~/.nvimrc
 linkFile vim       ~/.vim
 linkFile vim       ~/.nvim
 linkFile tmux.conf ~/.tmux.conf
-linkFile tmux-osx.conf ~/.tmux-osx.conf
+#linkFile tmux-osx.conf ~/.tmux-osx.conf
 linkFile zshrc     ~/.zshrc
 linkFile zprofile  ~/.zprofile
 linkFile zshenv    ~/.zshenv
 linkFile zpreztorc ~/.zpreztorc
 linkFile zlogin    ~/.zlogin
-linkFile ackrc     ~/.ackrc
+#linkFile ackrc     ~/.ackrc
 linkFile gitignore ~/.gitignore
 linkFile dotjs/css ~/.css
 linkFile dotjs/js  ~/.js
