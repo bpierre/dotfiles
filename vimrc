@@ -4,20 +4,36 @@ call plug#begin()
 
 " Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer' }
 
-Plug 'mcchrish/nnn.vim'
+Plug 'norcalli/nvim-colorizer.lua'
+
+" Plug 'mcchrish/nnn.vim'
+
+Plug 'chrisbra/unicode.vim'
+
 
 " The nice status bar
 Plug 'bling/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
+" TO TRY:
+" https://github.com/itchyny/lightline.vim/
+" https://github.com/machakann/vim-sandwich
+" https://github.com/machakann/vim-highlightedyank
+
 " Minimalist start screen
-Plug 'mhinz/vim-startify'
+" Plug 'mhinz/vim-startify'
 
 " Rename the current file in the vim buffer + retain relative path.
 Plug 'danro/rename.vim'
 
 " Textmate-like Ctrl+T
 Plug '/usr/local/opt/fzf' | Plug 'junegunn/fzf.vim'
+
+" Better than matchit (matchit is included by default on neovim)
+Plug 'andymass/vim-matchup'
+
+" Scratchpad
+Plug 'metakirby5/codi.vim'
 
 " " Undo tree (Mundo is a fork of Gundo with Neovim support and other things)
 " Plug 'simnalamburt/vim-mundo'
@@ -39,12 +55,15 @@ Plug 'tpope/vim-surround'
 " " Comments
 Plug 'tpope/vim-commentary'
 
+Plug 'mrtazz/simplenote.vim'
+
 " " Languages-related plugins
 Plug 'pangloss/vim-javascript'
 Plug 'heavenshell/vim-jsdoc'
-Plug 'mxw/vim-jsx'
+" Plug 'mxw/vim-jsx'
+Plug 'MaxMEllon/vim-jsx-pretty'
 Plug 'jxnblk/vim-mdx-js'
-Plug 'styled-components/vim-styled-components'
+Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
 Plug 'reasonml-editor/vim-reason-plus'
 Plug 'jparise/vim-graphql'
 Plug 'vim-scripts/nginx.vim'
@@ -52,6 +71,7 @@ Plug 'moll/vim-node'
 Plug 'tomlion/vim-solidity'
 Plug 'rust-lang/rust.vim'
 Plug 'justinj/vim-pico8-syntax'
+Plug 'posva/vim-vue'
 
 " " JS-stringify text
 " Plug '29decibel/vim-stringify'
@@ -60,7 +80,7 @@ Plug 'justinj/vim-pico8-syntax'
 Plug 'benmills/vimux'
 
 " " UltiSnips
-Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets' | Plug 'justinj/vim-react-snippets'
+Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 
 " " Automatically adjusts 'shiftwidth' and 'expandtab' heuristically
 Plug 'tpope/vim-sleuth'
@@ -70,6 +90,17 @@ Plug 'tpope/vim-sleuth'
 
 " " Vim Markdown (requires godlygeek/tabular)
 " Plug 'plasticboy/vim-markdown'
+function! BuildComposer(info)
+  if a:info.status != 'unchanged' || a:info.force
+    if has('nvim')
+      !cargo build --release --locked
+    else
+      !cargo build --release --locked --no-default-features --features json-rpc
+    endif
+  endif
+endfunction
+
+Plug 'euclio/vim-markdown-composer', { 'do': function('BuildComposer') }
 
 " " Org Mode
 " Plug 'jceb/vim-orgmode'
@@ -86,8 +117,9 @@ Plug 'tpope/vim-sleuth'
 
 Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
 Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
+Plug 'ruanyl/vim-sort-imports'
 
-Plug 'ternjs/tern_for_vim', { 'do': 'yarn install' }
+" Plug 'ternjs/tern_for_vim', { 'do': 'yarn install' }
 
 " ncm2 (nvim-yarp is required)
 Plug 'roxma/nvim-yarp'
@@ -107,12 +139,19 @@ filetype plugin on
 filetype indent on
 
 set cursorline
+set nomodeline
 
 set mouse=a
 
 " Coloration
+if filereadable(expand("~/.vimrc_background"))
+  let base16colorspace=256
+  source ~/.vimrc_background
+endif
+
+set termguicolors " 24 bits colors in the terminal
 set background=dark
-colorscheme base16-tomorrow
+colorscheme base16-snazzy
 
 if !has('nvim')
   set encoding=utf-8
@@ -135,6 +174,14 @@ nnoremap <NL> i<CR><ESC>
 " Set to auto read when a file is changed from the outside
 set autoread
 
+" Ensure file watchers are notified when a file has been written.
+" set backupcopy=yes
+set nobackup
+set nowritebackup
+
+" Highlight colors (hex etc.)
+" lua require'colorizer'.setup()
+
 " Invisible characters, à la TextMate
 set listchars=nbsp:·,tab:▸\ ,eol:¬
 set list
@@ -149,7 +196,9 @@ set nofoldenable
 nnoremap Q <nop>
 
 " 80 column
-set colorcolumn=80
+set colorcolumn=
+" set colorcolumn=80
+" highlight ColorColumn ctermbg=9
 
 " Autojump to the last edited position when a file is reopened
 au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") |
@@ -198,8 +247,12 @@ noremap ] )
 nnoremap <C-l> :tabnext<cr>
 nnoremap <C-h> :tabprev<cr>
 
+" Cycle between the windows (panes)
+nnoremap <C-c> <C-w><C-w>
+
 " Close window
-nnoremap <Leader>w :tabclose<cr>
+" nnoremap <Leader>w :tabclose<cr>
+nnoremap <Leader>w <C-w>c
 
 " New tab
 nnoremap <C-n> :tabnew<cr>
@@ -243,6 +296,11 @@ let g:fzf_action = {
 " [Buffers] Jump to the existing window if possible
 let g:fzf_buffers_jump = 1
 
+" nnn
+let g:nnn#layout = { 'left': '~20%' }
+let g:nnn#set_default_mappings = 0
+nnoremap <leader><leader> :NnnPicker '%:p:h'<CR>
+
 " fzf layout
 " - down / up / left / right
 let g:fzf_layout = { 'down': '~40%' }
@@ -274,6 +332,10 @@ let g:fzf_colors =
 " previous-history instead of down and up. If you don't like the change,
 " explicitly bind the keys to down and up in your $FZF_DEFAULT_OPTS.
 let g:fzf_history_dir = '~/.local/share/fzf-history'
+
+" Simplenote
+source ~/.simplenoterc
+let g:SimplenoteSingleWindow = 1
 
 " Vimux
 let VimuxUseNearestPane = 1
@@ -376,8 +438,8 @@ nmap <Leader>tx :VimuxCloseRunner<CR>
 " Save
 nmap <Leader>s :write<CR>
 
-" OS X Copy
-vnoremap <Leader>cp :!pbcopy<CR>u :echo "copied"<CR>
+" Clipboard copy
+vnoremap <Leader>cp "+y :echo "copied"<CR>
 
 " Vertical split
 nmap <Leader>v :vs<CR>
@@ -392,6 +454,9 @@ set wrap
 set backspace=indent,eol,start
 set autoindent
 set smartindent
+
+" Always show tabs
+set showtabline=2
 
 " Language-specific spaces
 autocmd FileType python setlocal noexpandtab
