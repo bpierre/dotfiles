@@ -9,7 +9,7 @@ zplug "zsh-users/zsh-history-substring-search", defer:3 # Should be loaded last.
 
 zplug "mafredri/zsh-async", from:github
 zplug "sindresorhus/pure", use:pure.zsh, from:github, as:theme
-# zplug "modules/osx", from:prezto
+# zplug "denysdovhan/spaceship-prompt", use:spaceship.zsh, from:github, as:theme
 
 # zplug "g-plane/zsh-yarn-autocompletions", hook-build:"cargo build --release && cp target/release/yarn-autocompletions ./"
 
