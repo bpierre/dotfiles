@@ -5,14 +5,12 @@ endsnippet
 snippet comp "React component"
 import React from 'react'
 
-class ${1:`!p snip.rv = snip.basename`} extends React.Component {
-  render() {
-    return (
-      <div>
-      </div>
-    )
-  }
-}
+const ${1:`!p snip.rv = snip.basename`} = React.memo(() => {
+  return (
+    <div>
+    </div>
+  )
+})
 
 export default $1
 endsnippet
@@ -47,6 +45,11 @@ import styled from 'styled-components'
 
 endsnippet
 
+snippet iui "Import @aragon/ui"
+import { ${1:Button} } from '@aragon/ui'
+
+endsnippet
+
 snippet irc "Import React and React.Component"
 import React, { Component } from 'react'
 
@@ -58,5 +61,98 @@ import React, { PureComponent } from 'react'
 endsnippet
 
 snippet $ "styled-components interpolations"
-${({ ${1:prop} }) => ${2:$1${3: ? ${4:'$5'} : ${6:'$7'} }}}
+${p => p.${2:$1 ? ${4:'$5'} : ${6:'$7'} }}
 endsnippet
+
+snippet cs "styled-components css prop (static)"
+css="$1"
+endsnippet
+
+snippet css "styled-components css prop"
+css={\`
+  $1
+\`}
+endsnippet
+
+snippet pt "Add prop types"
+`!p snip.rv = snip.basename`.propTypes = {
+  $1
+}
+endsnippet
+
+snippet ptn "Prop type node"
+PropTypes.node${1:.isRequired}$2
+endsnippet
+
+snippet ptnu "Prop type number"
+PropTypes.number${1:.isRequired}$2
+endsnippet
+
+snippet pts "Prop type string"
+PropTypes.string${1:.isRequired}$2
+endsnippet
+
+snippet ptf "Prop type function"
+PropTypes.func${1:.isRequired}$2
+endsnippet
+
+snippet ptb "Prop type boolean"
+PropTypes.bool${1:.isRequired}$2
+endsnippet
+
+snippet pto "Prop type object"
+PropTypes.object${1:.isRequired}$2
+endsnippet
+
+snippet pta "Prop type array"
+PropTypes.array${1:.isRequired}$2
+endsnippet
+
+snippet ptoo "Prop type oneOf"
+PropTypes.oneOf([$1])${2:.isRequired}$3
+endsnippet
+
+snippet ptoot "Prop type oneOfType"
+PropTypes.oneOfType([$1])${2:.isRequired}$3
+endsnippet
+
+snippet ptao "Prop type arrayOf"
+PropTypes.arrayOf($1)${2:.isRequired}$3
+endsnippet
+
+snippet ptsh "Prop type shape"
+PropTypes.shape({
+	$1
+})${2:.isRequired}$3
+endsnippet
+
+snippet ptan "Prop type any"
+PropTypes.any${1:.isRequired}$2
+endsnippet
+
+snippet ut "useTheme()"
+const theme = useTheme()$1
+endsnippet
+
+snippet ust "useState()"
+const [${1:name}, set${1/.*/\u$0/}] = useState($2)$3
+endsnippet
+
+snippet ucb "useCallback()"
+const $1 = useCallback(($2) => {
+  $4
+}, [$3])
+endsnippet
+
+snippet ume "useMemo()"
+const $1 = useMemo(() => {
+  $3
+}, [$2])
+endsnippet
+
+snippet uef "useEffect()"
+useEffect(() => {
+  $2
+}, [$1])
+endsnippet
+
