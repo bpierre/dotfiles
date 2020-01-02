@@ -12,7 +12,7 @@ export LANG='en_GB.UTF-8'
 export LC_CTYPE='en_GB.UTF-8'
 export LC_ALL='en_GB.UTF-8'
 export LANG='en_GB.UTF-8'
-export BROWSER='open'
+export BROWSER='firefox-nightly'
 
 export GOPATH="$HOME/go"
 export NODE_PATH="/usr/local/lib/node"
@@ -57,6 +57,7 @@ if [[ "$OSTYPE" = darwin* ]]; then
 else
   path=(
     $path
+    $HOME/.gem/ruby/2.6.0/bin # gem (Ruby)
   )
 fi
 

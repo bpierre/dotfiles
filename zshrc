@@ -9,6 +9,8 @@ if [[ "$PROFILE_STARTUP" == true ]]; then
   setopt xtrace prompt_subst
 fi
 
+autoload -U zmv
+
 # Load zplug
 source $HOME/dotfiles/plug.zsh
 
@@ -80,6 +82,7 @@ alias gist="gist --copy --shorten";
 alias killphantom="ps aux | grep phantomjs | awk '{print }' | xargs kill -9"
 # alias firefox="/Applications/FirefoxAurora.app/Contents/MacOS/firefox"
 alias git=hub
+alias g=hub
 alias ip="ifconfig | grep inet | grep -v inet6 | grep -v 127.0.0.1 | awk '{print \$2}'"
 alias svndiff="svn diff | vim -R -"
 alias dl="curl -O"
@@ -87,6 +90,20 @@ alias ts="t stream timeline"
 alias ag="ag --ignore node_modules"
 alias pico8="/Applications/PICO-8.app/Contents/MacOS/pico8"
 alias history-stat="history 0 | awk '{print \$2}' | sort | uniq -c | sort -n -r | head"
+alias emoj="emoji-fzf preview | fzf --preview 'emoji-fzf get --name {1}' | cut -d \" \" -f 1 | emoji-fzf get | xclip -selection clipboard"
+alias check-deprecated-modules="cat package.json | jq '(.dependencies+.devDependencies) | keys | .[]' | xargs -I {} sh -c 'yarn info --json {} | jq \".data.name,.data.deprecated\"'"
+
+# crops
+# alias crop-1450-600="mogrify -gravity North -chop x458 -gravity South -chop x117 -shave 19x0"
+alias crop-1450-600="mogrify -gravity North -chop x383 -gravity South -chop x192 -shave 19x0"
+alias crop-1200-700-nobar="mogrify -gravity North -chop x337 -gravity South -chop x73 -shave 420x0 -bordercolor '#d1d5da' -border 2"
+
+# Arch
+alias aur="cd $HOME/aur"
+alias open="xdg-open"
+alias icat="kitty +kitten icat"
+alias pbcopy='xclip -selection clipboard'
+alias pbpaste='xclip -selection clipboard -o'
 
 # tmux
 if [[ "$(uname)" = "Darwin" ]]; then
@@ -149,3 +166,16 @@ export REACT_EDITOR=none
 # nodenv
 export PATH="$HOME/.nodenv/bin:$PATH"
 eval "$(nodenv init -)"
+export PATH="$HOME/.yarn/bin:$PATH"
+
+# keychain
+eval $(keychain --eval --quiet id_rsa)
+
+# Base16 Shell
+BASE16_SHELL="$HOME/.config/base16-shell/"
+[ -n "$PS1" ] && \
+    [ -s "$BASE16_SHELL/profile_helper.sh" ] && \
+        eval "$("$BASE16_SHELL/profile_helper.sh")"
+
+base16_snazzy
+
