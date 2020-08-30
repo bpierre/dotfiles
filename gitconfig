@@ -1,0 +1,80 @@
+[user]
+  name = Pierre Bertet
+  email = hello@pierre.world
+[gist]
+  private = yes
+  extension = txt
+[alias]
+  st = status
+  co = checkout
+  ci = commit
+  cs = commit --gpg-sign
+  br = branch
+  lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --
+  permission-reset = "!git diff -p | grep -E '^(diff|old mode|new mode)' | sed -e 's/^old/NEW/;s/^new/old/;s/^NEW/new/' | git apply"
+  zip = !N=$(basename `git rev-parse --show-toplevel`) sh -c 'git archive --prefix=$N/ -o $N.zip `git rev-parse --abbrev-ref HEAD`'
+  showtrackedignored = ls-files -i --exclude-standard
+  ignore-tracked = update-index --assume-unchanged
+  no-ignore-tracked = update-index --no-assume-unchanged
+  set-upstream = !git branch --set-upstream-to=origin/`git symbolic-ref --short HEAD`
+  a = add
+  d = diff
+  s = status
+  t = stash
+  l = clone
+  c = commit
+  o = checkout
+  b = branch
+  h = push
+  ho = push origin
+  l = pull
+  lo = pull origin
+  p = pull-request
+[color]
+  ui = true
+[core]
+  excludesfile = /Users/pierre/.gitignore
+  autocrlf = input
+  filemode = false
+  editor = nvim
+  pager = delta --theme 'Sublime Snazzy'
+[web]
+  browser = open
+[push]
+  default = simple
+[diff]
+  tool = nvim
+[status]
+  short = true
+[difftool "vimdiff"]
+  cmd = nvim $LOCAL $REMOTE
+[filter "media"]
+  clean = git-media-clean %f
+  smudge = git-media-smudge %f
+[filter "lfs"]
+  clean = git-lfs clean -- %f
+  smudge = git-lfs smudge -- %f
+  required = true
+  process = git-lfs filter-process
+[merge]
+  conflictstyle = merge
+[gpg]
+  program = gpg
+#[commit]
+#  gpgSign = true
+[color "diff-highlight"]
+  oldNormal = red bold
+  oldHighlight = red bold 52
+  newNormal = green bold
+  newHighlight = green bold 22
+[color "diff"]
+  meta = yellow
+  frag = magenta bold
+  commit = yellow bold
+  old = red bold
+  new = green bold
+  whitespace = red reverse
+[cola]
+  spellcheck = false
+[pull]
+	rebase = false
