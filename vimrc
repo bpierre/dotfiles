@@ -2,7 +2,16 @@
 
 call plug#begin()
 
-" Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer' }
+Plug 'morhetz/gruvbox'
+
+Plug 'evanleck/vim-svelte'
+
+" vim-signature: preview and navigate marks
+Plug 'kshenoy/vim-signature'
+
+" Plug 'HerringtonDarkholme/yats.vim'
+" Plug 'quramy/tsuquyomi'
+Plug 'leafgarland/typescript-vim'
 
 Plug 'norcalli/nvim-colorizer.lua'
 
@@ -10,10 +19,19 @@ Plug 'norcalli/nvim-colorizer.lua'
 
 Plug 'chrisbra/unicode.vim'
 
+Plug 'gioele/vim-autoswap'
 
 " The nice status bar
 Plug 'bling/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+" Plug 'vim-airline/vim-airline-themes'
+
+Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
+
+Plug 'liuchengxu/vim-clap'
+
+" https://github.com/kristijanhusak/vim-js-file-import
+" Plug 'ludovicchabant/vim-gutentags'
+" Plug 'kristijanhusak/vim-js-file-import', {'do': 'npm install'}
 
 " TO TRY:
 " https://github.com/itchyny/lightline.vim/
@@ -27,7 +45,7 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'danro/rename.vim'
 
 " Textmate-like Ctrl+T
-Plug '/usr/local/opt/fzf' | Plug 'junegunn/fzf.vim'
+Plug '/usr/bin/fzf' | Plug 'junegunn/fzf.vim'
 
 " Better than matchit (matchit is included by default on neovim)
 Plug 'andymass/vim-matchup'
@@ -60,8 +78,8 @@ Plug 'mrtazz/simplenote.vim'
 " " Languages-related plugins
 Plug 'pangloss/vim-javascript'
 Plug 'heavenshell/vim-jsdoc'
-" Plug 'mxw/vim-jsx'
-Plug 'MaxMEllon/vim-jsx-pretty'
+Plug 'mxw/vim-jsx'
+" Plug 'MaxMEllon/vim-jsx-pretty'
 Plug 'jxnblk/vim-mdx-js'
 Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
 Plug 'reasonml-editor/vim-reason-plus'
@@ -88,8 +106,11 @@ Plug 'tpope/vim-sleuth'
 " " Tabular alignment
 " Plug 'godlygeek/tabular'
 
+" Plug 'stefandtw/quickfix-reflector.vim'
+
 " " Vim Markdown (requires godlygeek/tabular)
 " Plug 'plasticboy/vim-markdown'
+
 function! BuildComposer(info)
   if a:info.status != 'unchanged' || a:info.force
     if has('nvim')
@@ -101,6 +122,9 @@ function! BuildComposer(info)
 endfunction
 
 Plug 'euclio/vim-markdown-composer', { 'do': function('BuildComposer') }
+
+" Update gitgutter on save
+autocmd BufWritePost * GitGutter
 
 " " Org Mode
 " Plug 'jceb/vim-orgmode'
@@ -122,11 +146,11 @@ Plug 'ruanyl/vim-sort-imports'
 " Plug 'ternjs/tern_for_vim', { 'do': 'yarn install' }
 
 " ncm2 (nvim-yarp is required)
-Plug 'roxma/nvim-yarp'
-Plug 'ncm2/ncm2'
-Plug 'ncm2/ncm2-bufword'
-Plug 'ncm2/ncm2-path'
-Plug 'ncm2/ncm2-tern',  {'do': 'yarn install'}
+" Plug 'roxma/nvim-yarp'
+" Plug 'ncm2/ncm2'
+" Plug 'ncm2/ncm2-bufword'
+" Plug 'ncm2/ncm2-path'
+" Plug 'ncm2/ncm2-tern',  {'do': 'yarn install'}
 
 " Themes
 Plug 'chriskempson/base16-vim'
@@ -143,15 +167,27 @@ set nomodeline
 
 set mouse=a
 
+set re=1
+
+" live search / replace
+set inccommand=nosplit
+
 " Coloration
-if filereadable(expand("~/.vimrc_background"))
-  let base16colorspace=256
-  source ~/.vimrc_background
-endif
+" if filereadable(expand("~/.vimrc_background"))
+"   let base16colorspace=256
+"   source ~/.vimrc_background
+" endif
+
+" gruvbox
+let g:gruvbox_termcolors = 256
+let g:gruvbox_contrast_dark = 'hard'
+let g:gruvbox_sign_column = 'bg0'
+let g:gruvbox_invert_tabline = 0
 
 set termguicolors " 24 bits colors in the terminal
 set background=dark
-colorscheme base16-snazzy
+" colorscheme base16-snazzy
+colorscheme gruvbox
 
 if !has('nvim')
   set encoding=utf-8
@@ -175,9 +211,40 @@ nnoremap <NL> i<CR><ESC>
 set autoread
 
 " Ensure file watchers are notified when a file has been written.
-" set backupcopy=yes
+set backupcopy=yes
 set nobackup
 set nowritebackup
+set hidden
+set cmdheight=1
+set shortmess+=c
+set signcolumn=yes
+
+" Use tab for trigger completion with characters ahead and navigate.
+" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+" other plugin before putting this into your config.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+inoremap <silent><expr> <c-t> coc#refresh()
+
+set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+
+" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
+" position. Coc only does snippet and additional edit on confirm.
+" <cr> could be remapped by other vim plugin, try `:verbose imap <CR>`.
+if exists('*complete_info')
+  inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+else
+  inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+endif
 
 " Highlight colors (hex etc.)
 " lua require'colorizer'.setup()
@@ -215,10 +282,10 @@ hi SneakStreakMask ctermfg=red
 """""""""""""""""" ncm2 completion
 
 " enable ncm2 for all buffers
-autocmd BufEnter * call ncm2#enable_for_buffer()
+" autocmd BufEnter * call ncm2#enable_for_buffer()
 
 " important: :help Ncm2PopupOpen for more information
-set completeopt=noinsert,menuone,noselect
+" set completeopt=noinsert,menuone,noselect
 
 """""""""""""""""" /ncm2 completion
 
@@ -264,7 +331,7 @@ cmap w!! w !sudo tee > /dev/null %
 nnoremap td :TernDef<cr>
 
 " vim-markdown
-let g:vim_markdown_fenced_languages = ['jsx=javascript']
+let g:vim_markdown_fenced_languages = ['jsx=javascript', 'ts=typescript', 'tsx=typescript']
 
 " fzf plugin
 let FZF_DEFAULT_COMMAND='ag -g ""'
@@ -367,10 +434,6 @@ let g:used_javascript_libs = 'underscore,react'
 " vim-flow options
 let g:flow#autoclose = 1
 
-" You Complete Me options
-let g:ycm_key_list_select_completion = ['<Down>']
-" inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "ᐅ"
-
 " prettier and other prettiers
 " function! Prettier()
 "   let l:currentLine = line('.')
@@ -387,18 +450,16 @@ function! LuaFmt()
 endfunction
 function! Refmt()
   let l:currentLine = line('.')
-  silent execute '%!refmt -w 80'
+  silent execute '%!bsrefmt -w 80'
   execute 'normal! '. l:currentLine .'G'
   echom 'refmt done.'
 endfunction
 " nmap <Leader>r :call Prettier()<CR>
 
-let g:prettier#config#trailing_comma = 'es5'
-let g:prettier#config#bracket_spacing = 'true'
-let g:prettier#config#jsx_bracket_same_line = 'false'
 let g:prettier#config#single_quote = 'true'
 let g:prettier#config#semi = 'false'
-" let g:prettier#config#parser = 'babylon'
+let g:prettier#config#trailing_comma = 'es5'
+let g:prettier#config#arrow_parens = 'always'
 
 nmap <Leader>r <Plug>(Prettier)
 autocmd FileType pico8 nmap<Leader>r :call LuaFmt()<CR>
@@ -508,6 +569,7 @@ endfunction
 autocmd BufRead,BufNewFile *.md setfiletype markdown
 autocmd BufRead,BufNewFile .eslintrc setfiletype json
 autocmd BufRead,BufNewFile .babelrc setfiletype json
+autocmd BufRead,BufNewFile .swcrc setfiletype json
 autocmd BufRead,BufNewFile *.cocoascript setfiletype javascript
 autocmd BufRead,BufNewFile *.sketchscript setfiletype javascript
 " autocmd BufRead,BufNewFile *.p8 setfiletype lua
