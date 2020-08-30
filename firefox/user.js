@@ -1,10 +1,10 @@
 // Important: keep the semicolons or a parsing
 // error will prevent the file to be executed.
-user_pref('widget.content.gtk-theme-override', 'Adwaita');
+// user_pref('widget.content.gtk-theme-override', 'Adwaita');
 user_pref('browser.fixup.alternate.enabled', false);
 user_pref('browser.urlbar.trimURLs', false);
 user_pref('general.warnOnAboutConfig', false);
-user_pref('layout.css.devPixelsPerPx', '2.5');
+user_pref('layout.css.devPixelsPerPx', '1.25');
 user_pref('ui.key.menuAccessKeyFocuses', false);
 user_pref('devtools.theme', 'dark');
 user_pref('browser.urlbar.clickSelectsAll', true);
@@ -41,7 +41,6 @@ user_pref('toolkit.legacyUserProfileCustomizations.stylesheets', true);
 // Acceleration
 user_pref('gfx.webrender.all', true);
 user_pref('gfx.webrender.enabled', true);
-// This can cause issues with the Nvidia driver
 user_pref('layers.acceleration.force-enabled', true);
 
 // Scroll
