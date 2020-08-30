@@ -1,0 +1,20 @@
+# Print a new line before the prompt
+add_newline = false
+
+# [line_break]
+# disabled = true
+
+# Replace the "❯" symbol in the prompt with "➜"
+[character]      # The name of the module we are configuring is "character"
+symbol = "$"     # The "symbol" segment is being set to "➜"
+
+[package]
+# symbol = "🎁 "
+
+[nodejs]
+symbol = "n "
+disabled = true
+
+[directory]
+truncation_length = 4
+truncate_to_repo = true
