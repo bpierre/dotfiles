@@ -15,7 +15,28 @@ user_pref('full-screen-api.warning.timeout', 0);
 user_pref('image.mem.min_discard_timeout_ms', 2100000000);
 user_pref('image.mem.max_decoded_image_kb', 30000);
 
+// Hide title bar
+user_pref('browser.tabs.drawInTitlebar', false);
+
+// No warning on about:config
+user_pref('browser.aboutConfig.showWarning', false);
+
+// No warning when closing the browser
+user_pref('browser.tabs.warnOnClose', false);
+
 user_pref('gfx.font_rendering.fontconfig.max_generic_substitutions', 127);
+
+user_pref('browser.aboutConfig.showWarning', false);
+user_pref('browser.tabs.drawInTitlebar', true);
+
+// Navigate in the URL bar suggestions using <tab>
+user_pref('browser.urlbar.update1.restrictTabAfterKeyboardFocus', false);
+
+// Don’t open the URL bar suggestions on focus.
+user_pref('browser.urlbar.openViewOnFocus', false);
+
+// Enable userChrome.css
+user_pref('toolkit.legacyUserProfileCustomizations.stylesheets', true);
 
 // Acceleration
 user_pref('gfx.webrender.all', true);
