@@ -5,12 +5,12 @@ endsnippet
 snippet comp "React component"
 import React from 'react'
 
-const ${1:`!p snip.rv = snip.basename`} = React.memo(() => {
+function ${1:`!p snip.rv = snip.basename`}() {
   return (
     <div>
     </div>
   )
-})
+}
 
 export default $1
 endsnippet
@@ -156,3 +156,6 @@ useEffect(() => {
 }, [$1])
 endsnippet
 
+snippet ure "useRef()"
+const $1 = useRef(${2:null})
+endsnippet
