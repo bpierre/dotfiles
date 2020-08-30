@@ -58,6 +58,10 @@ function expand-dot-to-parent-directory-path {
 }
 zle -N expand-dot-to-parent-directory-path
 
+function c {
+ cd "$(z | fzf | awk '{print $2}')"
+}
+
 # Aliases
 alias t="task"
 alias l="exa"
@@ -88,10 +92,11 @@ alias svndiff="svn diff | vim -R -"
 alias dl="curl -O"
 alias ts="t stream timeline"
 alias ag="ag --ignore node_modules"
-alias pico8="/Applications/PICO-8.app/Contents/MacOS/pico8"
+# alias pico8="/Applications/PICO-8.app/Contents/MacOS/pico8"
 alias history-stat="history 0 | awk '{print \$2}' | sort | uniq -c | sort -n -r | head"
 alias emoj="emoji-fzf preview | fzf --preview 'emoji-fzf get --name {1}' | cut -d \" \" -f 1 | emoji-fzf get | xclip -selection clipboard"
 alias check-deprecated-modules="cat package.json | jq '(.dependencies+.devDependencies) | keys | .[]' | xargs -I {} sh -c 'yarn info --json {} | jq \".data.name,.data.deprecated\"'"
+alias serve="xdg-open 'http://localhost:8000/' & simple-http-server --silent --index"
 
 # crops
 # alias crop-1450-600="mogrify -gravity North -chop x458 -gravity South -chop x117 -shave 19x0"
@@ -113,10 +118,16 @@ alias ta="tmux attach -d -t"
 alias tn="tmux new"
 alias tl="tmux list-sessions"
 alias ctags="ctags -R --exclude=.git --exclude=node_modules"
+alias f="fd"
+alias at="as-tree"
 
-f() {
-  find -iname *$1*
+ft() {
+  f $1 | as-tree
 }
+
+# f() {
+#   find -iname *$1*
+# }
 
 # Template
 tpl() {
@@ -158,10 +169,13 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
 # tabtab source for electron-forge package
 # uninstall by removing these lines or running `tabtab uninstall electron-forge`
-[[ -f /Users/pierre/src/ganache/node_modules/tabtab/.completions/electron-forge.zsh ]] && . /Users/pierre/src/ganache/node_modules/tabtab/.completions/electron-forge.zsh
+# [[ -f /Users/pierre/src/ganache/node_modules/tabtab/.completions/electron-forge.zsh ]] && . /Users/pierre/src/ganache/node_modules/tabtab/.completions/electron-forge.zsh
 
 # Prevent create-react-app to try to launch vim / crash the tmux tab
 export REACT_EDITOR=none
+
+# Prevent Howdy to display warnings
+export OPENCV_LOG_LEVEL=ERROR
 
 # nodenv
 export PATH="$HOME/.nodenv/bin:$PATH"
