@@ -1,0 +1,36 @@
+#!/bin/sh
+
+# Launching things
+
+killall -9 sxhkd polybar
+
+sxhkd -m 1 &
+polybar example &
+
+# X11 things
+
+# setxkbmap fr bepo
+
+# bspwm things
+
+bspc monitor -d I II III IV V VI
+
+bspc config focus_follows_pointer true
+bspc config border_width          2
+bspc config window_gap            8
+bspc config top_padding           32
+
+bspc config split_ratio          0.52
+bspc config borderless_monocle   true
+bspc config gapless_monocle      true
+
+#  bspwm windows
+
+# reset rules
+bspc rule -r *:*
+
+#bspc rule -a firefox-nightly desktop='^2'
+#bspc rule -a Gimp desktop='^8' state=floating follow=on
+#bspc rule -a mplayer2 state=floating
+#bspc rule -a Kupfer.py focus=on
+#bspc rule -a Screenkey manage=off
