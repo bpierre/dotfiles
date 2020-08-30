@@ -1,4 +1,5 @@
-export ZPLUG_HOME=$HOME/.zplug
+#export ZPLUG_HOME=$HOME/.zplug
+export ZPLUG_HOME=/usr/share/zsh/scripts/zplug
 source $ZPLUG_HOME/init.zsh
 
 zplug "zsh-users/zsh-autosuggestions"
