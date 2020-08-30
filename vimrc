@@ -1,10 +1,10 @@
 " Plugins
 
-call plug#begin()
+call plug#begin('~/.local/share/nvim/site/plugged')
 
 Plug 'morhetz/gruvbox'
 
-Plug 'evanleck/vim-svelte'
+Plug 'evanleck/vim-svelte',{ 'branch': 'main' }
 
 " vim-signature: preview and navigate marks
 Plug 'kshenoy/vim-signature'
@@ -142,15 +142,6 @@ autocmd BufWritePost * GitGutter
 Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
 Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
 Plug 'ruanyl/vim-sort-imports'
-
-" Plug 'ternjs/tern_for_vim', { 'do': 'yarn install' }
-
-" ncm2 (nvim-yarp is required)
-" Plug 'roxma/nvim-yarp'
-" Plug 'ncm2/ncm2'
-" Plug 'ncm2/ncm2-bufword'
-" Plug 'ncm2/ncm2-path'
-" Plug 'ncm2/ncm2-tern',  {'do': 'yarn install'}
 
 " Themes
 Plug 'chriskempson/base16-vim'
@@ -401,8 +392,8 @@ let g:fzf_colors =
 let g:fzf_history_dir = '~/.local/share/fzf-history'
 
 " Simplenote
-source ~/.simplenoterc
-let g:SimplenoteSingleWindow = 1
+" source ~/.simplenoterc
+" let g:SimplenoteSingleWindow = 1
 
 " Vimux
 let VimuxUseNearestPane = 1
