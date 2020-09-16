@@ -1,0 +1,41 @@
+# Font
+# set font "Iosevka Term 22"
+
+# Automatically adjust the document to full width
+# set adjust-open width
+
+# Set the title to the filename
+set window-title-basename true
+
+# Larger scoll steps with j/k
+set scroll-step 50
+
+# Adjusting the document
+map [normal] E adjust_window best-fit
+map [fullscreen] E adjust_window best-fit
+map [normal] e adjust_window best-fit
+map [fullscreen] e adjust_window width
+
+set selection-clipboard clipboard
+
+map [normal] i toggle_index
+map [fullscreen] i toggle_index
+
+set statusbar-home-tilde true
+
+set guioptions sc
+
+set default-bg "#1d2021"
+set default-fg "#ebdbb2"
+set statusbar-bg "#1d2021"
+set statusbar-fg "#ebdbb2"
+set notification-bg "#ebdbb2"
+set notification-fg "#1d2021"
+
+set notification-warning-bg '#d79921'
+set notification-warning-fg '#1d2021'
+set notification-error-bg '#cc241d'
+set notification-error-fg '#ebdbb2'
+
+set statusbar-h-padding 8
+set statusbar-v-padding 8
