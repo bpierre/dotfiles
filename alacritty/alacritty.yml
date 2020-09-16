@@ -33,10 +33,10 @@ window:
   # by DPI and the specified value is always added at both opposing sides.
   padding:
     x: 4
-    y: 6
+    y: 4
 
   # Spread additional padding evenly around the terminal content.
-  dynamic_padding: false
+  dynamic_padding: true
 
   # Window decorations
   #
@@ -55,7 +55,7 @@ window:
 scrolling:
   # Maximum number of lines in the scrollback buffer.
   # Specifying '0' will disable scrolling.
-  history: 0
+  history: 9999
 
   # Number of lines the viewport will move for every line scrolled when
   # scrollback is enabled (history > 0).
@@ -63,7 +63,7 @@ scrolling:
 
 # Font configuration
 font:
-  size: 12
+  size: 9
   normal:
     family: 'Iosevka Term'
     style: 'Regular'
@@ -78,7 +78,7 @@ font:
   # as modifying the line spacing, and `offset.x` as modifying the letter spacing.
   offset:
     x: 0
-    y: 4
+    y: 0
 
   # Glyph offset determines the locations of the glyphs within their cells with
   # the default being at the bottom. Increasing `x` moves the glyph to the right,
