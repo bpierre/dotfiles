@@ -38,17 +38,26 @@ zinit light-mode for \
 
 zinit wait'0' lucid light-mode for \
   atload"_zsh_autosuggest_start" \
-      zsh-users/zsh-autosuggestions \
+    zsh-users/zsh-autosuggestions \
   blockf atpull'zinit creinstall -q .' \
-      zsh-users/zsh-completions \
+    zsh-users/zsh-completions \
   pick'manydots-magic' \
-      knu/zsh-manydots-magic \
+    knu/zsh-manydots-magic \
   pick'zsh-history-substring-search.zsh' \
-  zsh-users/zsh-history-substring-search \
+    zsh-users/zsh-history-substring-search \
   pick'zsh-interactive-cd.plugin.zsh' \
-  changyuheng/zsh-interactive-cd
+    changyuheng/zsh-interactive-cd \
+  pick'zsh-z.plugin.zsh' \
+    agkozak/zsh-z
 
-#zinit light "g-plane/zsh-yarn-autocompletions", hook-build:"./zplug.zsh", defer:2
+# zinit ice atload"zpcdreplay" atclone'./zplug.zsh'
+# zinit ice wait"2" atload"zpcompinit; zpcdreplay" atclone'./zplug.zsh'
+# zinit load g-plane/zsh-yarn-autocompletions
+
+# zinit light "g-plane/zsh-yarn-autocompletions", hook-build:"./zplug.zsh", defer:2
+
+zinit ice from"gh" atinit"zpcompinit; zpcdreplay" lucid
+zinit light BuonOmo/yarn-completion
 
 zplugin ice from"gh" atinit"zpcompinit; zpcdreplay" lucid
 zplugin light zdharma/fast-syntax-highlighting
@@ -103,6 +112,7 @@ function c {
 
 # Aliases
 alias t="task"
+alias e="nnn"
 alias l="exa"
 alias ll="exa -l --git"
 alias la="exa -la --git"
@@ -126,7 +136,8 @@ alias killphantom="ps aux | grep phantomjs | awk '{print }' | xargs kill -9"
 # alias firefox="/Applications/FirefoxAurora.app/Contents/MacOS/firefox"
 alias git=hub
 alias g=hub
-alias ip="ifconfig | grep inet | grep -v inet6 | grep -v 127.0.0.1 | awk '{print \$2}'"
+alias pdf=zathura
+# alias ip="ifconfig | grep inet | grep -v inet6 | grep -v 127.0.0.1 | awk '{print \$2}'"
 alias svndiff="svn diff | vim -R -"
 alias dl="curl -O"
 alias ts="t stream timeline"
@@ -201,7 +212,9 @@ fi
 
 export PATH="$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
-export FZF_DEFAULT_COMMAND='ag -g ""'
+# export FZF_DEFAULT_COMMAND='rg --files --no-ignore-vcs --hidden'
+export FZF_DEFAULT_COMMAND='rg --files'
+# export FZF_DEFAULT_COMMAND='ag -g ""'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
 # [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

@@ -1,5 +1,9 @@
 # Executes commands at login pre-zshrc.
 
+if [[ -f "$HOME/.profile" ]]; then
+  source "$HOME/.profile"
+fi
+
 if [[ -s "$HOME/dotfiles/private.zsh" ]]; then
   source "$HOME/dotfiles/private.zsh"
 fi
@@ -13,6 +17,8 @@ export LC_CTYPE='en_GB.UTF-8'
 export LC_ALL='en_GB.UTF-8'
 export LANG='en_GB.UTF-8'
 export BROWSER='firefox-nightly'
+export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+export FZF_DEFAULT_COMMAND='rg --files --no-ignore-vcs --hidden'
 
 export GOPATH="$HOME/go"
 # export NODE_PATH="/usr/local/lib/node"
