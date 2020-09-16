@@ -310,7 +310,8 @@ nnoremap <C-c> <C-w><C-w>
 
 " Close window
 " nnoremap <Leader>w :tabclose<cr>
-nnoremap <Leader>w <C-w>c
+" nnoremap <Leader>w <C-w>c
+nnoremap <Leader>w :q<cr>
 
 " New tab
 nnoremap <C-n> :tabnew<cr>
@@ -325,13 +326,13 @@ nnoremap td :TernDef<cr>
 let g:vim_markdown_fenced_languages = ['jsx=javascript', 'ts=typescript', 'tsx=typescript']
 
 " fzf plugin
-let FZF_DEFAULT_COMMAND='ag -g ""'
+" let FZF_DEFAULT_COMMAND='rg --files --no-ignore-vcs --hidden'
 
 nmap <c-t> :Files<cr>
 nnoremap <silent> <Leader><Enter> :Buffers<CR>
 
-autocmd VimEnter * command! -bang -nargs=* Ag
-  \ call fzf#vim#ag(<q-args>, '--skip-vcs-ignores', <bang>0)
+" autocmd VimEnter * command! -bang -nargs=* Ag
+"   \ call fzf#vim#ag(<q-args>, '--skip-vcs-ignores', <bang>0)
 
 " Files command with preview window
 command! -bang -nargs=? -complete=dir Files
@@ -653,7 +654,3 @@ nmap <buffer> <Enter> <C-]>
 nmap <buffer> <C-Enter> <C-w><C-]><C-w>T
 
 " osascript -e 'tell application "PICO-8" to activate' -e 'tell application "System Events" \n key code 53 \n "load $file_name" \n key code 36 \n delay .1 \n key code 15 using control down \n end tell' -e 'tell application "Sublime Text" to activate'
-
-if has("gui_running")
-  set guifont=SourceCodePro-Regular:h14
-endif
