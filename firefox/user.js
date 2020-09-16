@@ -27,7 +27,6 @@ user_pref('browser.tabs.warnOnClose', false);
 user_pref('gfx.font_rendering.fontconfig.max_generic_substitutions', 127);
 
 user_pref('browser.aboutConfig.showWarning', false);
-user_pref('browser.tabs.drawInTitlebar', true);
 
 // Navigate in the URL bar suggestions using <tab>
 user_pref('browser.urlbar.update1.restrictTabAfterKeyboardFocus', false);
