@@ -24,3 +24,4 @@
 - [z](https://github.com/rupa/z)
 - [fzf](https://github.com/junegunn/fzf.vim)
 - [fd](https://github.com/sharkdp/fd)
+- [bat](https://github.com/sharkdp/bat)
