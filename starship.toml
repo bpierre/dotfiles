@@ -18,8 +18,7 @@ truncation_symbol = "…"
 style = "white"
 commit_hash_length = 7
 only_detached = false
-prefix = ""
-suffix = " "
+format = "[$hash]($style) "
 
 [package]
 # symbol = "🎁 "
