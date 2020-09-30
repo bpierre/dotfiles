@@ -5,7 +5,13 @@
 killall -9 sxhkd
 sxhkd -m 1 &
 
+killall -9 dunst
+/usr/bin/dunst &
+
 $HOME/.config/polybar/launch.sh
+
+killall -9 flameshot
+flameshot &
 
 # X11 things
 
