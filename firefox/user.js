@@ -21,6 +21,9 @@ user_pref('browser.tabs.drawInTitlebar', false);
 // No warning on about:config
 user_pref('browser.aboutConfig.showWarning', false);
 
+// Compact UI density
+user_pref('browser.uidensity', 1);
+
 // No warning when closing the browser
 user_pref('browser.tabs.warnOnClose', false);
 
