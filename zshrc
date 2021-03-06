@@ -110,6 +110,7 @@ function expand-dot-to-parent-directory-path {
 zle -N expand-dot-to-parent-directory-path
 
 # Aliases
+alias k="kubectl"
 alias t="task"
 alias e="nnn"
 alias l="exa"
@@ -158,6 +159,9 @@ alias open="xdg-open"
 alias icat="kitty +kitten icat"
 alias pbcopy='xclip -selection clipboard'
 alias pbpaste='xclip -selection clipboard -o'
+alias bt='bluetoothctl'
+alias b='bat'
+alias p='paru'
 
 # tmux
 if [[ "$(uname)" = "Darwin" ]]; then
