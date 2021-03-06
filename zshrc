@@ -250,3 +250,13 @@ eval $(keychain --eval --quiet id_rsa)
 eval "$(starship init zsh)"
 
 eval "$(zoxide init zsh --cmd c)"
+
+# Python
+export PATH="/home/pierre/.local/bin:$PATH"
+
+# Perl
+export PATH="/home/pierre/perl5/bin:$PATH"
+export PERL5LIB="/home/pierre/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"
+export PERL_LOCAL_LIB_ROOT="/home/pierre/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"
+export PERL_MB_OPT="--install_base \"/home/pierre/perl5\""
+export PERL_MM_OPT="INSTALL_BASE=/home/pierre/perl5"
