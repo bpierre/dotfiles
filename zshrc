@@ -109,10 +109,6 @@ function expand-dot-to-parent-directory-path {
 }
 zle -N expand-dot-to-parent-directory-path
 
-function c {
- cd "$(z | fzf | awk '{print $2}')"
-}
-
 # Aliases
 alias t="task"
 alias e="nnn"
@@ -247,5 +243,6 @@ eval $(keychain --eval --quiet id_rsa)
         # eval "$("$BASE16_SHELL/profile_helper.sh")"
 
 # base16_snazzy
-
 eval "$(starship init zsh)"
+
+eval "$(zoxide init zsh --cmd c)"
