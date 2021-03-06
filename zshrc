@@ -54,8 +54,11 @@ zinit wait'0' lucid light-mode for \
 
 # zinit light "g-plane/zsh-yarn-autocompletions", hook-build:"./zplug.zsh", defer:2
 
-zinit ice from"gh" atinit"zpcompinit; zpcdreplay" lucid
-zinit light BuonOmo/yarn-completion
+# zinit ice from"gh" atinit"zpcompinit; zpcdreplay" lucid
+# zinit light BuonOmo/yarn-completion
+
+zplugin ice from"gh" as"completion"
+zinit light g-plane/zsh-yarn-autocompletions
 
 zplugin ice from"gh" atinit"zpcompinit; zpcdreplay" lucid
 zplugin light zdharma/fast-syntax-highlighting
