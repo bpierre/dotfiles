@@ -28,6 +28,9 @@ xsetroot -solid '#1d2021'
 
 bspc monitor -d I II III IV V VI VII VIII IX
 
+# Super + drag to move windows
+bspc config pointer_modifier
+
 bspc config focus_follows_pointer true
 bspc config border_width          2
 bspc config window_gap            8
