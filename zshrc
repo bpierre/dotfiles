@@ -34,7 +34,7 @@ zinit light-mode for \
 
 # Plugins
 #zinit light "skywind3000/z.lua", from:github
-#zinit light "plugins/taskwarrior", from:oh-my-zsh, as:plugin
+zinit snippet OMZ::plugins/taskwarrior/taskwarrior.plugin.zsh
 
 zinit wait'0' lucid light-mode for \
   atload"_zsh_autosuggest_start" \
