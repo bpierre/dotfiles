@@ -2,15 +2,15 @@
 
 # Brightness
 XF86MonBrightness{Up,Down}
-	light -{A,U} 10 -s sysfs/backlight/amdgpu_bl0
+	/home/pierre/bin/brightness {up,down}
 
 # Volume
 XF86Audio{Raise,Lower}Volume
-	pulseaudio-ctl {up,down} 5
+	/home/pierre/bin/volume {up,down}
 
 # Mute
 XF86AudioMute
-	pulseaudio-ctl mute
+	/home/pierre/bin/volume mute
 
 # Mic mute
 XF86AudioMicMute
