@@ -46,9 +46,7 @@ zinit wait'0' lucid light-mode for \
   pick'zsh-history-substring-search.zsh' \
     zsh-users/zsh-history-substring-search \
   pick'zsh-interactive-cd.plugin.zsh' \
-    changyuheng/zsh-interactive-cd \
-  pick'zsh-z.plugin.zsh' \
-    agkozak/zsh-z
+    changyuheng/zsh-interactive-cd
 
 # zinit ice atload"zpcdreplay" atclone'./zplug.zsh'
 # zinit ice wait"2" atload"zpcompinit; zpcdreplay" atclone'./zplug.zsh'
