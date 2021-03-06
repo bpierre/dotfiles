@@ -1,45 +1,53 @@
+" TODO
+
+" Use vim-floaterm:
+" - http://jacobzelko.com/workflow/
+" - https://gist.github.com/TheCedarPrince/7b9b51af4c146880f17c39407815b594
+
+" Try FTerm:
+" - https://github.com/numtostr/FTerm.nvim
+"
+" Try packer.nvim:
+" - https://github.com/wbthomason/packer.nvim
+"
+" Try:
+" https://github.com/machakann/vim-sandwich
+" https://github.com/machakann/vim-highlightedyank
+" Plug 'HerringtonDarkholme/yats.vim'
+"
+" Try telescope.nvim to replace fzf?
+" Plug 'nvim-lua/popup.nvim'
+" Plug 'nvim-lua/plenary.nvim'
+" Plug 'nvim-lua/telescope.nvim'
+
+" " Undo tree (Mundo is a fork of Gundo with Neovim support and other things)
+" Plug 'simnalamburt/vim-mundo'
+
 " Plugins
 
-call plug#begin('~/.local/share/nvim/site/plugged')
+call plug#begin('~/dotfiles/vim/plugged')
 
-Plug 'morhetz/gruvbox'
+Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': 'python3 -m chadtree deps'}
 
-Plug 'evanleck/vim-svelte',{ 'branch': 'main' }
-
-" vim-signature: preview and navigate marks
-Plug 'kshenoy/vim-signature'
-
-" Plug 'HerringtonDarkholme/yats.vim'
-" Plug 'quramy/tsuquyomi'
-Plug 'leafgarland/typescript-vim'
+Plug 'gruvbox-community/gruvbox'
 
 Plug 'norcalli/nvim-colorizer.lua'
 
+" vim-signature: display marks in the gutter
+Plug 'kshenoy/vim-signature'
+
 " Plug 'mcchrish/nnn.vim'
 
-Plug 'chrisbra/unicode.vim'
-
+" Stop the annoying swap file messages
 Plug 'gioele/vim-autoswap'
 
-" The nice status bar
-Plug 'bling/vim-airline'
-" Plug 'vim-airline/vim-airline-themes'
+" Status bar
+Plug 'itchyny/lightline.vim'
 
-Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
-
-Plug 'liuchengxu/vim-clap'
-
-" https://github.com/kristijanhusak/vim-js-file-import
-" Plug 'ludovicchabant/vim-gutentags'
-" Plug 'kristijanhusak/vim-js-file-import', {'do': 'npm install'}
-
-" TO TRY:
-" https://github.com/itchyny/lightline.vim/
-" https://github.com/machakann/vim-sandwich
-" https://github.com/machakann/vim-highlightedyank
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " Minimalist start screen
-" Plug 'mhinz/vim-startify'
+Plug 'mhinz/vim-startify'
 
 " Rename the current file in the vim buffer + retain relative path.
 Plug 'danro/rename.vim'
@@ -50,66 +58,34 @@ Plug '/usr/bin/fzf' | Plug 'junegunn/fzf.vim'
 " Better than matchit (matchit is included by default on neovim)
 Plug 'andymass/vim-matchup'
 
-" Scratchpad
-Plug 'metakirby5/codi.vim'
-
-" " Undo tree (Mundo is a fork of Gundo with Neovim support and other things)
-" Plug 'simnalamburt/vim-mundo'
-
-" " git in Vim
+" git in Vim
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 
-" " Variable select (around variable: av, inner variable: iv)
+" Variable select (around variable: av, inner variable: iv)
 " Plug 'robmiller/vim-movar'
 
 " Surround
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 
-" " sneak.vim (jumps to any location specified by two characters)
+" sneak.vim (jumps to any location specified by two characters)
 " Plug 'justinmk/vim-sneak'
 
-" " Comments
-Plug 'tpope/vim-commentary'
-
-Plug 'mrtazz/simplenote.vim'
-
-" " Languages-related plugins
-Plug 'pangloss/vim-javascript'
-Plug 'heavenshell/vim-jsdoc'
-Plug 'mxw/vim-jsx'
-" Plug 'MaxMEllon/vim-jsx-pretty'
-Plug 'jxnblk/vim-mdx-js'
-Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
-Plug 'reasonml-editor/vim-reason-plus'
-Plug 'jparise/vim-graphql'
-Plug 'vim-scripts/nginx.vim'
-Plug 'moll/vim-node'
-Plug 'tomlion/vim-solidity'
-Plug 'rust-lang/rust.vim'
-Plug 'justinj/vim-pico8-syntax'
-Plug 'posva/vim-vue'
-
-" " JS-stringify text
-" Plug '29decibel/vim-stringify'
-
-" " tmux interaction
+" tmux interaction
 Plug 'benmills/vimux'
 
-" " UltiSnips
+" UltiSnips
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 
-" " Automatically adjusts 'shiftwidth' and 'expandtab' heuristically
+" Automatically adjusts 'shiftwidth' and 'expandtab' heuristically
 Plug 'tpope/vim-sleuth'
 
-" " Tabular alignment
-" Plug 'godlygeek/tabular'
+" Comments
+Plug 'tpope/vim-commentary'
 
-" Plug 'stefandtw/quickfix-reflector.vim'
-
-" " Vim Markdown (requires godlygeek/tabular)
-" Plug 'plasticboy/vim-markdown'
+" tree-sitter based highlighting
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
 function! BuildComposer(info)
   if a:info.status != 'unchanged' || a:info.force
@@ -123,28 +99,29 @@ endfunction
 
 Plug 'euclio/vim-markdown-composer', { 'do': function('BuildComposer') }
 
-" Update gitgutter on save
-autocmd BufWritePost * GitGutter
-
-" " Org Mode
-" Plug 'jceb/vim-orgmode'
-
-" " ctags viewer
-" Plug 'majutsushi/tagbar'
-
-" " Calculate vim selections
-" Plug 'sk1418/HowMuch'
-
-" " Notes
-" Plug 'xolox/vim-misc'
-" Plug 'xolox/vim-notes'
-
-Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
 Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
-Plug 'ruanyl/vim-sort-imports'
+Plug 'junegunn/goyo.vim'
 
-" Themes
-Plug 'chriskempson/base16-vim'
+" Language-related plugins
+Plug 'jparise/vim-graphql'
+Plug 'justinj/vim-pico8-syntax'
+Plug 'rust-lang/rust.vim'
+Plug 'tomlion/vim-solidity'
+Plug 'vim-scripts/nginx.vim'
+Plug 'zah/nim.vim'
+
+" JS-related
+Plug 'heavenshell/vim-jsdoc'
+Plug 'jxnblk/vim-mdx-js'
+Plug 'leafgarland/typescript-vim'
+Plug 'moll/vim-node'
+Plug 'mxw/vim-jsx'
+Plug 'pangloss/vim-javascript'
+Plug 'posva/vim-vue'
+Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
+
+" Disabled vim-rescript because of: https://github.com/rescript-lang/vim-rescript/issues/23
+" Plug 'rescript-lang/vim-rescript'
 
 call plug#end()
 
@@ -175,10 +152,15 @@ let g:gruvbox_contrast_dark = 'hard'
 let g:gruvbox_sign_column = 'bg0'
 let g:gruvbox_invert_tabline = 0
 
+" lightline
+let g:lightline = { 'colorscheme': 'wombat' }
+
 set termguicolors " 24 bits colors in the terminal
 set background=dark
 " colorscheme base16-snazzy
+
 colorscheme gruvbox
+" lua require("colorbuddy").colorscheme("gruvbox")
 
 if !has('nvim')
   set encoding=utf-8
@@ -253,22 +235,28 @@ set nofoldenable
 " No Ex mode (see :help Q)
 nnoremap Q <nop>
 
-" 80 column
+" Disable column
 set colorcolumn=
-" set colorcolumn=80
-" highlight ColorColumn ctermbg=9
 
 " Autojump to the last edited position when a file is reopened
-au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") |
+autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") |
                      \ exe "normal g'\"" | endif
+
+" Update gitgutter on save
+autocmd BufWritePost * GitGutter
 
 " sneak.vim
 let g:sneak#s_next = 1 " Use 's' again to move to the next match
 " let g:sneak#streak = 1 " streak mode (easymotion-like)
-hi link SneakPluginTarget IncSearch
-hi link SneakPluginScope Visual
-hi link SneakStreakTarget IncSearch
-hi SneakStreakMask ctermfg=red
+highlight link SneakPluginTarget IncSearch
+highlight link SneakPluginScope Visual
+highlight link SneakStreakTarget IncSearch
+highlight SneakStreakMask ctermfg=red
+
+" tabs style
+highlight TabLineFill ctermfg=LightGreen ctermbg=DarkGreen
+highlight TabLine ctermfg=Blue ctermbg=Yellow
+highlight TabLineSel ctermfg=Red ctermbg=Yellow
 
 """""""""""""""""" ncm2 completion
 
@@ -281,8 +269,8 @@ hi SneakStreakMask ctermfg=red
 """""""""""""""""" /ncm2 completion
 
 " vim-commentary
-autocmd FileType lua setlocal commentstring=--\ %s
-autocmd FileType pico8 setlocal commentstring=--\ %s
+" autocmd FileType lua setlocal commentstring=--\ %s
+" autocmd FileType pico8 setlocal commentstring=--\ %s
 
 " Split to the right / below
 set splitright
@@ -355,11 +343,6 @@ let g:fzf_action = {
 " [Buffers] Jump to the existing window if possible
 let g:fzf_buffers_jump = 1
 
-" nnn
-let g:nnn#layout = { 'left': '~20%' }
-let g:nnn#set_default_mappings = 0
-nnoremap <leader><leader> :NnnPicker '%:p:h'<CR>
-
 " fzf layout
 " - down / up / left / right
 let g:fzf_layout = { 'down': '~40%' }
@@ -392,6 +375,23 @@ let g:fzf_colors =
 " explicitly bind the keys to down and up in your $FZF_DEFAULT_OPTS.
 let g:fzf_history_dir = '~/.local/share/fzf-history'
 
+" Startify
+" start startify lists at 1
+let g:startify_custom_indices = map(range(1,100), 'string(v:val)')
+let g:startify_custom_header = []
+" faster (but might miss some files)
+let g:startify_enable_unsafe = 1
+let g:startify_change_to_vcs_root = 0
+let g:startify_change_to_dir = 1
+" let g:startify_skiplist = [
+"   \ 'COMMIT_EDITMSG',
+"   \ ]
+
+" nnn
+let g:nnn#layout = { 'left': '~20%' }
+let g:nnn#set_default_mappings = 0
+nnoremap <leader><leader> :NnnPicker '%:p:h'<CR>
+
 " Simplenote
 " source ~/.simplenoterc
 " let g:SimplenoteSingleWindow = 1
@@ -420,8 +420,29 @@ let g:UltiSnipsExpandTrigger = "<tab>"
 let g:UltiSnipsJumpForwardTrigger = "<c-j>"
 let g:UltiSnipsJumpBackwardTrigger = "<c-k>"
 
+" Markdown composer
+let g:markdown_composer_autostart = 0
+
 " javascript-libraries-syntax
 let g:used_javascript_libs = 'underscore,react'
+
+" tree sitter highlighting
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+  highlight = {
+    enable = true,
+  }
+}
+EOF
+
+" tree sitter indentation
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+  indent = {
+    enable = true,
+  }
+}
+EOF
 
 " vim-flow options
 let g:flow#autoclose = 1
@@ -434,29 +455,31 @@ let g:flow#autoclose = 1
 "   execute 'normal! '. l:currentLine .'Gzz'
 "   echom 'prettier done.'
 " endfunction
+" nmap <Leader>r :call Prettier()<CR>
+
 function! LuaFmt()
   let l:currentLine = line('.')
   silent execute '%!luafmt --stdin %'
   execute 'normal! '. l:currentLine .'G'
   echom 'luafmt done.'
 endfunction
-function! Refmt()
-  let l:currentLine = line('.')
-  silent execute '%!bsrefmt -w 80'
-  execute 'normal! '. l:currentLine .'G'
-  echom 'refmt done.'
+
+function! DprintFmt()
+  let l:pos = getcurpos()
+  silent execute '%!dprint fmt --stdin % | sed -z "$ s/\n$//"'
+  call cursor(l:pos[1], l:pos[2])
+  echom 'dprint fmt done.'
 endfunction
-" nmap <Leader>r :call Prettier()<CR>
 
 let g:prettier#config#single_quote = 'true'
 let g:prettier#config#semi = 'false'
 let g:prettier#config#trailing_comma = 'es5'
 let g:prettier#config#arrow_parens = 'always'
 
-nmap <Leader>r <Plug>(Prettier)
+" nmap <Leader>r <Plug>(Prettier)
 autocmd FileType pico8 nmap<Leader>r :call LuaFmt()<CR>
-autocmd FileType reason nmap<Leader>r :call Refmt()<CR>
-" :RustFmt is defined by rust.vim
+autocmd FileType rescript nmap<Leader>r :RescriptFormat<CR>
+autocmd FileType json,typescript,typescriptreact,javascript,javascript.jsx nmap<Leader>r :call DprintFmt()<CR>
 autocmd FileType rust nmap<Leader>r :RustFmt<CR>
 
 " Vue.js
@@ -491,14 +514,18 @@ nmap <Leader>tx :VimuxCloseRunner<CR>
 " Save
 nmap <Leader>s :write<CR>
 
+" chadtree
+nnoremap <leader>l <cmd>CHADopen<cr>
+let g:chadtree_settings = { "theme.icon_glyph_set": "ascii" }
+
 " Clipboard copy
 vnoremap <Leader>cp "+y :echo "copied"<CR>
 
 " Vertical split
 nmap <Leader>v :vs<CR>
 
-nmap <Leader>l :m +1<CR>
-nmap <Leader>h :m -2<CR>
+" nmap <Leader>l :m +1<CR>
+" nmap <Leader>h :m -2<CR>
 
 " Whitespace
 set expandtab
