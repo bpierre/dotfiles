@@ -128,6 +128,25 @@
     # Markup is allowed
     format = "<b>%s</b>\n%b"
 
+
+    # Turn on the progess bar
+    progress_bar = true
+
+    # Set the progress bar height. This includes the frame, so make sure
+    # it's at least twice as big as the frame width.
+    progress_bar_height = 10
+
+    # Set the frame width of the progress bar
+    progress_bar_frame_width = 1
+
+    # Set the minimum width for the progress bar
+    progress_bar_min_width = 150
+
+    # Set the maximum width for the progress bar
+    progress_bar_max_width = 300
+
+    highlight = "#ebdbb2"
+
     # Alignment of message text.
     # Possible values are "left", "center" and "right".
     alignment = left
@@ -297,6 +316,7 @@
     timeout = 10
     # Icon for notifications with low urgency, uncomment to enable
     #icon = /path/to/icon
+    highlight = "#ebdbb2"
 
 [urgency_normal]
     background = "#1d2021"
@@ -304,6 +324,7 @@
     timeout = 10
     # Icon for notifications with normal urgency, uncomment to enable
     #icon = /path/to/icon
+    highlight = "#ebdbb2"
 
 [urgency_critical]
     background = "#1d2021"
@@ -312,6 +333,7 @@
     timeout = 0
     # Icon for notifications with critical urgency, uncomment to enable
     #icon = /path/to/icon
+    highlight = "#ebdbb2"
 
 # Every section that isn't one of the above is interpreted as a rules to
 # override settings for certain messages.
