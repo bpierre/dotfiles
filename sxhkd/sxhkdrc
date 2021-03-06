@@ -14,7 +14,7 @@ XF86AudioMute
 
 # Mic mute
 XF86AudioMicMute
-	pulseaudio-ctl mute-input
+	pamixer --default-source -t
 
 # terminal emulator
 super + Return
