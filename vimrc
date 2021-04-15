@@ -99,7 +99,7 @@ endfunction
 
 Plug 'euclio/vim-markdown-composer', { 'do': function('BuildComposer') }
 
-Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
+Plug 'mhartington/formatter.nvim'
 Plug 'junegunn/goyo.vim'
 
 " Language-related plugins
@@ -110,6 +110,9 @@ Plug 'tomlion/vim-solidity'
 Plug 'vim-scripts/nginx.vim'
 Plug 'zah/nim.vim'
 
+Plug 'godlygeek/tabular'
+Plug 'plasticboy/vim-markdown'
+
 " JS-related
 Plug 'heavenshell/vim-jsdoc'
 Plug 'jxnblk/vim-mdx-js'
@@ -119,6 +122,7 @@ Plug 'mxw/vim-jsx'
 Plug 'pangloss/vim-javascript'
 Plug 'posva/vim-vue'
 Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
+Plug 'evanleck/vim-svelte', {'branch': 'main'}
 
 " Disabled vim-rescript because of: https://github.com/rescript-lang/vim-rescript/issues/23
 " Plug 'rescript-lang/vim-rescript'
@@ -444,51 +448,48 @@ require'nvim-treesitter.configs'.setup {
 }
 EOF
 
-" vim-flow options
-let g:flow#autoclose = 1
-
-" prettier and other prettiers
-" function! Prettier()
+" function! LuaFmt()
 "   let l:currentLine = line('.')
-"   silent execute '%!prettier --trailing-comma es5 --no-semi --single-quote --stdin-filepath %'
-"   " silent execute '%!prettier --stdin-filepath %'
-"   execute 'normal! '. l:currentLine .'Gzz'
-"   echom 'prettier done.'
+"   silent execute '%!luafmt --stdin %'
+"   execute 'normal! '. l:currentLine .'G'
+"   echom 'luafmt done.'
 " endfunction
-" nmap <Leader>r :call Prettier()<CR>
 
-function! LuaFmt()
-  let l:currentLine = line('.')
-  silent execute '%!luafmt --stdin %'
-  execute 'normal! '. l:currentLine .'G'
-  echom 'luafmt done.'
-endfunction
+" function! DprintFmt()
+"   let l:pos = getcurpos()
+"   silent execute '%!dprint fmt --stdin % | sed -z "$ s/\n$//"'
+"   call cursor(l:pos[1], l:pos[2])
+"   echom 'dprint fmt done.'
+" endfunction
 
-function! DprintFmt()
-  let l:pos = getcurpos()
-  silent execute '%!dprint fmt --stdin % | sed -z "$ s/\n$//"'
-  call cursor(l:pos[1], l:pos[2])
-  echom 'dprint fmt done.'
-endfunction
+lua <<EOF
+local prettierd = {
+  function()
+    return {
+      exe = "prettierd",
+      args = {vim.api.nvim_buf_get_name(0)},
+      stdin = true
+    }
+  end
+}
+require('formatter').setup({
+  logging = false,
+  filetype = {
+    javascript = prettierd,
+    typescript = prettierd,
+    json = prettierd,
+  }
+})
+EOF
 
-let g:prettier#config#single_quote = 'true'
-let g:prettier#config#semi = 'false'
-let g:prettier#config#trailing_comma = 'es5'
-let g:prettier#config#arrow_parens = 'always'
+nnoremap <silent> <leader>r :Format<CR>
 
-" nmap <Leader>r <Plug>(Prettier)
-autocmd FileType pico8 nmap<Leader>r :call LuaFmt()<CR>
-autocmd FileType rescript nmap<Leader>r :RescriptFormat<CR>
-autocmd FileType json,typescript,typescriptreact,javascript,javascript.jsx nmap<Leader>r :call DprintFmt()<CR>
-autocmd FileType rust nmap<Leader>r :RustFmt<CR>
-
-" Vue.js
-" autocmd FileType vue noremap <buffer> <Leader>r :%!prettier --parser parse5 --stdin-filepath<CR>
-" autocmd FileType vue noremap <buffer> <Leader>r :%!/Users/pierre/.nodenv/versions/8.4.0/bin/vue-formatter<CR>
-" autocmd FileType vue noremap <buffer> <Leader>r :%!/Users/pierre/dev/vue-formatter/src/cli.js<CR>
-" autocmd FileType vue noremap <buffer> <Leader>r :%!/Users/pierre/dev/sublime-vue-formatter/scripts/vue/vue-formatter<CR>
-" autocmd FileType vue syntax sync fromstart
-" let g:vue_disable_pre_processors=1
+" autocmd FileType pico8 nmap<Leader>r :call LuaFmt()<CR>
+" autocmd FileType rescript nmap<Leader>r :RescriptFormat<CR>
+" autocmd FileType json,typescript,typescriptreact,javascript,javascript.jsx,javascriptreact nmap<Leader>r :call DprintFmt()<CR>
+" autocmd FileType yaml,json,typescript,typescriptreact,javascript,javascript.jsx,javascriptreact,html,markdown nmap<Leader>r :Prettier<CR>
+" autocmd FileType css,scss,svelte nmap<Leader>r :Prettier<CR>
+" autocmd FileType rust nmap<Leader>r :RustFmt<CR>
 
 " Rust
 " let g:rustfmt_autosave = 1
