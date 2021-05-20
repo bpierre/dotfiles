@@ -4,11 +4,10 @@ add_newline = false
 # [line_break]
 # disabled = true
 
-# Replace the "❯" symbol in the prompt with "➜"
 [character]      # The name of the module we are configuring is "character"
-symbol = "↘"     # The "symbol" segment is being set to "➜"
-style_success = "bold green"
-style_failure = "bold red"
+success_symbol = "[↘](bold green)"
+error_symbol = "[↘](bold red)"
+vicmd_symbol = "[↙️](bold green)"
 
 [git_branch]
 truncation_length = 20
@@ -19,6 +18,12 @@ style = "white"
 commit_hash_length = 7
 only_detached = false
 format = "[$hash]($style) "
+
+[git_status]
+deleted = 'd'
+modified = 'm'
+untracked = '?'
+# stashed = 's'
 
 [package]
 # symbol = "🎁 "
