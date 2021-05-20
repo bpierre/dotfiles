@@ -109,6 +109,7 @@ Plug 'rust-lang/rust.vim'
 Plug 'tomlion/vim-solidity'
 Plug 'vim-scripts/nginx.vim'
 Plug 'zah/nim.vim'
+Plug 'tikhomirov/vim-glsl'
 
 Plug 'godlygeek/tabular'
 Plug 'plasticboy/vim-markdown'
@@ -116,12 +117,13 @@ Plug 'plasticboy/vim-markdown'
 " JS-related
 Plug 'heavenshell/vim-jsdoc'
 Plug 'jxnblk/vim-mdx-js'
-Plug 'leafgarland/typescript-vim'
 Plug 'moll/vim-node'
-Plug 'mxw/vim-jsx'
-Plug 'pangloss/vim-javascript'
+" Plug 'leafgarland/typescript-vim'
+" Plug 'peitalin/vim-jsx-typescript'
+" Plug 'mxw/vim-jsx'
+" Plug 'pangloss/vim-javascript'
+" Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
 Plug 'posva/vim-vue'
-Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
 Plug 'evanleck/vim-svelte', {'branch': 'main'}
 
 " Disabled vim-rescript because of: https://github.com/rescript-lang/vim-rescript/issues/23
@@ -430,22 +432,11 @@ let g:markdown_composer_autostart = 0
 " javascript-libraries-syntax
 let g:used_javascript_libs = 'underscore,react'
 
-" tree sitter highlighting
 lua <<EOF
-require'nvim-treesitter.configs'.setup {
-  highlight = {
-    enable = true,
-  }
-}
-EOF
-
-" tree sitter indentation
-lua <<EOF
-require'nvim-treesitter.configs'.setup {
-  indent = {
-    enable = true,
-  }
-}
+require('nvim-treesitter.configs').setup({
+  highlight = { enable = true },
+  indent = { enable = true }
+})
 EOF
 
 " function! LuaFmt()
@@ -463,26 +454,35 @@ EOF
 " endfunction
 
 lua <<EOF
-local prettierd = {
+local prettier = {
   function()
     return {
-      exe = "prettierd",
-      args = {vim.api.nvim_buf_get_name(0)},
+      exe = "prettier",
+      args = {"--stdin-filepath", vim.api.nvim_buf_get_name(0)},
       stdin = true
     }
+    -- return {
+    --   exe = "prettier",
+    --   args = {vim.api.nvim_buf_get_name(0)},
+    --   stdin = true
+    -- }
   end
 }
 require('formatter').setup({
   logging = false,
   filetype = {
-    javascript = prettierd,
-    typescript = prettierd,
-    json = prettierd,
+    html = prettier,
+    markdown = prettier,
+    json = prettier,
+    typescript = prettier,
+    typescriptreact = prettier,
+    javascriptreact = prettier,
+    javascript = prettier,
   }
 })
 EOF
 
-nnoremap <silent> <leader>r :Format<CR>
+nnoremap <silent> <leader>r :FormatWrite<CR>
 
 " autocmd FileType pico8 nmap<Leader>r :call LuaFmt()<CR>
 " autocmd FileType rescript nmap<Leader>r :RescriptFormat<CR>
