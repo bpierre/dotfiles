@@ -19,6 +19,7 @@ export LANG='en_GB.UTF-8'
 export BROWSER='firefox-nightly'
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore-vcs --hidden'
+export GIT_PAGER="delta --theme 'Sublime Snazzy'"
 
 export GOPATH="$HOME/go"
 # export NODE_PATH="/usr/local/lib/node"
@@ -64,7 +65,8 @@ if [[ "$OSTYPE" = darwin* ]]; then
 else
   path=(
     $path
-    $HOME/.gem/ruby/2.7.0/bin # gem (Ruby)
+    $HOME/.gem/ruby/3.0.0/bin
+    $HOME/.gem/ruby/2.7.0/bin
   )
 fi
 
