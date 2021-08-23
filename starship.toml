@@ -3,6 +3,10 @@ add_newline = false
 
 # [line_break]
 # disabled = true
+[battery]
+format = "[B $percentage]($style) "
+[[battery.display]]
+threshold = 9
 
 [character]      # The name of the module we are configuring is "character"
 success_symbol = "[↘](bold green)"
