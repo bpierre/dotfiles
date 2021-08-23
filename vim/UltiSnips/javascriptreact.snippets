@@ -1,0 +1,170 @@
+snippet cl "console.log()"
+console.log(${1:''})
+endsnippet
+
+snippet comp "React component"
+import React from 'react'
+
+function ${1:`!p snip.rv = snip.basename`}() {
+  return (
+    <div>
+    </div>
+  )
+}
+
+export default $1
+endsnippet
+
+snippet pcomp "React component"
+import React from 'react'
+
+class ${1:`!p snip.rv = snip.basename`} extends React.PureComponent {
+  render() {
+    return (
+      <div>
+      </div>
+    )
+  }
+}
+
+export default $1
+endsnippet
+
+snippet ir "Import React"
+import React from 'react'
+
+endsnippet
+
+snippet ip "Import PropTypes"
+import PropTypes from 'prop-types'
+
+endsnippet
+
+snippet is "Import styled-components"
+import styled from 'styled-components'
+
+endsnippet
+
+snippet iui "Import @aragon/ui"
+import { ${1:Button} } from '@aragon/ui'
+
+endsnippet
+
+snippet irc "Import React and React.Component"
+import React, { Component } from 'react'
+
+endsnippet
+
+snippet irp "Import React and React.PureComponent"
+import React, { PureComponent } from 'react'
+
+endsnippet
+
+snippet css "css prop"
+css={css\`
+  $1
+\`}
+endsnippet
+
+snippet csc "css prop with function"
+css={({ colors }) => css\`
+  $1
+\`}
+endsnippet
+
+snippet c "css prop function"
+({ colors }) =>$1
+endsnippet
+
+snippet fl "flexbox"
+display: flex;
+align-items: center;
+justify-content: center;
+$1
+endsnippet
+
+snippet pt "Add prop types"
+`!p snip.rv = snip.basename`.propTypes = {
+  $1
+}
+endsnippet
+
+snippet ptn "Prop type node"
+PropTypes.node${1:.isRequired}$2
+endsnippet
+
+snippet ptnu "Prop type number"
+PropTypes.number${1:.isRequired}$2
+endsnippet
+
+snippet pts "Prop type string"
+PropTypes.string${1:.isRequired}$2
+endsnippet
+
+snippet ptf "Prop type function"
+PropTypes.func${1:.isRequired}$2
+endsnippet
+
+snippet ptb "Prop type boolean"
+PropTypes.bool${1:.isRequired}$2
+endsnippet
+
+snippet pto "Prop type object"
+PropTypes.object${1:.isRequired}$2
+endsnippet
+
+snippet pta "Prop type array"
+PropTypes.array${1:.isRequired}$2
+endsnippet
+
+snippet ptoo "Prop type oneOf"
+PropTypes.oneOf([$1])${2:.isRequired}$3
+endsnippet
+
+snippet ptoot "Prop type oneOfType"
+PropTypes.oneOfType([$1])${2:.isRequired}$3
+endsnippet
+
+snippet ptao "Prop type arrayOf"
+PropTypes.arrayOf($1)${2:.isRequired}$3
+endsnippet
+
+snippet ptsh "Prop type shape"
+PropTypes.shape({
+	$1
+})${2:.isRequired}$3
+endsnippet
+
+snippet ptan "Prop type any"
+PropTypes.any${1:.isRequired}$2
+endsnippet
+
+snippet ut "useTheme()"
+const theme = useTheme()$1
+endsnippet
+
+snippet ust "useState()"
+const [${1:name}, set${1/.*/\u$0/}] = useState($2)$3
+endsnippet
+
+snippet ucb "useCallback()"
+const $1 = useCallback(($2) => {
+  $4
+}, [$3])
+endsnippet
+
+snippet ume "useMemo()"
+const $1 = useMemo(() => {
+  $3
+}, [$2])
+endsnippet
+
+snippet uef "useEffect()"
+useEffect(() => {
+  $2
+}, [$1])
+endsnippet
+
+snippet ure "useRef()"
+const $1 = useRef(${2:null})
+endsnippet
