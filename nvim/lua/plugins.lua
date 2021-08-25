@@ -31,17 +31,21 @@ return require('packer').startup(function()
     run = ':TSUpdate',
     config = function()
       require('nvim-treesitter.configs').setup {
-        highlight = {enable = true},
-        indent = {enable = true}
+        highlight = { enable = true },
+        indent = { enable = true }
       }
     end
   }
 
   -- undo tree
-  use {'simnalamburt/vim-mundo', cmd = {'MundoToggle'}}
+  use {
+    'simnalamburt/vim-mundo',
+    cmd = { 'MundoToggle' },
+    config = function() vim.g.mundo_preview_bottom = 1 end
+  }
 
   -- use :WhichKey to check the bindings
-  use {'folke/which-key.nvim', cmd = {'WhichKey'}}
+  use { 'folke/which-key.nvim', cmd = { 'WhichKey' } }
 
   -- remove the swap file messages
   use 'gioele/vim-autoswap'
@@ -49,11 +53,11 @@ return require('packer').startup(function()
   -- status bar
   use {
     'itchyny/lightline.vim',
-    config = function() vim.g.lightline = {colorscheme = 'wombat'} end
+    config = function() vim.g.lightline = { colorscheme = 'wombat' } end
   }
 
   -- everything completion
-  use {'neoclide/coc.nvim', branch = 'release'}
+  use { 'neoclide/coc.nvim', branch = 'release' }
 
   -- start screen
   use {
@@ -72,7 +76,7 @@ return require('packer').startup(function()
   }
 
   -- better matchit (matchit is part of neovim)
-  use {'andymass/vim-matchup', event = 'VimEnter'}
+  use { 'andymass/vim-matchup', event = 'VimEnter' }
 
   -- display marks in the gutter
   use 'kshenoy/vim-signature'
@@ -87,9 +91,24 @@ return require('packer').startup(function()
   use 'tpope/vim-commentary'
 
   -- tmux interaction
-  use 'benmills/vimux'
+  use {
+    'benmills/vimux',
+    config = function()
+      vim.g.VimuxUseNearestPane = 1
+      vim.g.VimuxOrientation = "v"
+      vim.g.VimuxHeight = "15"
+    end
+  }
 
-  use {'SirVer/ultisnips', {'honza/vim-snippets'}}
+  use {
+    'SirVer/ultisnips',
+    config = function()
+      vim.g.UltiSnipsExpandTrigger = "<tab>"
+      vim.g.UltiSnipsJumpForwardTrigger = "<c-j>"
+      vim.g.UltiSnipsJumpBackwardTrigger = "<c-k>"
+    end,
+    { 'honza/vim-snippets' }
+  }
 
   -- adjusts 'shiftwidth' and 'expandtab' heuristically
   use 'tpope/vim-sleuth'
@@ -97,7 +116,7 @@ return require('packer').startup(function()
   -- telescope
   use {
     'nvim-telescope/telescope.nvim',
-    cmd = {"Telescope"},
+    cmd = { "Telescope" },
     requires = 'nvim-lua/plenary.nvim',
     config = function()
       require('telescope').setup {
@@ -151,14 +170,20 @@ return require('packer').startup(function()
         function()
           return {
             exe = "prettier",
-            args = {"--stdin-filepath", vim.api.nvim_buf_get_name(0)},
+            args = { "--stdin-filepath", vim.api.nvim_buf_get_name(0) },
             stdin = true
           }
         end
       }
       local luaFmt = {
         function()
-          return {exe = "lua-format", args = {"--indent-width=2"}, stdin = true}
+          return {
+            exe = "lua-format",
+            args = {
+              "--indent-width=2 --spaces-inside-table-braces --break-after-operator"
+            },
+            stdin = true
+          }
         end
       }
       require('formatter').setup {
@@ -179,15 +204,15 @@ return require('packer').startup(function()
   }
 
   -- languages
-  use {'justinj/vim-pico8-syntax', ft = {'lua', 'pico8'}}
-  use {'rust-lang/rust.vim', ft = {'rust'}}
-  use {'tomlion/vim-solidity', ft = {'solidity'}}
-  use {'vim-scripts/nginx.vim', ft = {'nginx'}}
-  use {'zah/nim.vim', ft = {'nim'}}
-  use {'tikhomirov/vim-glsl', ft = {'glsl'}}
+  use { 'justinj/vim-pico8-syntax', ft = { 'lua', 'pico8' } }
+  use { 'rust-lang/rust.vim', ft = { 'rust' } }
+  use { 'tomlion/vim-solidity', ft = { 'solidity' } }
+  use { 'vim-scripts/nginx.vim', ft = { 'nginx' } }
+  use { 'zah/nim.vim', ft = { 'nim' } }
+  use { 'tikhomirov/vim-glsl', ft = { 'glsl' } }
   use {
     'plasticboy/vim-markdown',
-    ft = {'markdown'},
+    ft = { 'markdown' },
     config = function()
       vim.g.vim_markdown_fenced_languages = {
         'jsx=javascript', 'ts=typescript', 'tsx=typescript'
@@ -199,10 +224,10 @@ return require('packer').startup(function()
   local jsts = {
     'javascript', 'javascriptreact', 'typescript', 'typescriptreact'
   }
-  use {'jparise/vim-graphql', ft = vim.list_extend(jsts, {'graphql'})}
-  use {'heavenshell/vim-jsdoc', ft = jsts}
-  use {'jxnblk/vim-mdx-js', ft = jsts}
-  use {'moll/vim-node', ft = jsts}
-  use {'posva/vim-vue', ft = {'vue'}}
-  use {'evanleck/vim-svelte', branch = 'main', ft = {'svelte'}}
+  use { 'jparise/vim-graphql', ft = vim.list_extend(jsts, { 'graphql' }) }
+  use { 'heavenshell/vim-jsdoc', ft = jsts }
+  use { 'jxnblk/vim-mdx-js', ft = jsts }
+  use { 'moll/vim-node', ft = jsts }
+  use { 'posva/vim-vue', ft = { 'vue' } }
+  use { 'evanleck/vim-svelte', branch = 'main', ft = { 'svelte' } }
 end)
