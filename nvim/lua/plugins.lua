@@ -37,6 +37,8 @@ return require('packer').startup(function()
     end
   }
 
+  use 'danro/rename.vim'
+
   -- undo tree
   use {
     'simnalamburt/vim-mundo',
@@ -130,9 +132,10 @@ return require('packer').startup(function()
         },
         defaults = {
           -- Lua regex patterns: http://www.lua.org/pil/20.2.html
+          -- "pkg/demo",
           file_ignore_patterns = {
-            "pkg/kit%-legacy", "pkg/website", "pkg/demo", "node_modules",
-            "**/*.png", "**/*.jpg", "**/*.gif", "**/*.woff2", "**/*.mp4"
+            "pkg/kit%-legacy", "pkg/website", "node_modules", "**/*.png",
+            "**/*.jpg", "**/*.gif", "**/*.woff2", "**/*.mp4"
           }
         }
       }
@@ -169,8 +172,10 @@ return require('packer').startup(function()
       local prettier = {
         function()
           return {
-            exe = "prettier",
-            args = { "--stdin-filepath", vim.api.nvim_buf_get_name(0) },
+            exe = "closest-prettier",
+            args = {
+              "--stdin-filepath", '"' .. vim.api.nvim_buf_get_name(0) .. '"'
+            },
             stdin = true
           }
         end

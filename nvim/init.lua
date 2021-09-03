@@ -22,6 +22,7 @@ cmd('highlight TabLine ctermfg=Blue ctermbg=Yellow')
 cmd('highlight TabLineSel ctermfg=Red ctermbg=Yellow')
 
 -- filetypes
+declare_filetype('.prettierrc', 'json')
 declare_filetype('.eslintrc', 'json')
 declare_filetype('.babelrc', 'json')
 declare_filetype('.swcrc', 'json')
