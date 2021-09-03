@@ -2,3 +2,4 @@
 /vim/.netrwhist
 /vim/plugged
 /private.zsh
+nvim/plugin/packer_compiled.lua
