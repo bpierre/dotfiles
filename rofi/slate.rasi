@@ -37,10 +37,6 @@ listview {
   scrollbar: true;
 }
 
-element {
-  padding: 12px;
-}
-
 scrollbar {
   handle-width: 12px;
   handle-color: #ebdbb2;
@@ -48,7 +44,15 @@ scrollbar {
   border: 0 0 0 2px;
 }
 
-element selected {
+element {
+  padding: 12px;
+}
+
+element.selected {
   background-color: #ebdbb2;
-  color: #1d2021;
+}
+
+element-text.selected {
+  background-color: #ebdbb2;
+  text-color: #1d2021;
 }
