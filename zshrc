@@ -132,19 +132,15 @@ alias mongodb_start="mongod run --config /usr/local/etc/mongod.conf"
 alias pubkey="more ~/.ssh/id_rsa.pub | pbcopy | printf 'Public SSH key copied.\n'";
 alias gist="gist --copy --shorten";
 alias killphantom="ps aux | grep phantomjs | awk '{print }' | xargs kill -9"
-# alias firefox="/Applications/FirefoxAurora.app/Contents/MacOS/firefox"
 alias gti="echo '🚗  vroom vroom';git"
-alias git='echo "💁  you mean g"'
 alias g=hub
-alias yarn='echo "💁  you mean y"'
 alias y='command yarn'
+alias pn='pnpm'
 alias pdf=zathura
-# alias ip="ifconfig | grep inet | grep -v inet6 | grep -v 127.0.0.1 | awk '{print \$2}'"
 alias svndiff="svn diff | vim -R -"
 alias dl="curl -O"
 alias ts="t stream timeline"
 alias ag="ag --ignore node_modules"
-# alias pico8="/Applications/PICO-8.app/Contents/MacOS/pico8"
 alias history-stat="history 0 | awk '{print \$2}' | sort | uniq -c | sort -n -r | head"
 alias emoj="emoji-fzf preview | fzf --preview 'emoji-fzf get --name {1}' | cut -d \" \" -f 1 | emoji-fzf get | xclip -selection clipboard"
 alias check-deprecated-modules="cat package.json | jq '(.dependencies+.devDependencies) | keys | .[]' | xargs -I {} sh -c 'yarn info --json {} | jq \".data.name,.data.deprecated\"'"
@@ -201,6 +197,17 @@ tpl() {
 docker-cleanup() {
   docker rm $(docker ps -a -q)
   docker rmi $(docker images -a -q)
+}
+
+update-discord() {
+  cd $HOME/apps
+  mv discord discord_
+  curl -L 'https://discord.com/api/download/canary?platform=linux&format=tar.gz' > discord.tar.gz
+  tar xvzf discord.tar.gz
+  mv DiscordCanary discord
+  rm discord.tar.gz
+  rm -rf discord_
+  echo 'Done.'
 }
 
 # tag-ag (https://github.com/aykamko/tag)
@@ -264,3 +271,9 @@ export PERL5LIB="/home/pierre/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"
 export PERL_LOCAL_LIB_ROOT="/home/pierre/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"
 export PERL_MB_OPT="--install_base \"/home/pierre/perl5\""
 export PERL_MM_OPT="INSTALL_BASE=/home/pierre/perl5"
+
+source /home/pierre/.config/broot/launcher/bash/br
+
+# tabtab source for packages
+# uninstall by removing these lines
+[[ -f ~/.config/tabtab/zsh/__tabtab.zsh ]] && . ~/.config/tabtab/zsh/__tabtab.zsh || true

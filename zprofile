@@ -10,6 +10,7 @@ fi
 
 # Env
 export EDITOR='vim'
+export SYSTEMD_EDITOR='vim'
 export VISUAL='vim'
 export PAGER='less'
 export LANG='en_GB.UTF-8'
