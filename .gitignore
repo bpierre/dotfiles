@@ -3,3 +3,4 @@
 /vim/plugged
 /private.zsh
 nvim/plugin/packer_compiled.lua
+nvim/persistence.nvim-sessions
