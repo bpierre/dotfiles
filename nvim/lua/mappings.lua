@@ -103,6 +103,3 @@ keymap('n', '<Leader>tx', ':VimuxCloseRunner<CR>')
 
 -- mundo plugin
 keymap('n', '<leader>u', ':MundoToggle<CR>')
-
--- packer
-keymap('n', '<leader>y', ':PackerSync<CR>')

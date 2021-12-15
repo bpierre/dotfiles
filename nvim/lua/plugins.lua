@@ -52,11 +52,27 @@ return require('packer').startup(function()
   -- remove the swap file messages
   use 'gioele/vim-autoswap'
 
-  -- status bar
   use {
-    'itchyny/lightline.vim',
-    config = function() vim.g.lightline = { colorscheme = 'wombat' } end
+    'ygm2/rooter.nvim',
+    config = function()
+      vim.g.rooter_pattern = { '.git', 'node_modules' }
+      vim.g.outermost_root = true
+    end
   }
+
+  use { 'alvarosevilla95/luatab.nvim', requires = 'kyazdani42/nvim-web-devicons' }
+
+  -- status bar
+  --
+  -- use {
+  --   'itchyny/lightline.vim',
+  --   config = function() vim.g.lightline = { colorscheme = 'wombat' } end
+  -- }
+  -- use 'famiu/feline.nvim'
+  -- use {
+  --   'nvim-lualine/lualine.nvim',
+  --   requires = { 'kyazdani42/nvim-web-devicons', opt = true }
+  -- }
 
   -- everything completion
   use { 'neoclide/coc.nvim', branch = 'release' }
@@ -101,6 +117,27 @@ return require('packer').startup(function()
       vim.g.VimuxHeight = "15"
     end
   }
+
+  -- use {
+  --   'abecodes/tabout.nvim',
+  --   config = function()
+  --     require('tabout').setup {
+  --       tabkey = '<Tab>',
+  --       backwards_tabkey = '<S-Tab>',
+  --       act_as_tab = true,
+  --       act_as_shift_tab = false,
+  --       enable_backwards = true,
+  --       completion = true,
+  --       tabouts = {
+  --         { open = "'", close = "'" }, { open = '"', close = '"' },
+  --         { open = '`', close = '`' }, { open = '(', close = ')' },
+  --         { open = '[', close = ']' }, { open = '{', close = '}' }
+  --       },
+  --       ignore_beginning = true
+  --     }
+  --   end,
+  --   wants = { 'nvim-treesitter' }
+  -- }
 
   use {
     'SirVer/ultisnips',
@@ -180,7 +217,7 @@ return require('packer').startup(function()
           }
         end
       }
-      local luaFmt = {
+      local luafmt = {
         function()
           return {
             exe = "lua-format",
@@ -191,9 +228,12 @@ return require('packer').startup(function()
           }
         end
       }
+      local rustfmt =
+          { function() return { exe = "rustfmt", stdin = true } end }
       require('formatter').setup {
         logging = false,
         filetype = {
+          css = prettier,
           html = prettier,
           markdown = prettier,
           json = prettier,
@@ -202,7 +242,8 @@ return require('packer').startup(function()
           javascriptreact = prettier,
           javascript = prettier,
           solidity = prettier,
-          lua = luaFmt
+          lua = luafmt,
+          rust = rustfmt
         }
       }
     end
