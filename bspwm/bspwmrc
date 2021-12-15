@@ -67,3 +67,6 @@ bspc rule -a "Spotify" state=floating center=on rectangle="1200x800+0+0"
 #bspc rule -a mplayer2 state=floating
 #bspc rule -a Kupfer.py focus=on
 #bspc rule -a Screenkey manage=off
+
+bspc config remove_disabled_monitors true
+bspc config remove_unplugged_monitors true
