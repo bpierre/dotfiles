@@ -16,6 +16,16 @@ XF86AudioMute
 XF86AudioMicMute
 	pamixer --default-source -t
 
+# Play / Pause
+super + XF86AudioMute
+	spotifycli --playpause
+
+# Prev / Next
+super + XF86AudioLowerVolume
+	spotifycli --prev
+super + XF86AudioRaiseVolume
+	spotifycli --next
+
 # terminal emulator
 super + Return
 	alacritty
