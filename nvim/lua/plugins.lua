@@ -79,17 +79,10 @@ return require('packer').startup(function()
 
   -- start screen
   use {
-    'mhinz/vim-startify',
+    'goolord/alpha-nvim',
+    requires = { 'kyazdani42/nvim-web-devicons' },
     config = function()
-
-      -- start startify lists at 1
-      vim.g.startify_custom_indices = vim.fn.map(vim.fn.range(1, 100),
-                                                 'string(v:val)')
-      vim.g.startify_custom_header = {}
-      -- faster (but might miss some files)
-      vim.g.startify_enable_unsafe = 1
-      vim.g.startify_change_to_vcs_root = 0
-      vim.g.startify_change_to_dir = 1
+      require('alpha').setup(require('alpha.themes.startify').opts)
     end
   }
 
