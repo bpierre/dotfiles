@@ -37,7 +37,8 @@ super + n
 	rofi -show calc -modi calc -no-show-match -no-sort -theme slate
 
 Print
-	flameshot gui -p ~/screenshots
+	flameshot gui
+	# XDG_CURRENT_DESKTOP=gnome flameshot gui
 
 shift + Print
 	flameshot full -c
