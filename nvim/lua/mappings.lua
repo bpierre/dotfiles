@@ -74,13 +74,24 @@ keymap('n', '<Leader>cr', ':lcd <c-r>=FindGitDirOrCurrent()<CR><CR>:pwd<CR>',
        { silent = true })
 
 -- create the directories to the current file
-keymap('n', '<Leader>md', ':lua create_dirs_to_current_file()<CR>', { silent = true })
+keymap('n', '<Leader>md', ':lua create_dirs_to_current_file()<CR>',
+       { silent = true })
 
 -- toggle between last open buffers
 keymap('n', '<backspace>', '<c-^>')
 
 -- file explorer
 keymap('n', '<Leader>l', ':CocCommand explorer<CR>')
+
+-- auto complete imports on enter
+-- function coc_complete_auto_imports()
+--   if (vim.fn.pumvisible() ~= 0) then
+--     return '<C-y>'
+--   else
+--     return '<C-g>u<CR>'
+--   end
+-- end
+-- keymap('n', '<expr> <cr>', ':lua coc_complete_auto_imports()<CR>')
 
 -- telescope
 keymap('n', '<c-t>', '<cmd>Telescope find_files<cr>')

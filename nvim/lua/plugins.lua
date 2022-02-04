@@ -1,8 +1,29 @@
-function reapply_colorscheme()
-  vim.cmd('colorscheme ' .. vim.api.nvim_exec('colorscheme', true))
+function put(...)
+  local objects = {}
+  for i = 1, select('#', ...) do
+    local v = select(i, ...)
+    table.insert(objects, vim.inspect(v))
+  end
+
+  print(table.concat(objects, '\n'))
+  return ...
+end
+
+function put_text(...)
+  local objects = {}
+  for i = 1, select('#', ...) do
+    local v = select(i, ...)
+    table.insert(objects, vim.inspect(v))
+  end
+
+  local lines = vim.split(table.concat(objects, '\n'), '\n')
+  local lnum = vim.api.nvim_win_get_cursor(0)[1]
+  vim.fn.append(lnum, lines)
+  return ...
 end
 
 return require('packer').startup(function()
+
   use 'wbthomason/packer.nvim'
 
   -- TO TRY
@@ -28,6 +49,7 @@ return require('packer').startup(function()
   use 'norcalli/nvim-colorizer.lua'
   use {
     'nvim-treesitter/nvim-treesitter',
+    commit = '668de0951a36ef17016074f1120b6aacbe6c4515',
     run = ':TSUpdate',
     config = function()
       require('nvim-treesitter.configs').setup {
@@ -75,7 +97,147 @@ return require('packer').startup(function()
   -- }
 
   -- everything completion
-  use { 'neoclide/coc.nvim', branch = 'release' }
+  -- use { 'neoclide/coc.nvim', branch = 'release' }
+
+  use 'neovim/nvim-lspconfig'
+
+  use "j-hui/fidget.nvim"
+
+  -- Completion
+  -- Sources
+  use {
+    "hrsh7th/nvim-cmp",
+    config = function()
+      local cmp = require('cmp')
+      local compare = require('cmp.config.compare')
+      local mapping = require('cmp.config.mapping')
+      local types = require('cmp.types')
+      cmp.setup {
+        mapping = {
+          -- ["<C-d>"] = mapping.scroll_docs(-4),
+          -- ["<C-f>"] = mapping.scroll_docs(4),
+          -- ["<C-e>"] = mapping.close(),
+
+          ['<C-n>'] = mapping(mapping.select_next_item({
+            behavior = types.cmp.SelectBehavior.Insert
+          }), { 'i', 'c' }),
+
+          ['<C-p>'] = mapping(mapping.select_prev_item({
+            behavior = types.cmp.SelectBehavior.Insert
+          }), { 'i', 'c' }),
+
+          ["<c-y>"] = mapping(mapping.confirm {
+            behavior = types.cmp.ConfirmBehavior.Insert,
+            select = true
+          }, { "i", "c" }),
+
+          ["<c-space>"] = mapping {
+            i = mapping.complete(),
+            c = function(_ --[[fallback]] )
+              if cmp.visible() then
+                if not cmp.confirm { select = true } then return end
+              else
+                cmp.complete()
+              end
+            end
+          },
+          ["<tab>"] = cmp.config.disable,
+          ['<CR>'] = mapping.confirm({ select = true })
+        },
+        sources = {
+          { name = "nvim_lua" }, { name = "nvim_lsp" }, { name = "path" },
+          { name = "ultisnips" }, { name = "buffer", keyword_length = 5 }
+
+        },
+        sorting = {
+          comparators = {
+            compare.offset, compare.exact, compare.score, compare.kind,
+            compare.sort_text, compare.length, compare.order
+          }
+        },
+        snippet = {
+          expand = function(args) vim.fn["UltiSnips#Anon"](args.body) end
+        },
+        formatting = {
+          format = require('lspkind').cmp_format {
+            with_text = true,
+            menu = {
+              buffer = "[buf]",
+              nvim_lsp = "[lsp]",
+              nvim_lua = "[api]",
+              path = "[path]",
+              luasnip = "[snip]"
+            }
+          }
+        }
+
+        -- experimental = { native_menu = false, ghost_text = true }
+      }
+    end
+  }
+
+  use 'onsails/lspkind-nvim'
+  use "hrsh7th/cmp-nvim-lsp"
+  use "hrsh7th/cmp-buffer"
+  use "hrsh7th/cmp-path"
+  use "hrsh7th/cmp-nvim-lua"
+  use "quangnguyen30192/cmp-nvim-ultisnips"
+  -- use "hrsh7th/cmp-nvim-lsp-document-symbol"
+  -- use "saadparwaiz1/cmp_luasnip"
+  -- use "tamago324/cmp-zsh"
+
+  use {
+    "ggandor/lightspeed.nvim",
+    config = function() require('lightspeed').setup {} end
+  }
+
+  -- use 'vim-denops/denops.vim'
+  -- use {
+  --   "Shougo/ddc.vim",
+  --   requires = { "Shougo/ddc-around", "Shougo/ddc-nvim-lsp" }
+  -- }
+
+  -- use {
+  --   'jose-elias-alvarez/nvim-lsp-ts-utils',
+  --   requires = { 'neovim/nvim-lspconfig', 'nvim-lua/plenary.nvim' },
+  --   config = function()
+  --     require("lspconfig").tsserver.setup {
+  --       on_attach = function(client, bufnr)
+  --         local ts_utils = require("nvim-lsp-ts-utils")
+
+  --         ts_utils.setup {
+  --           enable_import_on_completion = true,
+
+  --           -- lower numbers = higher priority
+  --           import_all_priorities = {
+  --             same_file = 1, -- add to existing import statement
+  --             local_files = 2, -- git files or files with relative path markers
+  --             buffer_content = 3, -- loaded buffer content
+  --             buffers = 4 -- loaded buffer names
+  --           },
+  --           always_organize_imports = true,
+
+  --           -- update imports on file move
+  --           update_imports_on_move = false,
+  --           require_confirmation_on_move = false,
+  --           watch_dir = nil
+  --         }
+
+  --         -- required to fix code action ranges and filter diagnostics
+  --         ts_utils.setup_client(client)
+
+  --         -- no default maps, so you may want to define some here
+  --         -- local opts = { silent = true }
+  --         -- vim.api.nvim_buf_set_keymap(bufnr, "n", "gs", ":TSLspOrganize<CR>",
+  --         --                             opts)
+  --         -- vim.api.nvim_buf_set_keymap(bufnr, "n", "gr", ":TSLspRenameFile<CR>",
+  --         --                             opts)
+  --         -- vim.api.nvim_buf_set_keymap(bufnr, "n", "gi", ":TSLspImportAll<CR>",
+  --         --                             opts)
+  --       end
+  --     }
+  --   end
+  -- }
 
   -- start screen
   use {
@@ -87,7 +249,8 @@ return require('packer').startup(function()
   }
 
   -- better matchit (matchit is part of neovim)
-  use { 'andymass/vim-matchup', event = 'VimEnter' }
+  -- edit: disabled because of errors with nvim-treesitter
+  -- use { 'andymass/vim-matchup', event = 'VimEnter' }
 
   -- display marks in the gutter
   use 'kshenoy/vim-signature'

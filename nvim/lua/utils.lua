@@ -11,3 +11,7 @@ end
 function declare_filetype(glob, filetype)
   vim.cmd('autocmd BufRead,BufNewFile ' .. glob .. ' setfiletype ' .. filetype)
 end
+
+function reapply_colorscheme()
+  vim.cmd('colorscheme ' .. vim.api.nvim_exec('colorscheme', true))
+end

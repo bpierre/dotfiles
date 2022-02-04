@@ -80,3 +80,6 @@ opt.smartcase = true
 -- persistent undo across vim sessions
 opt.undodir = home .. '/.config/nvim-undo'
 opt.undofile = true
+
+-- lsp completion
+require'lspconfig'.tsserver.setup{}
