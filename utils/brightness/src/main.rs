@@ -11,7 +11,7 @@ enum UpdateCommand {
     Down,
 }
 
-const PROFILE: [i32; 10] = [1, 4, 8, 12, 16, 20, 25, 50, 75, 100];
+const PROFILE: [i32; 13] = [1, 4, 6, 8, 12, 16, 20, 24, 32, 40, 50, 70, 100];
 const DEVICE_PATH_DEFAULT: &str = "/sys/class/backlight/amdgpu_bl0/brightness";
 
 fn print_usage(program: &str, opts: Options) {
