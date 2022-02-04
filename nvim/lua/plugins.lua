@@ -199,6 +199,46 @@ return require('packer').startup(function()
   use {
     'mhartington/formatter.nvim',
     config = function()
+      local prettier_or_dprint = {
+        function()
+          local utils = require('nvim-tree-utils')
+
+          local buffer_dir = vim.fn.expand('%:p:h')
+          local buffer_name = vim.api.nvim_buf_get_name(0)
+
+          local parts = {}
+          for part in string.gmatch(buffer_dir, "[^/]+") do
+            table.insert(parts, part)
+          end
+
+          local args_prettier =
+              { "--stdin-filepath", '"' .. buffer_name .. '"' }
+          local args_dprint = { "fmt", "--stdin", '"' .. buffer_name .. '"' }
+
+          -- Default to prettier for now
+          local exe = "prettier"
+          local args = args_prettier
+
+          for i = #parts, 1, -1 do
+            local bin_path = '/' .. utils.path_join({ unpack(parts, 1, i) }) ..
+                                 "/node_modules/.bin/"
+
+            if utils.file_exists(bin_path .. "dprint") then
+              exe = bin_path .. "dprint"
+              args = args_dprint
+              break
+            end
+
+            if utils.file_exists(bin_path .. "prettier") then
+              exe = bin_path .. "prettier"
+              args = args_prettier
+              break
+            end
+          end
+
+          return { exe = exe, args = args, stdin = true }
+        end
+      }
       local prettier = {
         function()
           return {
@@ -228,12 +268,12 @@ return require('packer').startup(function()
         filetype = {
           css = prettier,
           html = prettier,
-          markdown = prettier,
-          json = prettier,
-          typescript = prettier,
-          typescriptreact = prettier,
-          javascriptreact = prettier,
-          javascript = prettier,
+          markdown = prettier_or_dprint,
+          json = prettier_or_dprint,
+          typescript = prettier_or_dprint,
+          typescriptreact = prettier_or_dprint,
+          javascriptreact = prettier_or_dprint,
+          javascript = prettier_or_dprint,
           solidity = prettier,
           lua = luafmt,
           rust = rustfmt
