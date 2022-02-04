@@ -210,6 +210,27 @@ update-discord() {
   echo 'Done.'
 }
 
+find-up() {
+  local path=$(pwd)
+  while [[ "$path" != "" && ! -e "$path/$1" && ! -h "$path/$1" ]]; do
+    path=${path%/*}
+  done
+  echo "$path"
+}
+
+closest-prettier() {
+  local p_local_bin="node_modules/.bin/prettier"
+  local p_path=$(find-up "$p_local_bin")
+
+  if [ -z "$p_path" ]; then
+    p_path="prettier"
+  else
+    p_path="$p_path/$p_local_bin"
+  fi
+
+  eval "$p_path $@"
+}
+
 # tag-ag (https://github.com/aykamko/tag)
 if (( $+commands[tag] )); then
   tag() { command tag "$@"; source ${TAG_ALIAS_FILE:-/tmp/tag_aliases} 2>/dev/null }
