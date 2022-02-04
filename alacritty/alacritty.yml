@@ -16,6 +16,9 @@ env:
 
 window:
 
+  # Background opacity
+  opacity: 1.0
+
   # Allow terminal applications to change Alacritty's window title.
   dynamic_title: true
 
@@ -195,9 +198,6 @@ bell:
   animation: EaseOutExpo
   duration: 0
   color: '0xffffff'
-
-# Background opacity
-background_opacity: 1.0
 
 # Mouse bindings
 #
