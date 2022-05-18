@@ -33,8 +33,12 @@ super + Return
 super + d
 	rofi -show drun -theme slate
 
+super + shift + d
+	bspc desktop --focus next.!occupied && rofi -show drun -theme slate
+
 super + n
 	rofi -show calc -modi calc -no-show-match -no-sort -theme slate
+# rofi -show calc -modi calc -no-show-match -no-sort -theme slate -calc-command "echo -n '{result}' | xclip"
 
 Print
 	flameshot gui
