@@ -41,37 +41,28 @@ user_pref('browser.urlbar.openViewOnFocus', false);
 user_pref('toolkit.legacyUserProfileCustomizations.stylesheets', true);
 
 // Acceleration
-user_pref('gfx.webrender.all', true);
-user_pref('gfx.webrender.enabled', true);
-user_pref('layers.acceleration.force-enabled', true);
+// user_pref('gfx.webrender.all', true);
+// user_pref('gfx.webrender.enabled', true);
+// user_pref('layers.acceleration.force-enabled', true);
 
 // VP9 video acceleration
-user_pref('media.ffmpeg.vaapi.enabled', true);
-user_pref('media.ffmpeg.vaapi-drm-display.enabled', true);
+// user_pref('media.ffmpeg.vaapi.enabled', true);
+// user_pref('media.ffmpeg.vaapi-drm-display.enabled', true);
 
 // Enable hardware VA-API decoding for WebRTC
-user_pref('media.navigator.mediadatadecoder_vpx_enabled', true);
+// user_pref('media.navigator.mediadatadecoder_vpx_enabled', true);
 
 // Use libvpx instead of ffvpx to decode vp9
-user_pref('media.ffvpx.enabled', false);
+// user_pref('media.ffvpx.enabled', false);
 
 // Disable the remote data decoder process for VP8/VP9
-user_pref('media.rdd-vpx.enabled', false);
+// user_pref('media.rdd-vpx.enabled', false);
 
 // Disable EGL on X11 (see also MOZ_X11_EGL=1 in ~/.profile)
-user_pref('gfx.x11-egl.force-disabled', false);
-user_pref('gfx.x11-egl.force-enabled', true);
+// user_pref('gfx.x11-egl.force-disabled', false);
+// user_pref('gfx.x11-egl.force-enabled', true);
 
 // Scroll
 user_pref('mousewheel.min_line_scroll_amount', 40);
 user_pref('general.smoothScroll', false);
 user_pref('general.smoothScroll.pages', false);
-// user_pref("general.smoothScroll.lines.durationMaxMS", 125);
-// user_pref("general.smoothScroll.lines.durationMinMS", 125);
-// user_pref("general.smoothScroll.mouseWheel.durationMaxMS", 200);
-// user_pref("general.smoothScroll.mouseWheel.durationMinMS", 100);
-// user_pref("general.smoothScroll.msdPhysics.enabled", true);
-// user_pref("general.smoothScroll.other.durationMaxMS", 125);
-// user_pref("general.smoothScroll.other.durationMinMS", 125);
-// user_pref("general.smoothScroll.pages.durationMaxMS", 125);
-// user_pref("general.smoothScroll.pages.durationMinMS", 125);
