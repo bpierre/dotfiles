@@ -121,3 +121,5 @@ keymap('n', '<Leader>tx', ':VimuxCloseRunner<CR>')
 
 -- mundo plugin
 keymap('n', '<leader>u', ':MundoToggle<CR>')
+
+vim.keymap.set('n', '<leader>d', vim.diagnostic.open_float)
