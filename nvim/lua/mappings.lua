@@ -1,8 +1,14 @@
 require('utils')
 require('fns')
 
+-- local telescope_actions = require "telescope.actions"
+
 -- leader key
 vim.g.mapleader = ','
+
+keymap('v', '<Leader>c',
+       ':\'<,\'>!~/dotfiles/nvim/js/css-literal-to-object.js<CR>',
+       { noremap = true })
 
 -- remap increment as C-g (C-a is used by tmux)
 keymap('n', '<C-g>', '<C-a>', {})
@@ -33,7 +39,7 @@ keymap('n', '<C-h>', ':tabprev<cr>')
 -- cycle between the windows (panes)
 keymap('n', '<C-c>', '<C-w><C-w>')
 
--- close window
+-- close window (delete buffer)
 keymap('n', '<Leader>w', ':bdelete<cr>')
 
 -- new tab
@@ -95,6 +101,7 @@ keymap('n', '<Leader>l', ':CocCommand explorer<CR>')
 
 -- telescope
 keymap('n', '<c-t>', '<cmd>Telescope find_files<cr>')
+-- keymap('n', '<c-t>', telescope_actions.select_tab)
 
 -- formatter
 keymap('n', '<leader>r', ':FormatWrite<CR>')
