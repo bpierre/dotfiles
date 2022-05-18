@@ -38,13 +38,19 @@
   autocrlf = input
   filemode = false
   editor = nvim
-  pager = delta --theme 'Sublime Snazzy'
+  pager = delta --dark
+[interactive]
+  diffFilter = delta --color-only
+[delta]
+  navigate = true  # use n and N to move between diff sections
+  ; side-by-side = true
 [web]
   browser = open
 [push]
   default = simple
 [diff]
-  tool = nvim
+  ; tool = nvim
+  colorMoved = default
 [status]
   short = true
 [difftool "vimdiff"]
@@ -61,8 +67,8 @@
   conflictstyle = merge
 [gpg]
   program = gpg
-#[commit]
-#  gpgSign = true
+[commit]
+  gpgSign = true
 [color "diff-highlight"]
   oldNormal = red bold
   oldHighlight = red bold 52
