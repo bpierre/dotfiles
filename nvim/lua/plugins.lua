@@ -142,7 +142,7 @@ return require('packer').startup(function()
             end
           },
           ["<tab>"] = cmp.config.disable,
-          ['<CR>'] = mapping.confirm({ select = true })
+          -- ['<CR>'] = mapping.confirm({ select = true })
         },
         sources = {
           { name = "nvim_lua" }, { name = "nvim_lsp" }, { name = "path" },
@@ -314,7 +314,9 @@ return require('packer').startup(function()
     cmd = { "Telescope" },
     requires = 'nvim-lua/plenary.nvim',
     config = function()
-      require('telescope').setup {
+      local telescope = require('telescope')
+      local telescope_actions = require('telescope.actions')
+      telescope.setup {
         layout_strategy = 'center',
         extensions = {
           fzf = {
@@ -329,7 +331,8 @@ return require('packer').startup(function()
           file_ignore_patterns = {
             "pkg/kit%-legacy", "pkg/website", "node_modules", "**/*.png",
             "**/*.jpg", "**/*.gif", "**/*.woff2", "**/*.mp4"
-          }
+          },
+          mappings = { n = { ["<C-t>"] = telescope_actions.select_tab } }
         }
       }
     end
@@ -405,7 +408,7 @@ return require('packer').startup(function()
       local prettier = {
         function()
           return {
-            exe = "closest-prettier",
+            exe = "prettier",
             args = {
               "--stdin-filepath", '"' .. vim.api.nvim_buf_get_name(0) .. '"'
             },
