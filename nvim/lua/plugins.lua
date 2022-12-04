@@ -46,14 +46,45 @@ return require('packer').startup(function()
       reapply_colorscheme()
     end
   }
-  use 'norcalli/nvim-colorizer.lua'
+
+  -- code screenshots
+  use {
+    'krivahtoo/silicon.nvim',
+    run = './install.sh',
+    config = function()
+      require('silicon').setup {
+        -- font = 'FantasqueSansMono Nerd Font=16',
+        theme = 'Dracula'
+      }
+    end
+  }
+
+  -- use 'norcalli/nvim-colorizer.lua'
+
   use {
     'nvim-treesitter/nvim-treesitter',
-    commit = '668de0951a36ef17016074f1120b6aacbe6c4515',
-    run = ':TSUpdate',
+    commit = '2a63ea5665a6de96acd31a045d9d4d73272ff5a9',
+    run = function()
+      require('nvim-treesitter.install').update { with_sync = true }
+    end,
     config = function()
       require('nvim-treesitter.configs').setup {
-        highlight = { enable = true },
+        additional_vim_regex_highlighting = true,
+        auto_install = true,
+        sync_install = true,
+        ensure_installed = {
+          "bash", "c", "c_sharp", "clojure", "cmake", "comment", "commonlisp",
+          "cpp", "css", "dart", "dockerfile", "dot", "elixir", "elm", "elvish",
+          "embedded_template", "erlang", "fennel", "fish", "gitattributes",
+          "gitignore", "glsl", "go", "graphql", "haskell", "help", "html",
+          "http", "java", "javascript", "jsdoc", "json", "json5", "kotlin",
+          "latex", "llvm", "lua", "make", "markdown", "markdown_inline", "nix",
+          "ocaml", "ocaml_interface", "ocamllex", "perl", "php", "phpdoc",
+          "prisma", "python", "qmljs", "regex", "ruby", "rust", "solidity",
+          "sql", "svelte", "swift", "sxhkdrc", "toml", "tsx", "typescript",
+          "vim", "vue", "yaml", "zig"
+        },
+        highlight = { enable = true, additional_vim_regex_highlighting = true },
         indent = { enable = true }
       }
     end
@@ -90,18 +121,56 @@ return require('packer').startup(function()
   --   'itchyny/lightline.vim',
   --   config = function() vim.g.lightline = { colorscheme = 'wombat' } end
   -- }
-  -- use 'famiu/feline.nvim'
   -- use {
   --   'nvim-lualine/lualine.nvim',
   --   requires = { 'kyazdani42/nvim-web-devicons', opt = true }
   -- }
+  -- use { 'famiu/feline.nvim', config = function() require('feline').setup() end }
 
   -- everything completion
   -- use { 'neoclide/coc.nvim', branch = 'release' }
 
   use 'neovim/nvim-lspconfig'
 
-  use "j-hui/fidget.nvim"
+  use {
+    'simrat39/rust-tools.nvim',
+    requires = { 'neovim/nvim-lspconfig' },
+    config = function()
+
+      -- config from https://sharksforarms.dev/posts/neovim-rust/
+      local nvim_lsp = require 'lspconfig'
+      require('rust-tools').setup {
+        tools = { -- rust-tools options
+          autoSetHints = true,
+          hover_with_actions = true,
+          inlay_hints = {
+            show_parameter_hints = false,
+            parameter_hints_prefix = "",
+            other_hints_prefix = ""
+          }
+        },
+
+        -- all the opts to send to nvim-lspconfig
+        -- these override the defaults set by rust-tools.nvim
+        -- see https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#rust_analyzer
+        server = {
+          -- on_attach is a callback called when the language server attachs to the buffer
+          -- on_attach = on_attach,
+          settings = {
+            -- to enable rust-analyzer settings visit:
+            -- https://github.com/rust-analyzer/rust-analyzer/blob/master/docs/user/generated_config.adoc
+            ["rust-analyzer"] = {
+              -- enable clippy on save
+              checkOnSave = { command = "clippy" }
+            }
+          }
+        }
+      }
+    end
+  }
+
+  -- Display LSP progress on the bottom right
+  use { "j-hui/fidget.nvim", config = function() require"fidget".setup() end }
 
   -- Completion
   -- Sources
@@ -141,13 +210,12 @@ return require('packer').startup(function()
               end
             end
           },
-          ["<tab>"] = cmp.config.disable,
+          ["<tab>"] = cmp.config.disable
           -- ['<CR>'] = mapping.confirm({ select = true })
         },
         sources = {
           { name = "nvim_lua" }, { name = "nvim_lsp" }, { name = "path" },
           { name = "ultisnips" }, { name = "buffer", keyword_length = 5 }
-
         },
         sorting = {
           comparators = {
@@ -176,19 +244,63 @@ return require('packer').startup(function()
     end
   }
 
+  -- use {
+  --   'ms-jpq/coq_nvim',
+  --   branch = 'coq',
+  --   config = function()
+  --     vim.g.coq_settings = {
+  --       auto_start = 'shut-up',
+  --       xdg = true,
+  --       clients = {
+  --         lsp = { resolve_timeout = 0.02 },
+  --         tree_sitter = { slow_threshold = 0.025 },
+  --         buffers = { match_syms = true, same_filetype = true }
+  --       },
+  --       limits = { completion_auto_timeout = 0.05 },
+  --       keymap = { jump_to_mark = "", manual_complete = "<c-space>" }
+  --     }
+
+  --     local lsp = require "lspconfig"
+  --     local coq = require "coq"
+  --     lsp.tsserver.setup(coq.lsp_ensure_capabilities())
+
+  --     -- vim.g.coq_settings.keymap.jump_to_mark = nil
+  --     -- vim.g.coq_settings.keymap.manual_complete = "<c-space>"
+  --   end
+  -- }
+  -- use { 'ms-jpq/coq.artifacts', branch = 'artifacts' }
+
   use 'onsails/lspkind-nvim'
   use "hrsh7th/cmp-nvim-lsp"
   use "hrsh7th/cmp-buffer"
   use "hrsh7th/cmp-path"
   use "hrsh7th/cmp-nvim-lua"
   use "quangnguyen30192/cmp-nvim-ultisnips"
+
   -- use "hrsh7th/cmp-nvim-lsp-document-symbol"
   -- use "saadparwaiz1/cmp_luasnip"
   -- use "tamago324/cmp-zsh"
 
+  -- use({
+  --   "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
+  --   config = function()
+  --     require("lsp_lines").register_lsp_virtual_lines()
+  --   end,
+  -- })
+
+  -- -- Disable virtual_text since it's redundant due to lsp_lines.
+  -- vim.diagnostic.config({
+  --   virtual_text = false,
+  -- })
+
   use {
     "ggandor/lightspeed.nvim",
     config = function() require('lightspeed').setup {} end
+  }
+
+  use {
+    "windwp/nvim-autopairs",
+    config = function() require("nvim-autopairs").setup {} end
   }
 
   -- use 'vim-denops/denops.vim'
@@ -328,9 +440,13 @@ return require('packer').startup(function()
         defaults = {
           -- Lua regex patterns: http://www.lua.org/pil/20.2.html
           -- "pkg/demo",
+          -- file_ignore_patterns = {
+          --   "pkg/kit%-legacy", "pkg/website", "node_modules", "**/*.png",
+          --   "**/*.jpg", "**/*.gif", "**/*.woff2", "**/*.mp4"
+          -- },
           file_ignore_patterns = {
-            "pkg/kit%-legacy", "pkg/website", "node_modules", "**/*.png",
-            "**/*.jpg", "**/*.gif", "**/*.woff2", "**/*.mp4"
+            "node_modules", "**/*.png", "**/*.jpg", "**/*.gif", "**/*.woff2",
+            "**/*.mp4"
           },
           mappings = { n = { ["<C-t>"] = telescope_actions.select_tab } }
         }
@@ -382,8 +498,12 @@ return require('packer').startup(function()
           local args_dprint = { "fmt", "--stdin", '"' .. buffer_name .. '"' }
 
           -- Default to prettier for now
-          local exe = "prettier"
-          local args = args_prettier
+          -- local exe = "prettier"
+          -- local args = args_prettier
+
+          -- Default to dprint now
+          local exe = "dprint"
+          local args = args_dprint
 
           for i = #parts, 1, -1 do
             local bin_path = '/' .. utils.path_join({ unpack(parts, 1, i) }) ..
@@ -421,14 +541,21 @@ return require('packer').startup(function()
           return {
             exe = "lua-format",
             args = {
-              "--indent-width=2 --spaces-inside-table-braces --break-after-operator"
+              "--indent-width=2", "--spaces-inside-table-braces",
+              "--break-after-operator"
             },
             stdin = true
           }
         end
       }
-      local rustfmt =
-          { function() return { exe = "rustfmt", stdin = true } end }
+      local rustfmt = {
+        function() return { exe = "rustfmt", args = {}, stdin = true } end
+      }
+      local forge_fmt = {
+        function()
+          return { exe = "forge fmt", args = { "--raw", "-" }, stdin = true }
+        end
+      }
       require('formatter').setup {
         logging = false,
         filetype = {
@@ -440,9 +567,10 @@ return require('packer').startup(function()
           typescriptreact = prettier_or_dprint,
           javascriptreact = prettier_or_dprint,
           javascript = prettier_or_dprint,
-          solidity = prettier,
+          solidity = prettier_or_dprint,
           lua = luafmt,
-          rust = rustfmt
+          rust = rustfmt,
+          solidity = forge_fmt
         }
       }
     end
@@ -475,4 +603,5 @@ return require('packer').startup(function()
   use { 'moll/vim-node', ft = jsts }
   use { 'posva/vim-vue', ft = { 'vue' } }
   use { 'evanleck/vim-svelte', branch = 'main', ft = { 'svelte' } }
+
 end)
