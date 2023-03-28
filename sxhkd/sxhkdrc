@@ -27,8 +27,12 @@ super + XF86AudioRaiseVolume
 	spotifycli --next
 
 # terminal emulator
-super + Return
+super + shift + Return
 	alacritty
+
+# files explorer
+super + Return
+	thunar
 
 super + d
 	rofi -show drun -theme slate
