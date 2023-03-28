@@ -13,3 +13,7 @@ endsnippet
 snippet c "css prop function"
 ({ colors }) =>$1
 endsnippet
+
+snippet ust "useState()"
+const [${1:name}, set${1/.*/\u$0/}] = useState($2)
+endsnippet
