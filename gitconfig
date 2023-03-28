@@ -1,6 +1,6 @@
 [user]
   name = Pierre Bertet
-  email = hello@pierre.world
+  email = hi@bpier.re
 [gist]
   private = yes
   extension = txt
@@ -40,8 +40,12 @@
   editor = nvim
   pager = delta --dark
 [interactive]
-  diffFilter = delta --color-only
+  diffFilter = delta --color-only --features=interactive
+[add.interactive]
+  useBuiltin = false # required for git 2.37.0
 [delta]
+  light = false
+  features = decorations
   navigate = true  # use n and N to move between diff sections
   ; side-by-side = true
 [web]
