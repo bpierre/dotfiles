@@ -144,7 +144,8 @@ alias ag="ag --ignore node_modules"
 alias history-stat="history 0 | awk '{print \$2}' | sort | uniq -c | sort -n -r | head"
 alias emoj="emoji-fzf preview | fzf --preview 'emoji-fzf get --name {1}' | cut -d \" \" -f 1 | emoji-fzf get | xclip -selection clipboard"
 alias check-deprecated-modules="cat package.json | jq '(.dependencies+.devDependencies) | keys | .[]' | xargs -I {} sh -c 'yarn info --json {} | jq \".data.name,.data.deprecated\"'"
-alias serve="xdg-open 'http://localhost:8000/' & simple-http-server --silent --index"
+# alias serve="xdg-open 'http://localhost:8000/' & simple-http-server --silent --index"
+alias http="simple-http-server"
 
 # crops
 # alias crop-1450-600="mogrify -gravity North -chop x458 -gravity South -chop x117 -shave 19x0"
@@ -162,6 +163,7 @@ alias bth='bt power off && bt power on && bt connect 94:DB:56:6B:AF:FD'
 alias bto='bt power off'
 alias b='bat'
 alias p='paru'
+alias ca='kalker'
 
 # tmux
 if [[ "$(uname)" = "Darwin" ]]; then
@@ -245,8 +247,6 @@ if [[ "$PROFILE_STARTUP" == true ]]; then
   exec 2>&3 3>&-
 fi
 
-export PATH="$HOME/.config/yarn/global/node_modules/.bin:$PATH"
-
 # export FZF_DEFAULT_COMMAND='rg --files --no-ignore-vcs --hidden'
 export FZF_DEFAULT_COMMAND='rg --files'
 # export FZF_DEFAULT_COMMAND='ag -g ""'
@@ -265,9 +265,12 @@ export REACT_EDITOR=none
 export OPENCV_LOG_LEVEL=ERROR
 
 # nodenv
-export PATH="$HOME/.nodenv/bin:$PATH"
-eval "$(nodenv init -)"
-export PATH="$HOME/.yarn/bin:$PATH"
+# export PATH="$HOME/.nodenv/bin:$PATH"
+# eval "$(nodenv init -)"
+# export PATH="$HOME/.yarn/bin:$PATH"
+
+# asdf
+. /opt/asdf-vm/asdf.sh
 
 # keychain
 eval $(keychain --eval --quiet id_rsa)
@@ -295,6 +298,18 @@ export PERL_MM_OPT="INSTALL_BASE=/home/pierre/perl5"
 
 source /home/pierre/.config/broot/launcher/bash/br
 
-# tabtab source for packages
-# uninstall by removing these lines
-[[ -f ~/.config/tabtab/zsh/__tabtab.zsh ]] && . ~/.config/tabtab/zsh/__tabtab.zsh || true
+# pnpm
+export PNPM_HOME="/home/pierre/.local/share/pnpm"
+export PATH="$PNPM_HOME:$PATH"
+source $XDG_CONFIG_HOME/tabtab/zsh/pnpm.zsh
+# pnpm end
+
+# bun completions
+[ -s "/home/pierre/.bun/_bun" ] && source "/home/pierre/.bun/_bun"
+
+# bun
+export BUN_INSTALL="/home/pierre/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+# foundry
+export PATH="$PATH:/home/pierre/.foundry/bin"
