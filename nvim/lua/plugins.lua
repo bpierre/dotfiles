@@ -425,6 +425,8 @@ require("lazy").setup {
   }, { 'jparise/vim-graphql', ft = vim.list_extend(jsts, { 'graphql' }) },
   { 'heavenshell/vim-jsdoc', ft = jsts }, { 'jxnblk/vim-mdx-js', ft = jsts },
   { 'moll/vim-node', ft = jsts }, { 'posva/vim-vue', ft = { 'vue' } },
-  { 'evanleck/vim-svelte', branch = 'main', ft = { 'svelte' } }
-
+  { 'evanleck/vim-svelte', branch = 'main', ft = { 'svelte' } }, {
+    -- copilot
+    'github/copilot.vim'
+  }
 }
