@@ -288,6 +288,9 @@ eval "$(starship init zsh)"
 
 eval "$(zoxide init zsh --cmd c)"
 
+# Copilot
+eval "$(github-copilot-cli alias -- "$0")"
+
 # Python
 export PATH="/home/pierre/.local/bin:$PATH"
 
