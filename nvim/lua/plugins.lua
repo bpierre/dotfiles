@@ -42,10 +42,13 @@ require("lazy").setup {
       vim.g.gruvbox_flat_style = "hard"
     end
   }, {
-    'krivahtoo/silicon.nvim',
-    build = './install.sh',
-    config = function() require('silicon').setup({ theme = 'Dracula' }) end
-  }, {
+
+    -- DISABLED FOR NOW (crashes neovim)
+    -- 'krivahtoo/silicon.nvim',
+    -- build = './install.sh',
+    -- config = function() require('silicon').setup({ theme = 'Dracula' }) end
+    -- }, {
+
     'nvim-treesitter/nvim-treesitter',
     -- commit = '2a63ea5665a6de96acd31a045d9d4d73272ff5a9',
     build = function()
@@ -100,39 +103,10 @@ require("lazy").setup {
     -- lspconfig
     'neovim/nvim-lspconfig'
   }, {
+    -- adds rust-specific functionality to lsp, sets up rust-analyzer
     'simrat39/rust-tools.nvim',
     dependencies = { 'neovim/nvim-lspconfig' },
-    config = function()
-
-      -- config from https://sharksforarms.dev/posts/neovim-rust/
-      local nvim_lsp = require 'lspconfig'
-      require('rust-tools').setup({
-        tools = { -- rust-tools options
-          autoSetHints = true,
-          inlay_hints = {
-            show_parameter_hints = false,
-            parameter_hints_prefix = "",
-            other_hints_prefix = ""
-          }
-        },
-
-        -- all the opts to send to nvim-lspconfig
-        -- these override the defaults set by rust-tools.nvim
-        -- see https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#rust_analyzer
-        server = {
-          -- on_attach is a callback called when the language server attachs to the buffer
-          -- on_attach = on_attach,
-          settings = {
-            -- to enable rust-analyzer settings visit:
-            -- https://github.com/rust-analyzer/rust-analyzer/blob/master/docs/user/generated_config.adoc
-            ["rust-analyzer"] = {
-              -- enable clippy on save
-              checkOnSave = { command = "clippy" }
-            }
-          }
-        }
-      })
-    end
+    config = function() require"rust-tools".setup() end
   }, {
     -- Display LSP progress on the bottom right
     "j-hui/fidget.nvim",
@@ -143,7 +117,7 @@ require("lazy").setup {
     dependencies = { "kyazdani42/nvim-web-devicons" },
     config = function() require("trouble").setup() end
   }, {
-    -- Completion
+    -- Completion menu
     "hrsh7th/nvim-cmp",
     config = function()
       local cmp = require('cmp')
@@ -211,9 +185,25 @@ require("lazy").setup {
         -- experimental = { native_menu = false, ghost_text = true }
       })
     end
-  }, { 'onsails/lspkind-nvim' }, { "hrsh7th/cmp-nvim-lsp" },
-  { "hrsh7th/cmp-buffer" }, { "hrsh7th/cmp-path" }, { "hrsh7th/cmp-nvim-lua" },
-  { "quangnguyen30192/cmp-nvim-ultisnips" }, {
+  }, {
+    -- pictograms for lsp
+    'onsails/lspkind-nvim'
+  }, {
+    -- cmp: lsp
+    "hrsh7th/cmp-nvim-lsp"
+  }, {
+    -- cmp: buffers
+    "hrsh7th/cmp-buffer"
+  }, {
+    -- cmp: paths
+    "hrsh7th/cmp-path"
+  }, {
+    -- cmp: neovim lua API
+    "hrsh7th/cmp-nvim-lua"
+  }, {
+    -- cmp: ultisnips
+    "quangnguyen30192/cmp-nvim-ultisnips"
+  }, {
     "ggandor/lightspeed.nvim",
     config = function() require('lightspeed').setup({}) end
   }, {
@@ -331,7 +321,7 @@ require("lazy").setup {
               { "--stdin-filepath", '"' .. buffer_name .. '"' }
           local args_dprint = { "fmt", "--stdin", '"' .. buffer_name .. '"' }
 
-          -- Default to prettier for now
+          -- Default to prettier
           -- local exe = "prettier"
           -- local args = args_prettier
 
@@ -370,6 +360,17 @@ require("lazy").setup {
           }
         end
       }
+      local dprint = {
+        function()
+          return {
+            exe = "dprint",
+            args = {
+              "fmt", "--stdin", '"' .. vim.api.nvim_buf_get_name(0) .. '"'
+            },
+            stdin = true
+          }
+        end
+      }
       local luafmt = {
         function()
           return {
@@ -383,7 +384,10 @@ require("lazy").setup {
         end
       }
       local rustfmt = {
-        function() return { exe = "rustfmt", args = {}, stdin = true } end
+        function()
+          return
+              { exe = "rustfmt", args = { "--edition", "2021" }, stdin = true }
+        end
       }
       local forge_fmt = {
         function()
@@ -395,20 +399,23 @@ require("lazy").setup {
         filetype = {
           css = prettier,
           html = prettier,
-          markdown = prettier_or_dprint,
-          json = prettier_or_dprint,
-          typescript = prettier_or_dprint,
-          typescriptreact = prettier_or_dprint,
-          javascriptreact = prettier_or_dprint,
-          javascript = prettier_or_dprint,
-          solidity = prettier_or_dprint,
+          markdown = dprint,
+          json = dprint,
+          jsonc = dprint,
+          typescript = dprint,
+          typescriptreact = dprint,
+          javascriptreact = dprint,
+          javascript = dprint,
+          solidity = dprint,
           lua = luafmt,
           rust = rustfmt,
-          solidity = forge_fmt
+          solidity = forge_fmt,
+          toml = dprint
         }
       })
     end
   }, -- languages
+  { 'terrastruct/d2-vim', ft = { 'd2' } },
   { 'justinj/vim-pico8-syntax', ft = { 'lua', 'pico8' } },
   { 'rust-lang/rust.vim', ft = { 'rust' } },
   { 'tomlion/vim-solidity', ft = { 'solidity' } },
@@ -425,8 +432,6 @@ require("lazy").setup {
   }, { 'jparise/vim-graphql', ft = vim.list_extend(jsts, { 'graphql' }) },
   { 'heavenshell/vim-jsdoc', ft = jsts }, { 'jxnblk/vim-mdx-js', ft = jsts },
   { 'moll/vim-node', ft = jsts }, { 'posva/vim-vue', ft = { 'vue' } },
-  { 'evanleck/vim-svelte', branch = 'main', ft = { 'svelte' } }, {
-    -- copilot
-    'github/copilot.vim'
-  }
+  { 'evanleck/vim-svelte', branch = 'main', ft = { 'svelte' } },
+  { 'github/copilot.vim' }
 }
