@@ -21,9 +21,11 @@ super + XF86AudioMute
 	spotifycli --playpause
 
 # Prev / Next
-super + XF86AudioLowerVolume
+# super + XF86AudioLowerVolume
+super + Left
 	spotifycli --prev
-super + XF86AudioRaiseVolume
+# super + XF86AudioRaiseVolume
+super + Right
 	spotifycli --next
 
 # terminal emulator
