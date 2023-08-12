@@ -254,8 +254,6 @@ export FZF_DEFAULT_COMMAND='rg --files'
 # export FZF_DEFAULT_COMMAND='ag -g ""'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
-# [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
 # tabtab source for electron-forge package
 # uninstall by removing these lines or running `tabtab uninstall electron-forge`
 # [[ -f /Users/pierre/src/ganache/node_modules/tabtab/.completions/electron-forge.zsh ]] && . /Users/pierre/src/ganache/node_modules/tabtab/.completions/electron-forge.zsh
@@ -265,11 +263,6 @@ export REACT_EDITOR=none
 
 # Prevent Howdy to display warnings
 export OPENCV_LOG_LEVEL=ERROR
-
-# nodenv
-# export PATH="$HOME/.nodenv/bin:$PATH"
-# eval "$(nodenv init -)"
-# export PATH="$HOME/.yarn/bin:$PATH"
 
 # asdf
 . /opt/asdf-vm/asdf.sh
