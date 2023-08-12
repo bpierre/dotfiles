@@ -31,26 +31,19 @@ vim.opt.rtp:prepend(lazypath)
 --   end
 -- }
 -- JS
-local jsts =
-    { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' }
+local jsts_file_types = {
+  'javascript', 'javascriptreact', 'typescript', 'typescriptreact'
+}
 
 require("lazy").setup {
   {
-    'eddyekofo94/gruvbox-flat.nvim',
+    'ellisonleao/gruvbox.nvim',
     config = function()
-      vim.g.gruvbox_transparent = true
-      vim.g.gruvbox_flat_style = "hard"
+      require("gruvbox").setup({ contrast = "hard", transparent_mode = false })
     end
   }, {
 
-    -- DISABLED FOR NOW (crashes neovim)
-    -- 'krivahtoo/silicon.nvim',
-    -- build = './install.sh',
-    -- config = function() require('silicon').setup({ theme = 'Dracula' }) end
-    -- }, {
-
     'nvim-treesitter/nvim-treesitter',
-    -- commit = '2a63ea5665a6de96acd31a045d9d4d73272ff5a9',
     build = function()
       require('nvim-treesitter.install').update({ with_sync = true })
     end,
@@ -110,6 +103,7 @@ require("lazy").setup {
   }, {
     -- Display LSP progress on the bottom right
     "j-hui/fidget.nvim",
+    tag = 'legacy',
     config = function() require"fidget".setup() end
   }, {
     -- LSP diagnostics in a panel (:Trouble)
@@ -429,9 +423,12 @@ require("lazy").setup {
         'jsx=javascript', 'ts=typescript', 'tsx=typescript'
       }
     end
-  }, { 'jparise/vim-graphql', ft = vim.list_extend(jsts, { 'graphql' }) },
-  { 'heavenshell/vim-jsdoc', ft = jsts }, { 'jxnblk/vim-mdx-js', ft = jsts },
-  { 'moll/vim-node', ft = jsts }, { 'posva/vim-vue', ft = { 'vue' } },
+  },
+  { 'jparise/vim-graphql', ft = vim.list_extend(jsts_file_types, { 'graphql' }) },
+  { 'heavenshell/vim-jsdoc', ft = jsts_file_types },
+  { 'jxnblk/vim-mdx-js', ft = jsts_file_types },
+  { 'moll/vim-node', ft = jsts_file_types },
+  { 'posva/vim-vue', ft = { 'vue' } },
   { 'evanleck/vim-svelte', branch = 'main', ft = { 'svelte' } },
   { 'github/copilot.vim' }
 }
