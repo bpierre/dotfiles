@@ -10,7 +10,7 @@ license = "MIT"
 [dependencies]
 anyhow = "1.0"
 getopts = "0.2"
-zbus = "2.0.0-beta.7"
+zbus = "3.14.1"
 
 [dependencies.async-std]
 version = "1.10.0"

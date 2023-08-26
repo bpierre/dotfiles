@@ -2,13 +2,13 @@ use std::{collections::HashMap, error::Error};
 use zbus::zvariant::Value;
 use zbus::{dbus_proxy, Connection};
 
-// Creates `NotificationProxy` based on `Notifications` trait.
+// Creates `NotificationProxy` based on the `Notifications` trait.
 #[dbus_proxy(
     interface = "org.freedesktop.Notifications",
     default_service = "org.freedesktop.Notifications",
     default_path = "/org/freedesktop/Notifications"
 )]
-trait Notifications {
+trait BrightnessNotifications {
     fn notify(
         &self,
         app_name: &str,
@@ -24,8 +24,7 @@ trait Notifications {
 
 pub async fn notify(brightness: i32) -> Result<(), Box<dyn Error>> {
     let connection = Connection::session().await?;
-
-    let proxy = NotificationsProxy::new(&connection).await?;
+    let proxy = BrightnessNotificationsProxy::new(&connection).await?;
 
     let mut hints = HashMap::new();
     let brightness_val = Value::new(brightness);

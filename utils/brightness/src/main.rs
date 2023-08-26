@@ -1,5 +1,4 @@
 extern crate getopts;
-use anyhow::Result;
 use async_std;
 use getopts::Options;
 use std::env;
@@ -11,8 +10,26 @@ enum UpdateCommand {
     Down,
 }
 
+const BACKLIGHT_PATH: &str = "/sys/class/backlight";
 const PROFILE: [i32; 13] = [1, 4, 6, 8, 12, 16, 20, 24, 32, 40, 50, 70, 100];
-const DEVICE_PATH_DEFAULT: &str = "/sys/class/backlight/amdgpu_bl0/brightness";
+
+// get the first device path found in /sys/class/backlight
+fn get_device_path() -> Result<String, std::io::Error> {
+    match fs::read_dir(BACKLIGHT_PATH)?.next() {
+        Some(entry) => Ok(entry?.path().to_str().unwrap().to_string()),
+        None => Err(std::io::Error::new(
+            std::io::ErrorKind::NotFound,
+            "No backlight device found on the system",
+        )),
+    }
+}
+
+// get the brightness_max value and return it as a float
+fn get_brightness_max(device_path: &str) -> Result<f64, Box<dyn std::error::Error>> {
+    let brightness_max_str: String = fs::read_to_string(format!("{}/max_brightness", device_path))?;
+    let brightness_max_value: f64 = brightness_max_str.trim().parse()?;
+    Ok(brightness_max_value)
+}
 
 fn print_usage(program: &str, opts: Options) {
     let brief = format!("\nUsage: {} up|down [-d device]", program);
@@ -39,23 +56,30 @@ fn closest_profile_index(pct: i32) -> usize {
     };
 }
 
-fn brightness_val_to_pct(value: f64) -> i32 {
-    (value / 255. * 100.).round() as i32
+fn brightness_val_to_pct(value: f64, max: f64) -> i32 {
+    (value / max * 100.).round() as i32
 }
 
-fn brightness_pct_to_val(pct: i32) -> f64 {
-    ((pct as f64) / 100.0 * 255.).round()
+fn brightness_pct_to_val(pct: i32, max: f64) -> f64 {
+    ((pct as f64) / 100.0 * max).round()
 }
 
-fn get_brightness(device_path: &str) -> Result<i32> {
-    let brightness_str: String = fs::read_to_string(device_path)?;
+fn get_brightness(
+    device_path: &str,
+    brightness_value_max: f64,
+) -> Result<i32, Box<dyn std::error::Error>> {
+    let brightness_str: String = fs::read_to_string(format!("{}/brightness", device_path))?;
     let brightness_value: f64 = brightness_str.trim().parse()?;
-    let brightness_percent = brightness_val_to_pct(brightness_value);
+    let brightness_percent = brightness_val_to_pct(brightness_value, brightness_value_max);
     Ok(brightness_percent)
 }
 
-fn update_brightness(command: UpdateCommand, device_path: &str) -> Result<i32> {
-    let brightness = get_brightness(device_path)?;
+fn update_brightness(
+    command: UpdateCommand,
+    device_path: &str,
+) -> Result<i32, Box<dyn std::error::Error>> {
+    let brightness_max = get_brightness_max(device_path)?;
+    let brightness = get_brightness(device_path, brightness_max)?;
 
     let profile_index = closest_profile_index(brightness);
     let new_profile_index = match command {
@@ -65,8 +89,8 @@ fn update_brightness(command: UpdateCommand, device_path: &str) -> Result<i32> {
 
     let new_brightness = PROFILE[new_profile_index];
     fs::write(
-        device_path,
-        brightness_pct_to_val(new_brightness).to_string(),
+        format!("{}/brightness", device_path),
+        brightness_pct_to_val(new_brightness, brightness_max).to_string(),
     )?;
 
     Ok(new_brightness)
@@ -79,7 +103,12 @@ async fn main() {
 
     let mut opts = Options::new();
     opts.optflag("h", "help", "Prints help information");
-    opts.optflag("d", "device", "Change the path of the brightness device");
+    opts.optflagopt(
+        "d",
+        "device",
+        "Define or print the path of the backlight device",
+        "DEVICE",
+    );
 
     let matches = match opts.parse(&args[1..]) {
         Ok(m) => m,
@@ -93,16 +122,21 @@ async fn main() {
         return;
     }
 
+    let device_path = match matches.opt_str("d") {
+        Some(device_path) => device_path,
+        None => get_device_path().unwrap().to_string(),
+    };
+
+    if matches.opt_present("d") && matches.opt_str("d").is_none() {
+        println!("{}", device_path);
+        return;
+    }
+
     let command = if !matches.free.is_empty() {
         matches.free[0].clone()
     } else {
         print_usage(&program, opts);
         return;
-    };
-
-    let device_path = match matches.opt_str("d") {
-        Some(device_path) => device_path,
-        None => DEVICE_PATH_DEFAULT.to_string(),
     };
 
     let update_command = match command.as_str() {
