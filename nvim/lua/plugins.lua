@@ -35,7 +35,7 @@ local jsts_file_types = {
   'javascript', 'javascriptreact', 'typescript', 'typescriptreact'
 }
 
-require("lazy").setup {
+require("lazy").setup({
   {
     'ellisonleao/gruvbox.nvim',
     config = function()
@@ -431,4 +431,4 @@ require("lazy").setup {
   { 'posva/vim-vue', ft = { 'vue' } },
   { 'evanleck/vim-svelte', branch = 'main', ft = { 'svelte' } },
   { 'github/copilot.vim' }
-}
+})
