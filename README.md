@@ -17,3 +17,4 @@
 - [bat](https://github.com/sharkdp/bat)
 - [duf](https://github.com/muesli/duf)
 - [exa](https://github.com/ogham/exa)
+- [ambr](https://github.com/dalance/amber)
