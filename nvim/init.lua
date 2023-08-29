@@ -1,6 +1,6 @@
-require('plugins')
-require('settings')
-require('mappings')
+require("plugins")
+require("settings")
+require("mappings")
 
 vim.cmd([[
   " syntax coloration
@@ -22,27 +22,41 @@ vim.cmd([[
 -- filetypes
 vim.filetype.add({
   filename = {
-    ['.prettierrc'] = 'json',
-    ['.eslintrc'] = 'json',
-    ['.babelrc'] = 'json',
-    ['.swcrc'] = 'json'
-  }
+    [".prettierrc"] = "json",
+    [".eslintrc"] = "json",
+    [".babelrc"] = "json",
+    [".swcrc"] = "json",
+  },
 })
 
 -- autojump to the last edited position when opening a buffer
-vim.api.nvim_create_autocmd('BufReadPost', {
-  pattern = '*',
+vim.api.nvim_create_autocmd("BufReadPost", {
+  pattern = "*",
   callback = function()
-    local last_line = vim.fn.getpos('$')[2]
+    local line_count = vim.api.nvim_buf_line_count(0)
     local last_edit = vim.api.nvim_buf_get_mark(0, '"')
-    if last_edit[1] > 0 and last_edit[1] <= last_line then
-      vim.api.nvim_win_set_cursor(0, last_edit)
+    if last_edit[1] > 0 and last_edit[1] <= line_count then
+      vim.api.nvim_win_set_cursor(0, last_edit) -- set line
+      vim.cmd("norm! zz") -- center line
     end
-  end
+  end,
+})
+
+-- close empty buffers automatically
+vim.api.nvim_create_autocmd("TabLeave", {
+  pattern = "*",
+  callback = function(args)
+    local bytes = vim.fn.wordcount().bytes
+    if bytes == 0 then
+      vim.api.nvim_buf_delete(args.buf, { force = true })
+    end
+  end,
 })
 
 -- refresh gitgutter on save
-vim.api.nvim_create_autocmd('BufWritePost', {
-  pattern = '*',
-  callback = function() vim.cmd('GitGutter') end
+vim.api.nvim_create_autocmd("BufWritePost", {
+  pattern = "*",
+  callback = function()
+    vim.cmd("GitGutter")
+  end,
 })

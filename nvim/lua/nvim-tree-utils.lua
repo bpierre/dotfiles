@@ -5,12 +5,13 @@ local uv = vim.loop
 local M = {}
 
 function M.path_to_matching_str(path)
-  return path:gsub('(%-)', '(%%-)'):gsub('(%.)', '(%%.)'):gsub('(%_)', '(%%_)')
+  return path:gsub("(%-)", "(%%-)"):gsub("(%.)", "(%%.)"):gsub("(%_)", "(%%_)")
 end
 
 function M.warn(msg)
-  vim.schedule(
-      function() vim.notify("[NvimTree] " .. msg, vim.log.levels.WARN) end)
+  vim.schedule(function()
+    vim.notify("[NvimTree] " .. msg, vim.log.levels.WARN)
+  end)
 end
 
 function M.str_find(haystack, needle)
@@ -19,19 +20,25 @@ end
 
 function M.read_file(path)
   local fd = uv.fs_open(path, "r", 438)
-  if not fd then return '' end
+  if not fd then
+    return ""
+  end
   local stat = uv.fs_fstat(fd)
-  if not stat then return '' end
+  if not stat then
+    return ""
+  end
   local data = uv.fs_read(fd, stat.size, 0)
   uv.fs_close(fd)
-  return data or ''
+  return data or ""
 end
 
 local path_separator = package.config:sub(1, 1)
-function M.path_join(paths) return table.concat(paths, path_separator) end
+function M.path_join(paths)
+  return table.concat(paths, path_separator)
+end
 
 function M.path_split(path)
-  return path:gmatch('[^' .. path_separator .. ']+' .. path_separator .. '?')
+  return path:gmatch("[^" .. path_separator .. "]+" .. path_separator .. "?")
 end
 
 ---Get the basename of the given path.
@@ -40,7 +47,9 @@ end
 function M.path_basename(path)
   path = M.path_remove_trailing(path)
   local i = path:match("^.*()" .. path_separator)
-  if not i then return path end
+  if not i then
+    return path
+  end
   return path:sub(i + 1, #path)
 end
 
@@ -49,30 +58,34 @@ end
 ---@param relative_to string
 ---@return string
 function M.path_relative(path, relative_to)
-  local p, _ = path:gsub("^" ..
-                             M.path_to_matching_str(
-                                 M.path_add_trailing(relative_to)), "")
+  local p, _ = path:gsub("^" .. M.path_to_matching_str(M.path_add_trailing(relative_to)), "")
   return p
 end
 
 function M.path_add_trailing(path)
-  if path:sub(-1) == path_separator then return path end
+  if path:sub(-1) == path_separator then
+    return path
+  end
 
   return path .. path_separator
 end
 
 function M.path_remove_trailing(path)
-  local p, _ = path:gsub(path_separator .. '$', '')
+  local p, _ = path:gsub(path_separator .. "$", "")
   return p
 end
 
 M.path_separator = path_separator
 
-function M.clear_prompt() vim.api.nvim_command('normal! :') end
+function M.clear_prompt()
+  vim.api.nvim_command("normal! :")
+end
 
 function M.get_user_input_char()
   local c = vim.fn.getchar()
-  while type(c) ~= "number" do c = vim.fn.getchar() end
+  while type(c) ~= "number" do
+    c = vim.fn.getchar()
+  end
   return vim.fn.nr2char(c)
 end
 
@@ -83,11 +96,15 @@ function M.find_node(_nodes, _fn)
   local function iter(nodes, fn)
     local i = 1
     for _, node in ipairs(nodes) do
-      if fn(node) then return node, i end
+      if fn(node) then
+        return node, i
+      end
       if node.open and #node.entries > 0 then
         local n, idx = iter(node.entries, fn)
         i = i + idx
-        if n then return n, i end
+        if n then
+          return n, i
+        end
       else
         i = i + 1
       end
@@ -95,7 +112,7 @@ function M.find_node(_nodes, _fn)
     return nil, i
   end
   local node, i = iter(_nodes, _fn)
-  i = require'nvim-tree.view'.View.hide_root_folder and i - 1 or i
+  i = require("nvim-tree.view").View.hide_root_folder and i - 1 or i
   return node, i
 end
 
@@ -106,7 +123,9 @@ end
 ---@return table
 function M.tbl_slice(t, first, last)
   local slice = {}
-  for i = first, last or #t, 1 do table.insert(slice, t[i]) end
+  for i = first, last or #t, 1 do
+    table.insert(slice, t[i])
+  end
 
   return slice
 end
@@ -120,7 +139,7 @@ local function merge(t, first, mid, last, comparator)
   local j = 1
   local k = first
 
-  while (i <= n1 and j <= n2) do
+  while i <= n1 and j <= n2 do
     if comparator(ls[i], rs[j]) then
       t[k] = ls[i]
       i = i + 1
@@ -145,7 +164,9 @@ local function merge(t, first, mid, last, comparator)
 end
 
 local function split_merge(t, first, last, comparator)
-  if (last - first) < 1 then return end
+  if (last - first) < 1 then
+    return
+  end
 
   local mid = math.floor((first + last) / 2)
 
@@ -159,7 +180,9 @@ end
 ---@param comparator function|nil
 function M.merge_sort(t, comparator)
   if not comparator then
-    comparator = function(left, right) return left < right end
+    comparator = function(left, right)
+      return left < right
+    end
   end
 
   split_merge(t, 1, #t, comparator)
@@ -168,12 +191,16 @@ end
 ---Matching executable files in Windows.
 ---@param ext string
 ---@return boolean
-local PATHEXT = vim.env.PATHEXT or ''
-local wexe = vim.split(PATHEXT:gsub('%.', ''), ';')
+local PATHEXT = vim.env.PATHEXT or ""
+local wexe = vim.split(PATHEXT:gsub("%.", ""), ";")
 local pathexts = {}
-for _, v in pairs(wexe) do pathexts[v] = true end
+for _, v in pairs(wexe) do
+  pathexts[v] = true
+end
 
-function M.is_windows_exe(ext) return pathexts[ext:upper()] end
+function M.is_windows_exe(ext)
+  return pathexts[ext:upper()]
+end
 
 function M.rename_loaded_buffers(old_name, new_name)
   for _, buf in pairs(a.nvim_list_bufs()) do
@@ -181,7 +208,9 @@ function M.rename_loaded_buffers(old_name, new_name)
       if a.nvim_buf_get_name(buf) == old_name then
         a.nvim_buf_set_name(buf, new_name)
         -- to avoid the 'overwrite existing file' error message on write
-        vim.api.nvim_buf_call(buf, function() vim.cmd("silent! w!") end)
+        vim.api.nvim_buf_call(buf, function()
+          vim.cmd("silent! w!")
+        end)
       end
     end
   end

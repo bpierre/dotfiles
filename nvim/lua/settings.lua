@@ -1,4 +1,4 @@
-require('utils')
+require("utils")
 
 local opt = vim.opt
 local cmd = vim.cmd
@@ -6,14 +6,14 @@ local home = os.getenv("HOME")
 
 opt.cursorline = true
 opt.modeline = false
-opt.mouse = 'a'
+opt.mouse = "a"
 
 -- live search / replace
-opt.inccommand = 'nosplit'
+opt.inccommand = "nosplit"
 
 -- 24 bits colors
 opt.termguicolors = true
-opt.background = 'dark'
+opt.background = "dark"
 
 opt.showcmd = true
 opt.number = true
@@ -27,29 +27,29 @@ opt.scrolloff = 3
 opt.autoread = true
 
 -- ensure file watchers are notified when a file has been written.
-opt.backupcopy = 'yes'
+opt.backupcopy = "yes"
 opt.backup = false
 opt.writebackup = false
 opt.hidden = true
 opt.cmdheight = 1
-opt.signcolumn = 'yes'
-opt.shortmess:append('c')
+opt.signcolumn = "yes"
+opt.shortmess:append("c")
 
 -- required by nvim-compe
-opt.completeopt = { 'menuone', 'noselect' }
+opt.completeopt = { "menuone", "noselect" }
 
 -- invisible characters, à la TextMate
 opt.list = true
-opt.listchars = 'nbsp:·,tab:▸\\ ,eol:¬'
+opt.listchars = "nbsp:·,tab:▸\\ ,eol:¬"
 
 -- ignore some files
-opt.wildignore:append('*/.git/*,*/.hg/*,*/.svn/*,*.png,*.jpg,*.gif')
+opt.wildignore:append("*/.git/*,*/.hg/*,*/.svn/*,*.png,*.jpg,*.gif")
 
 -- no auto folding
 opt.foldenable = false
 
 -- disable column
-opt.colorcolumn = ''
+opt.colorcolumn = ""
 
 -- split to the right / below
 opt.splitright = true
@@ -61,12 +61,12 @@ opt.tabstop = 2
 opt.shiftwidth = 2
 opt.softtabstop = 2
 opt.wrap = true
-opt.backspace = { 'indent', 'eol', 'start' }
+opt.backspace = { "indent", "eol", "start" }
 opt.autoindent = true
 opt.smartindent = true
 
 -- language-specific space settings
-cmd('autocmd FileType python setlocal noexpandtab')
+cmd("autocmd FileType python setlocal noexpandtab")
 
 -- always show tabs
 opt.showtabline = 2
@@ -78,8 +78,5 @@ opt.ignorecase = true
 opt.smartcase = true
 
 -- persistent undo across vim sessions
-opt.undodir = home .. '/.config/nvim-undo'
+opt.undodir = home .. "/.config/nvim-undo"
 opt.undofile = true
-
--- lsp completion
-require'lspconfig'.tsserver.setup{}

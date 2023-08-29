@@ -1,93 +1,87 @@
-require('utils')
-require('fns')
-
--- local telescope_actions = require "telescope.actions"
+require("utils")
+require("fns")
 
 -- leader key
-vim.g.mapleader = ','
+vim.g.mapleader = ","
 
-keymap('v', '<Leader>c',
-       ':\'<,\'>!~/dotfiles/nvim/js/css-literal-to-object.js<CR>',
-       { noremap = true })
+keymap("v", "<Leader>c", ":'<,'>!~/dotfiles/nvim/js/css-literal-to-object.js<CR>", { noremap = true })
 
 -- remap increment as C-g (C-a is used by tmux)
-keymap('n', '<C-g>', '<C-a>', {})
+keymap("n", "<C-g>", "<C-a>", {})
 
 -- insert a new line (Ctrl+J)
-keymap('n', '<NL>', 'i<CR><ESC>')
+keymap("n", "<NL>", "i<CR><ESC>")
 
 -- no ex mode (see :help Q)
-keymap('n', 'Q', '<nop>')
+keymap("n", "Q", "<nop>")
 
 -- map sentences () to paragraphs [] (more useful)
-keymap('n', '(', '[', { noremap = true })
-keymap('n', '[', '(', { noremap = true })
-keymap('n', ')', ']', { noremap = true })
-keymap('n', ']', ')', { noremap = true })
+keymap("n", "(", "[", { noremap = true })
+keymap("n", "[", "(", { noremap = true })
+keymap("n", ")", "]", { noremap = true })
+keymap("n", "]", ")", { noremap = true })
 
 -- bépo layout
 -- map è to ` and é to ; in command/visual modes
-keymap('n', 'è', '`', { noremap = true })
-keymap('n', 'é', ';', { noremap = true })
+keymap("n", "è", "`", { noremap = true })
+keymap("n", "é", ";", { noremap = true })
 -- more accessible C-]
-keymap('n', '<Leader>c', '<C-]>', { noremap = true })
+keymap("n", "<Leader>c", "<C-]>", { noremap = true })
 
 -- switch between tabs
-keymap('n', '<C-l>', ':tabnext<cr>')
-keymap('n', '<C-h>', ':tabprev<cr>')
+keymap("n", "<C-l>", ":tabnext<cr>")
+keymap("n", "<C-h>", ":tabprev<cr>")
 
 -- cycle between the windows (panes)
-keymap('n', '<C-c>', '<C-w><C-w>')
+keymap("n", "<C-c>", "<C-w><C-w>")
 
 -- close window (delete buffer)
-keymap('n', '<Leader>w', ':bdelete<cr>')
+keymap("n", "<Leader>w", ":bdelete<cr>")
 
 -- new tab
-keymap('n', '<C-n>', ':tabnew<cr>')
+keymap("n", "<C-n>", ":tabnew<cr>")
 
 -- save
-keymap('n', '<Leader>s', ':write<CR>')
+keymap("n", "<Leader>s", ":write<CR>")
 
 -- sudo write
-keymap('c', 'w!!', 'w !sudo tee > /dev/null %')
+keymap("c", "w!!", "w !sudo tee > /dev/null %")
 
 -- clipboard copy
-keymap('v', '<Leader>cp', '"+y :echo "copied"<CR>')
+keymap("v", "<Leader>cp", '"+y :echo "copied"<CR>')
 
 -- vertical split
-keymap('n', '<Leader>v', ':vs<CR>')
+keymap("n", "<Leader>v", ":vs<CR>")
 
 -- follow links in help
-keymap_buf('n', '<Enter>', '<C-]>')
+keymap_buf("n", "<Enter>", "<C-]>")
 
 -- follow the help topic in a new split
-keymap_buf('n', '<C-Enter>', '<C-w><C-]><C-w>T')
+keymap_buf("n", "<C-Enter>", "<C-w><C-]><C-w>T")
 
 -- no F1
-keymap('n', '<F1>', '<Nop>')
+keymap("n", "<F1>", "<Nop>")
 
 -- turn off highlight search
-keymap('n', '<Leader>n', ':set hlsearch!<CR>', { silent = true })
+keymap("n", "<Leader>n", ":set hlsearch!<CR>", { silent = true })
 
 -- toggle paste mode
-keymap('n', '<Leader>p', ':set invpaste<CR>:set paste?<CR>', { silent = true })
+keymap("n", "<Leader>p", ":set invpaste<CR>:set paste?<CR>", { silent = true })
 
 -- local cd to the directory containing the file in the buffer
-keymap('n', '<Leader>cd', ':lcd %:h<CR>:pwd<CR>', { silent = true })
+keymap("n", "<Leader>cd", ":lcd %:h<CR>:pwd<CR>", { silent = true })
 
 -- local cd to the parent git directory (if exists)
-keymap('n', '<Leader>cr', ':lcd <c-r>=FindGitDirOrCurrent()<CR><CR>:pwd<CR>',
-       { silent = true })
+keymap("n", "<Leader>cr", ":lcd <c-r>=FindGitDirOrCurrent()<CR><CR>:pwd<CR>", { silent = true })
 
 -- create the directories to the current file
-keymap('n', '<Leader>md', ':lua create_dirs_to_current_file()<CR>',
-       { silent = true })
+keymap("n", "<Leader>md", ":lua create_dirs_to_current_file()<CR>", { silent = true })
 
 -- toggle between last open buffers
-keymap('n', '<backspace>', '<c-^>')
+keymap("n", "<backspace>", "<c-^>")
 
 -- file explorer
-keymap('n', '<Leader>l', ':CocCommand explorer<CR>')
+keymap("n", "<Leader>l", ":CocCommand explorer<CR>")
 
 -- auto complete imports on enter
 -- function coc_complete_auto_imports()
@@ -100,28 +94,26 @@ keymap('n', '<Leader>l', ':CocCommand explorer<CR>')
 -- keymap('n', '<expr> <cr>', ':lua coc_complete_auto_imports()<CR>')
 
 -- telescope
-local telescope_builtin = require('telescope.builtin')
-vim.keymap.set('n', '<c-t>', telescope_builtin.find_files, {})
-
--- vim.keymap.set('n', '<c-t>', telescope_builtin.select_tab, {})
+local telescope_builtin = require("telescope.builtin")
+vim.keymap.set("n", "<c-t>", telescope_builtin.find_files, {})
 
 -- formatter
-keymap('n', '<leader>r', ':FormatWrite<CR>')
+keymap("n", "<leader>r", ":FormatWrite<CR>")
 
 -- tmux: prompt for a command to run in a tmux pane
-keymap('n', '<Leader>tc', ':wa<CR>:lua open_vimux_prompt("v", "15")<CR>')
-keymap('n', '<Leader>tvc', ':wa<CR>:lua open_vimux_prompt("h", "40")<CR>')
+keymap("n", "<Leader>tc", ':wa<CR>:lua open_vimux_prompt("v", "15")<CR>')
+keymap("n", "<Leader>tvc", ':wa<CR>:lua open_vimux_prompt("h", "40")<CR>')
 
 -- tmux: run last command executed by RunVimTmuxCommand
-keymap('n', '<Leader>tr', ':wa<CR>:VimuxRunLastCommand<CR>')
+keymap("n", "<Leader>tr", ":wa<CR>:VimuxRunLastCommand<CR>")
 
 -- tmux: inspect runner pane
-keymap('n', '<Leader>ti', ':VimuxInspectRunner<CR>')
+keymap("n", "<Leader>ti", ":VimuxInspectRunner<CR>")
 
 -- tmux: close all other tmux panes in current window
-keymap('n', '<Leader>tx', ':VimuxCloseRunner<CR>')
+keymap("n", "<Leader>tx", ":VimuxCloseRunner<CR>")
 
 -- mundo plugin
-keymap('n', '<leader>u', ':MundoToggle<CR>')
+keymap("n", "<leader>u", ":MundoToggle<CR>")
 
-vim.keymap.set('n', '<leader>d', vim.diagnostic.open_float)
+vim.keymap.set("n", "<leader>d", vim.diagnostic.open_float)
