@@ -100,8 +100,10 @@ keymap('n', '<Leader>l', ':CocCommand explorer<CR>')
 -- keymap('n', '<expr> <cr>', ':lua coc_complete_auto_imports()<CR>')
 
 -- telescope
-keymap('n', '<c-t>', '<cmd>Telescope find_files<cr>')
--- keymap('n', '<c-t>', telescope_actions.select_tab)
+local telescope_builtin = require('telescope.builtin')
+vim.keymap.set('n', '<c-t>', telescope_builtin.find_files, {})
+
+-- vim.keymap.set('n', '<c-t>', telescope_builtin.select_tab, {})
 
 -- formatter
 keymap('n', '<leader>r', ':FormatWrite<CR>')

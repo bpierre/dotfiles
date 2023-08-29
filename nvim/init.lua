@@ -2,24 +2,22 @@ require('plugins')
 require('settings')
 require('mappings')
 
-local cmd = vim.cmd
-
 -- syntaxic coloration
-cmd([[ syntax on ]])
+vim.cmd('syntax on')
 
 -- detect filetypes and load corresponding plugins
-cmd([[ filetype plugin on ]])
+vim.cmd('filetype plugin on')
 
 -- detect filetypes and load corresponding indent files
-cmd([[ filetype indent on ]])
+vim.cmd('filetype indent on')
 
 -- theme (see settings.lua for opt.termguicolors and opt.background)
-cmd([[colorscheme gruvbox]])
+vim.cmd('colorscheme gruvbox')
 
 -- tabs style
-cmd([[ highlight TabLineFill ctermfg=LightGreen ctermbg=DarkGreen ]])
-cmd([[ highlight TabLine ctermfg=Blue ctermbg=Yellow ]])
-cmd([[ highlight TabLineSel ctermfg=Red ctermbg=Yellow ]])
+vim.cmd('highlight TabLineFill ctermfg=LightGreen ctermbg=DarkGreen')
+vim.cmd('highlight TabLine ctermfg=Blue ctermbg=Yellow')
+vim.cmd('highlight TabLineSel ctermfg=Red ctermbg=Yellow')
 
 -- filetypes
 declare_filetype('.prettierrc', 'json')
@@ -27,9 +25,20 @@ declare_filetype('.eslintrc', 'json')
 declare_filetype('.babelrc', 'json')
 declare_filetype('.swcrc', 'json')
 
--- autojump to the last edited position when a file is reopened
-cmd(
-    [[autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal g'\"" | endif]])
+-- autojump to the last edited position when opening a buffer
+vim.api.nvim_create_autocmd('BufReadPost', {
+  pattern = '*',
+  callback = function()
+    local last_line = vim.fn.getpos('$')[2]
+    local last_edit = vim.api.nvim_buf_get_mark(0, '"')
+    if last_edit[1] > 0 and last_edit[1] <= last_line then
+      vim.api.nvim_win_set_cursor(0, last_edit)
+    end
+  end
+})
 
--- update gitgutter on save
-cmd([[ autocmd BufWritePost * GitGutter ]])
+-- refresh gitgutter on save
+vim.api.nvim_create_autocmd('BufWritePost', {
+  pattern = '*',
+  callback = function() vim.cmd('GitGutter') end
+})

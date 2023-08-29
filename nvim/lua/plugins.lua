@@ -254,47 +254,31 @@ require("lazy").setup({
     dependencies = { 'nvim-lua/plenary.nvim' },
     config = function()
       local telescope = require('telescope')
-      local telescope_actions = require('telescope.actions')
-      telescope.setup {
+      telescope.setup({
         layout_strategy = 'center',
-        extensions = {
-          fzf = {
-            fuzzy = true, -- false will only do exact matching
-            override_generic_sorter = false, -- override the generic sorter
-            override_file_sorter = true -- override the file sorter
-          }
-        },
         defaults = {
           -- Lua regex patterns: http://www.lua.org/pil/20.2.html
-          -- "pkg/demo",
-          -- file_ignore_patterns = {
-          --   "pkg/kit%-legacy", "pkg/website", "node_modules", "**/*.png",
-          --   "**/*.jpg", "**/*.gif", "**/*.woff2", "**/*.mp4"
-          -- },
           file_ignore_patterns = {
             "node_modules", "**/*.png", "**/*.jpg", "**/*.gif", "**/*.woff2",
             "**/*.mp4"
           },
-          mappings = { n = { ["<C-t>"] = telescope_actions.select_tab } }
+          mappings = {
+            n = { ["<C-t>"] = require('telescope.actions').select_tab },
+            i = {
+              ["<cr>"] = function(bufnr)
+                require('telescope.actions.set').edit(bufnr, "drop")
+              end
+            }
+          }
         }
-      }
+
+      })
+      telescope.load_extension('neoclip')
     end
-  }, {
-    'nvim-telescope/telescope-fzf-native.nvim',
-    dependencies = { 'nvim-telescope/telescope.nvim' },
-    build = 'make',
-    config = function() require('telescope').load_extension('fzf') end
-  }, {
-    'nvim-telescope/telescope-fzy-native.nvim',
-    dependencies = { 'nvim-telescope/telescope.nvim' },
-    config = function() require('telescope').load_extension('fzy_native') end
   }, {
     'AckslD/nvim-neoclip.lua',
     dependencies = { 'nvim-telescope/telescope.nvim' },
-    config = function()
-      require('neoclip').setup()
-      require('telescope').load_extension('neoclip')
-    end
+    config = function() require('neoclip').setup() end
   }, {
     -- prettier etc.
     'mhartington/formatter.nvim',
@@ -416,6 +400,20 @@ require("lazy").setup({
   { 'vim-scripts/nginx.vim', ft = { 'nginx' } },
   { 'zah/nim.vim', ft = { 'nim' } }, { 'tikhomirov/vim-glsl', ft = { 'glsl' } },
   {
+    'ziglang/zig.vim',
+    ft = { 'zig' },
+    config = function()
+      local lspconfig = require('lspconfig')
+      local on_attach = function(_, bufnr)
+        vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+        require('completion').on_attach()
+      end
+      local servers = { 'zls' }
+      for _, lsp in ipairs(servers) do
+        lspconfig[lsp].setup { on_attach = on_attach }
+      end
+    end
+  }, {
     'plasticboy/vim-markdown',
     ft = { 'markdown' },
     config = function()
