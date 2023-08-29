@@ -2,28 +2,32 @@ require('plugins')
 require('settings')
 require('mappings')
 
--- syntaxic coloration
-vim.cmd('syntax on')
+vim.cmd([[
+  " syntax coloration
+  syntax on
+  " detect filetypes and load corresponding plugins
+  filetype plugin on
+  " detect filetypes and load corresponding indent files
+  filetype indent on
 
--- detect filetypes and load corresponding plugins
-vim.cmd('filetype plugin on')
+  " theme (see settings.lua for opt.termguicolors and opt.background)
+  colorscheme gruvbox
 
--- detect filetypes and load corresponding indent files
-vim.cmd('filetype indent on')
-
--- theme (see settings.lua for opt.termguicolors and opt.background)
-vim.cmd('colorscheme gruvbox')
-
--- tabs style
-vim.cmd('highlight TabLineFill ctermfg=LightGreen ctermbg=DarkGreen')
-vim.cmd('highlight TabLine ctermfg=Blue ctermbg=Yellow')
-vim.cmd('highlight TabLineSel ctermfg=Red ctermbg=Yellow')
+  " tabs style
+  highlight TabLineFill ctermfg=LightGreen ctermbg=DarkGreen
+  highlight TabLine ctermfg=Blue ctermbg=Yellow
+  highlight TabLineSel ctermfg=Red ctermbg=Yellow
+]])
 
 -- filetypes
-declare_filetype('.prettierrc', 'json')
-declare_filetype('.eslintrc', 'json')
-declare_filetype('.babelrc', 'json')
-declare_filetype('.swcrc', 'json')
+vim.filetype.add({
+  filename = {
+    ['.prettierrc'] = 'json',
+    ['.eslintrc'] = 'json',
+    ['.babelrc'] = 'json',
+    ['.swcrc'] = 'json'
+  }
+})
 
 -- autojump to the last edited position when opening a buffer
 vim.api.nvim_create_autocmd('BufReadPost', {
