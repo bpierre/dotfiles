@@ -39,9 +39,20 @@ require("lazy").setup({
   },
   {
     "bpierre/carbon-now.nvim",
+    branch = "language-map",
+    -- dir = "~/d/carbon-now.nvim",
     cmd = "CarbonNow",
     lazy = true,
     config = true,
+  },
+  {
+    "luckasRanarison/nvim-devdocs",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-telescope/telescope.nvim",
+      "nvim-treesitter/nvim-treesitter",
+    },
+    opts = {},
   },
   {
     "nvim-treesitter/nvim-treesitter",
@@ -128,9 +139,6 @@ require("lazy").setup({
     end,
   },
 
-  "github/copilot.vim",
-  "danro/rename.vim",
-
   -- undo tree
   {
     "simnalamburt/vim-mundo",
@@ -140,8 +148,14 @@ require("lazy").setup({
     end,
   },
 
-  -- use :WhichKey to check the bindings
-  { "folke/which-key.nvim", cmd = "WhichKey" },
+  -- a better which-key
+  {
+    "Cassin01/wf.nvim",
+    version = "*",
+    config = function()
+      require("wf").setup()
+    end,
+  },
 
   -- remove the swap file messages
   "gioele/vim-autoswap",
@@ -157,33 +171,24 @@ require("lazy").setup({
   {
     "alvarosevilla95/luatab.nvim",
     dependencies = { "kyazdani42/nvim-web-devicons" },
+    config = true,
   },
 
-  {
-    "neovim/nvim-lspconfig",
-    config = function()
-      require("lspconfig").tsserver.setup({})
-    end,
-  },
+  "neovim/nvim-lspconfig",
 
   -- adds rust-specific functionality to lsp, sets up rust-analyzer
-  {
-    "simrat39/rust-tools.nvim",
-    dependencies = { "neovim/nvim-lspconfig" },
-  },
+  { "simrat39/rust-tools.nvim", dependencies = { "neovim/nvim-lspconfig" } },
 
   -- display LSP progress on the bottom right
   { "j-hui/fidget.nvim", tag = "legacy" },
 
   -- LSP diagnostics in a panel (:Trouble)
-  {
-    "folke/trouble.nvim",
-    dependencies = { "kyazdani42/nvim-web-devicons" },
-  },
+  { "folke/trouble.nvim", dependencies = { "kyazdani42/nvim-web-devicons" } },
 
   -- completion menu
   {
     "hrsh7th/nvim-cmp",
+    dependencies = { "onsails/lspkind-nvim" },
     config = function()
       local cmp = require("cmp")
       local compare = require("cmp.config.compare")
@@ -263,17 +268,12 @@ require("lazy").setup({
     end,
   },
 
-  -- pictograms for lsp
-  "onsails/lspkind-nvim",
-
   -- cmp completions
   "hrsh7th/cmp-nvim-lsp",
   "hrsh7th/cmp-buffer",
   "hrsh7th/cmp-path",
   "hrsh7th/cmp-nvim-lua",
   "quangnguyen30192/cmp-nvim-ultisnips",
-  "ggandor/lightspeed.nvim",
-  "windwp/nvim-autopairs",
 
   -- start screen
   {
@@ -287,6 +287,10 @@ require("lazy").setup({
   -- display marks in the gutter
   "kshenoy/vim-signature",
 
+  "github/copilot.vim",
+  "danro/rename.vim",
+  "ggandor/lightspeed.nvim",
+  "windwp/nvim-autopairs",
   "tpope/vim-fugitive",
   "airblade/vim-gitgutter",
   "tpope/vim-repeat",
@@ -358,100 +362,52 @@ require("lazy").setup({
   {
     "mhartington/formatter.nvim",
     config = function()
-      local prettier_or_dprint = {
-        function()
-          local utils = require("nvim-tree-utils")
-
-          local buffer_dir = vim.fn.expand("%:p:h")
-          local buffer_name = vim.api.nvim_buf_get_name(0)
-
-          local parts = {}
-          for part in string.gmatch(buffer_dir, "[^/]+") do
-            table.insert(parts, part)
-          end
-
-          local args_prettier = { "--stdin-filepath", '"' .. buffer_name .. '"' }
-          local args_dprint = { "fmt", "--stdin", '"' .. buffer_name .. '"' }
-
-          -- Default to prettier
-          -- local exe = "prettier"
-          -- local args = args_prettier
-
-          -- Default to dprint
-          local exe = "dprint"
-          local args = args_dprint
-
-          for i = #parts, 1, -1 do
-            local bin_path = "/" .. utils.path_join({ unpack(parts, 1, i) }) .. "/node_modules/.bin/"
-
-            if utils.file_exists(bin_path .. "dprint") then
-              exe = bin_path .. "dprint"
-              args = args_dprint
-              break
-            end
-
-            if utils.file_exists(bin_path .. "prettier") then
-              exe = bin_path .. "prettier"
-              args = args_prettier
-              break
-            end
-          end
-
-          return { exe = exe, args = args, stdin = true }
-        end,
-      }
-      local prettier = {
-        function()
-          return {
-            exe = "prettier",
-            args = {
-              "--stdin-filepath",
-              '"' .. vim.api.nvim_buf_get_name(0) .. '"',
-            },
-            stdin = true,
-          }
-        end,
-      }
-      local dprint = {
-        function()
-          return {
-            exe = "dprint",
-            args = {
-              "fmt",
-              "--stdin",
-              '"' .. vim.api.nvim_buf_get_name(0) .. '"',
-            },
-            stdin = true,
-          }
-        end,
-      }
-      local luafmt = {
-        function()
-          return {
-            exe = "stylua",
-            args = {
-              "--indent-type",
-              "Spaces",
-              "--indent-width",
-              "2",
-              "-",
-            },
-            stdin = true,
-          }
-        end,
-      }
-      local rustfmt = {
-        function()
-          return { exe = "rustfmt", args = { "--edition", "2021" }, stdin = true }
-        end,
-      }
-      local forge_fmt = {
-        function()
-          return { exe = "forge fmt", args = { "--raw", "-" }, stdin = true }
-        end,
-      }
+      local function exe_conf(conf)
+        return {
+          function()
+            return conf
+          end,
+        }
+      end
+      local prettier = exe_conf({
+        exe = "prettier",
+        args = {
+          "--stdin-filepath",
+          '"' .. vim.api.nvim_buf_get_name(0) .. '"',
+        },
+        stdin = true,
+      })
+      local dprint = exe_conf({
+        exe = "dprint",
+        args = {
+          "fmt",
+          "--stdin",
+          '"' .. vim.api.nvim_buf_get_name(0) .. '"',
+        },
+        stdin = true,
+      })
+      local stylua = exe_conf({
+        exe = "stylua",
+        args = {
+          "--indent-type",
+          "Spaces",
+          "--indent-width",
+          "2",
+          "-",
+        },
+        stdin = true,
+      })
+      local rustfmt = exe_conf({
+        exe = "rustfmt",
+        args = { "--edition", "2021" },
+        stdin = true,
+      })
+      local forgefmt = exe_conf({
+        exe = "forge fmt",
+        args = { "--raw", "-" },
+        stdin = true,
+      })
       require("formatter").setup({
-        logging = false,
         filetype = {
           css = prettier,
           html = prettier,
@@ -463,11 +419,12 @@ require("lazy").setup({
           javascriptreact = dprint,
           javascript = dprint,
           solidity = dprint,
-          lua = luafmt,
+          lua = stylua,
           rust = rustfmt,
-          solidity = forge_fmt,
+          solidity = forgefmt,
           toml = dprint,
         },
+        logging = false,
       })
     end,
   },
@@ -495,6 +452,11 @@ require("lazy").setup({
         lspconfig[lsp].setup({ on_attach = on_attach })
       end
     end,
+  },
+  {
+    "pmizio/typescript-tools.nvim",
+    dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+    opts = {},
   },
   {
     "plasticboy/vim-markdown",
