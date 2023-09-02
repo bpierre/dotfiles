@@ -362,51 +362,68 @@ require("lazy").setup({
   {
     "mhartington/formatter.nvim",
     config = function()
-      local function exe_conf(conf)
+      local function conf(fn)
         return {
           function()
-            return conf
+            return fn(vim.api.nvim_buf_get_name(0))
           end,
         }
       end
-      local prettier = exe_conf({
-        exe = "prettier",
-        args = {
-          "--stdin-filepath",
-          '"' .. vim.api.nvim_buf_get_name(0) .. '"',
-        },
-        stdin = true,
-      })
-      local dprint = exe_conf({
-        exe = "dprint",
-        args = {
-          "fmt",
-          "--stdin",
-          '"' .. vim.api.nvim_buf_get_name(0) .. '"',
-        },
-        stdin = true,
-      })
-      local stylua = exe_conf({
-        exe = "stylua",
-        args = {
-          "--indent-type",
-          "Spaces",
-          "--indent-width",
-          "2",
-          "-",
-        },
-        stdin = true,
-      })
-      local rustfmt = exe_conf({
-        exe = "rustfmt",
-        args = { "--edition", "2021" },
-        stdin = true,
-      })
-      local forgefmt = exe_conf({
-        exe = "forge fmt",
-        args = { "--raw", "-" },
-        stdin = true,
-      })
+      local prettier = conf(function(path)
+        return {
+          exe = "prettier",
+          args = {
+            "--stdin-filepath",
+            '"' .. path .. '"',
+          },
+          stdin = true,
+        }
+      end)
+      local dprint = conf(function(path)
+        return {
+          exe = "dprint",
+          args = {
+            "fmt",
+            "--stdin",
+            '"' .. path .. '"',
+          },
+          stdin = true,
+        }
+      end)
+      local stylua = conf(function()
+        return {
+          exe = "stylua",
+          args = {
+            "--indent-type",
+            "Spaces",
+            "--indent-width",
+            "2",
+            "-",
+          },
+          stdin = true,
+        }
+      end)
+      local rustfmt = conf(function()
+        return {
+          exe = "rustfmt",
+          args = { "--edition", "2021" },
+          stdin = true,
+        }
+      end)
+      local forgefmt = conf(function()
+        return {
+          exe = "forge fmt",
+          args = { "--raw", "-" },
+          stdin = true,
+        }
+      end)
+      -- formatter.nvim obviously doesn’t need to be here,
+      -- but it’s nice to keep all the formatters together.
+      local zigfmt = conf(function()
+        vim.fn["zig#fmt#Format"]()
+        return {}
+      end)
+
       require("formatter").setup({
         filetype = {
           css = prettier,
@@ -423,6 +440,7 @@ require("lazy").setup({
           rust = rustfmt,
           solidity = forgefmt,
           toml = dprint,
+          zig = zigfmt,
         },
         logging = false,
       })
@@ -442,11 +460,14 @@ require("lazy").setup({
     ft = { "zig" },
     dependencies = { "neovim/nvim-lspconfig" },
     config = function()
+      vim.g.zig_fmt_autosave = 0
+
       local lspconfig = require("lspconfig")
       local on_attach = function(_, bufnr)
         vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
         require("completion").on_attach()
       end
+
       local servers = { "zls" }
       for _, lsp in ipairs(servers) do
         lspconfig[lsp].setup({ on_attach = on_attach })
