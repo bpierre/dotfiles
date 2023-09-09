@@ -23,12 +23,6 @@ local js_ts_file_types = {
   "typescriptreact",
 }
 
-local lazy_config = {
-  defaults = {
-    -- lazy = true,
-  },
-}
-
 require("lazy").setup({
   {
     "ellisonleao/gruvbox.nvim",
@@ -288,14 +282,16 @@ require("lazy").setup({
   "kshenoy/vim-signature",
 
   "github/copilot.vim",
-  "danro/rename.vim",
   "ggandor/lightspeed.nvim",
-  "windwp/nvim-autopairs",
-  "tpope/vim-fugitive",
+  { "windwp/nvim-autopairs", event = "InsertEnter", opts = {} },
   "airblade/vim-gitgutter",
+
+  "tpope/vim-fugitive",
   "tpope/vim-repeat",
   "tpope/vim-surround",
   "tpope/vim-commentary",
+  "tpope/vim-eunuch",
+  "tpope/vim-sleuth", -- adjusts 'shiftwidth' and 'expandtab' heuristically
 
   -- tmux interaction
   {
@@ -316,9 +312,6 @@ require("lazy").setup({
     end,
     dependencies = { "honza/vim-snippets" },
   },
-
-  -- adjusts 'shiftwidth' and 'expandtab' heuristically
-  "tpope/vim-sleuth",
 
   {
     "nvim-telescope/telescope.nvim",
@@ -495,4 +488,4 @@ require("lazy").setup({
   { "jxnblk/vim-mdx-js", ft = js_ts_file_types },
   { "moll/vim-node", ft = js_ts_file_types },
   { "posva/vim-vue", ft = { "vue" } },
-}, lazy_config)
+})

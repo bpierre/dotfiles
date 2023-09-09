@@ -47,7 +47,7 @@ vim.api.nvim_create_autocmd("TabLeave", {
   pattern = "*",
   callback = function(args)
     local bytes = vim.fn.wordcount().bytes
-    if bytes == 0 then
+    if bytes == 0 and string.len(vim.api.nvim_buf_get_name(0)) == 0 then
       vim.api.nvim_buf_delete(args.buf, { force = true })
     end
   end,
