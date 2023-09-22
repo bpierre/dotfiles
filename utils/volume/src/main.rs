@@ -41,7 +41,7 @@ fn get_volume() -> Result<i32, Box<dyn std::error::Error>> {
 }
 
 fn change_volume(volume_diff: i32) -> Result<i32, Box<dyn std::error::Error>> {
-    let volume = clamp(get_volume()? + volume_diff, 0, 100);
+    let volume = constrain_volume(get_volume()? + volume_diff);
 
     set_mute(MuteCommand::Unmute)?;
 
@@ -153,12 +153,14 @@ async fn main() {
     }
 }
 
-fn clamp<T: PartialOrd>(value: T, min: T, max: T) -> T {
-    if value < min {
-        return min;
+// make sure the volume is a multiple of 5 and between 0 and 100
+fn constrain_volume(value: i32) -> i32 {
+    let value = (value / 5) * 5;
+    if value < 0 {
+        0
+    } else if value > 100 {
+        100
+    } else {
+        value
     }
-    if value > max {
-        return max;
-    }
-    value
 }
