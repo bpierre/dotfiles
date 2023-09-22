@@ -1,0 +1,17 @@
+[package]
+name = "volume"
+version = "0.1.0"
+edition = "2018"
+authors = ["Pierre Bertet <hi@bpier.re>"]
+license = "MIT"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+anyhow = "1.0"
+getopts = "0.2"
+zbus = "3.14.1"
+
+[dependencies.async-std]
+version = "1.10.0"
+features = ["attributes"]
