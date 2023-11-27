@@ -34,7 +34,7 @@ require("lazy").setup({
   {
     "bpierre/carbon-now.nvim",
     branch = "language-map",
-    -- dir = "~/d/carbon-now.nvim",
+    dir = "~/d/carbon-now.nvim",
     cmd = "CarbonNow",
     lazy = true,
     config = true,
@@ -142,14 +142,28 @@ require("lazy").setup({
     end,
   },
 
-  -- a better which-key
-  {
-    "Cassin01/wf.nvim",
-    version = "*",
-    config = function()
-      require("wf").setup()
-    end,
-  },
+  -- {
+  --   "folke/which-key.nvim",
+  --   event = "VeryLazy",
+  --   init = function()
+  --     vim.o.timeout = true
+  --     vim.o.timeoutlen = 300
+  --   end,
+  --   opts = {},
+  -- },
+
+  -- {
+  --   "nvimdev/lspsaga.nvim",
+  --   config = function()
+  --     require("lspsaga").setup({
+
+  --     })
+  --   end,
+  --   dependencies = {
+  --     "nvim-treesitter/nvim-treesitter",
+  --     "nvim-tree/nvim-web-devicons",
+  --   },
+  -- },
 
   -- remove the swap file messages
   "gioele/vim-autoswap",
@@ -164,7 +178,7 @@ require("lazy").setup({
 
   {
     "alvarosevilla95/luatab.nvim",
-    dependencies = { "kyazdani42/nvim-web-devicons" },
+    dependencies = { "nvim-tree/nvim-web-devicons" },
     config = true,
   },
 
@@ -177,7 +191,7 @@ require("lazy").setup({
   { "j-hui/fidget.nvim", tag = "legacy" },
 
   -- LSP diagnostics in a panel (:Trouble)
-  { "folke/trouble.nvim", dependencies = { "kyazdani42/nvim-web-devicons" } },
+  { "folke/trouble.nvim", dependencies = { "nvim-tree/nvim-web-devicons" } },
 
   -- completion menu
   {
@@ -272,7 +286,7 @@ require("lazy").setup({
   -- start screen
   {
     "goolord/alpha-nvim",
-    dependencies = { "kyazdani42/nvim-web-devicons" },
+    dependencies = { "nvim-tree/nvim-web-devicons" },
     config = function()
       require("alpha").setup(require("alpha.themes.startify").opts)
     end,
@@ -281,10 +295,32 @@ require("lazy").setup({
   -- display marks in the gutter
   "kshenoy/vim-signature",
 
-  "github/copilot.vim",
+  {
+    "github/copilot.vim",
+    config = function()
+      vim.g.copilot_filetypes = { markdown = true }
+    end,
+  },
+
   "ggandor/lightspeed.nvim",
   { "windwp/nvim-autopairs", event = "InsertEnter", opts = {} },
-  "airblade/vim-gitgutter",
+
+  -- "airblade/vim-gitgutter",
+  {
+    "lewis6991/gitsigns.nvim",
+    config = function()
+      require("gitsigns").setup({
+        signs = {
+          add = { text = "│" },
+          change = { text = "│" },
+          delete = { text = "_" },
+          topdelete = { text = "‾" },
+          changedelete = { text = "~" },
+          untracked = { text = "┆" },
+        },
+      })
+    end,
+  },
 
   "tpope/vim-fugitive",
   "tpope/vim-repeat",
@@ -292,6 +328,8 @@ require("lazy").setup({
   "tpope/vim-commentary",
   "tpope/vim-eunuch",
   "tpope/vim-sleuth", -- adjusts 'shiftwidth' and 'expandtab' heuristically
+
+  "rhysd/clever-f.vim",
 
   -- tmux interaction
   {
@@ -324,11 +362,11 @@ require("lazy").setup({
           -- Lua regex patterns: http://www.lua.org/pil/20.2.html
           file_ignore_patterns = {
             "node_modules",
-            "**/*.png",
-            "**/*.jpg",
-            "**/*.gif",
-            "**/*.woff2",
-            "**/*.mp4",
+            "**/*.png$",
+            "**/*.jpg$",
+            "**/*.gif$",
+            "**/*.woff2$",
+            "**/*.mp4$",
           },
           mappings = {
             n = { ["<C-t>"] = require("telescope.actions").select_tab },

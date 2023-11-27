@@ -113,9 +113,9 @@ zle -N expand-dot-to-parent-directory-path
 alias k="kubectl"
 alias t="task"
 alias e="nnn"
-alias l="exa"
-alias ll="exa -l --git"
-alias la="exa -la --git"
+alias l="eza"
+alias ll="eza -l --git"
+alias la="eza -la --git"
 alias vim="nvim"
 alias vi="nvim"
 alias v="nvim"
@@ -203,6 +203,35 @@ docker-cleanup() {
   docker rmi $(docker images -a -q)
 }
 
+update-duckstation() {
+  cd $HOME/apps
+
+  [ -d duckstation ] && mv duckstation duckstation_
+  mkdir -p duckstation
+
+  curl -L 'https://github.com/stenzek/duckstation/releases/download/latest/DuckStation-x64.AppImage' > duckstation/DuckStation.AppImage
+
+  chmod +x duckstation/DuckStation.AppImage
+
+  curl -L 'https://raw.githubusercontent.com/stenzek/duckstation/master/src/duckstation-qt/resources/icons/duck.png' > duckstation/duck.png
+
+  gendesk \
+    -f \
+    -n \
+    --pkgname "duckstation" \
+    --pkgdesc "PlayStation 1 emulator" \
+    --name "DuckStation" \
+    --exec "$HOME/apps/duckstation/DuckStation.AppImage" \
+    --path "$HOME/apps/duckstation" \
+    --categories 'Game;Application' \
+    --icon ~/apps/duckstation/duck.png
+
+  mv duckstation.desktop $HOME/.local/share/applications/
+
+  rm -rf duckstation_
+  echo 'Done.'
+}
+
 update-discord() {
   cd $HOME/apps
   mv discord discord_
@@ -221,6 +250,37 @@ find-up() {
   done
   echo "$path"
 }
+
+# closest-prettier-or-dprint() {
+#   local p_local_bin="node_modules/.bin/prettier"
+#   local d_local_bin="node_modules/.bin/dprint"
+
+#   local p_path=$(find-up "$p_local_bin")
+#   local d_path=$(find-up "$d_local_bin")
+
+#   # echo "pre prettier: $p_path $@"
+#   # echo "pre dprint: $d_path $@"
+#   # echo "prettier len: ${#p_path} $@"
+#   # echo "dprint len: ${#d_path} $@"
+
+#   if [ -z "$d_path" ] && [ -z "$p_path" ]; then
+#     p_path="prettier"
+#     d_path=""
+#   elif [ -z "$p_path" ] || [ ${#d_path} -le ${#p_path} ]; then
+#     p_path=""
+#     d_path="$d_path/$d_local_bin"
+#   elif [ -z "$d_path" ] || [ ${#p_path} -le ${#d_path} ]; then
+#     p_path="$p_path/$p_local_bin"
+#     d_path=""
+#   else
+#     p_path="prettier"
+#     d_path=""
+#   fi
+
+#   echo "prettier: $p_path $@"
+#   echo "dprint: $d_path $@"
+#   # eval "$p_path $@"
+# }
 
 closest-prettier() {
   local p_local_bin="node_modules/.bin/prettier"
@@ -298,8 +358,10 @@ source /home/pierre/.config/broot/launcher/bash/br
 
 # pnpm
 export PNPM_HOME="/home/pierre/.local/share/pnpm"
-export PATH="$PNPM_HOME:$PATH"
-source $XDG_CONFIG_HOME/tabtab/zsh/pnpm.zsh
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
 # pnpm end
 
 # bun completions

@@ -10,7 +10,7 @@
   },
   "json": {},
   "markdown": {},
-  "includes": ["**/*.{ts,tsx,js,jsx,json,md}"],
+  "includes": ["**/*.{ts,tsx,js,jsx,json,md,html}"],
   "excludes": ["**/node_modules", "**/*-lock.json"],
   "plugins": [
     "https://plugins.dprint.dev/typescript-0.40.1.wasm",

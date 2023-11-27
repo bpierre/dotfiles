@@ -40,7 +40,7 @@ opt.completeopt = { "menuone", "noselect" }
 
 -- invisible characters, à la TextMate
 opt.list = true
-opt.listchars = "nbsp:·,tab:▸\\ ,eol:¬"
+opt.listchars = { nbsp = "·", tab = "▸\\", eol = "¬" }
 
 -- ignore some files
 opt.wildignore:append("*/.git/*,*/.hg/*,*/.svn/*,*.png,*.jpg,*.gif")

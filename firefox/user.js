@@ -4,7 +4,8 @@
 user_pref('browser.fixup.alternate.enabled', false);
 user_pref('browser.urlbar.trimURLs', false);
 user_pref('general.warnOnAboutConfig', false);
-user_pref('layout.css.devPixelsPerPx', '1.25');
+// user_pref('layout.css.devPixelsPerPx', '1.25');
+user_pref('layout.css.devPixelsPerPx', '1.3');
 user_pref('ui.key.menuAccessKeyFocuses', false);
 user_pref('devtools.theme', 'dark');
 user_pref('browser.urlbar.clickSelectsAll', true);
