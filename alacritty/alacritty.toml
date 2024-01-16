@@ -1,4 +1,4 @@
-enable_experimental_conpty_backend = false
+# enable_experimental_conpty_backend = false
 live_config_reload = true
 
 [bell]
@@ -625,12 +625,6 @@ hide_when_typing = false
 [[mouse.bindings]]
 action = "PasteSelection"
 mouse = "Middle"
-
-[mouse.double_click]
-threshold = 300
-
-[mouse.triple_click]
-threshold = 300
 
 [scrolling]
 history = 9999
