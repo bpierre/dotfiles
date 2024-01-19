@@ -12,25 +12,14 @@ fi
 autoload -U zmv
 
 ### Zinit
-if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
-    print -P "%F{33}▓▒░ %F{220}Installing %F{33}DHARMA%F{220} Initiative Plugin Manager (%F{33}zdharma/zinit%F{220})…%f"
-    command mkdir -p "$HOME/.zinit" && command chmod g-rwX "$HOME/.zinit"
-    command git clone https://github.com/zdharma/zinit "$HOME/.zinit/bin" && \
-        print -P "%F{33}▓▒░ %F{34}Installation successful.%f%b" || \
-        print -P "%F{160}▓▒░ The clone has failed.%f%b"
-fi
+ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
+[ ! -d $ZINIT_HOME ] && mkdir -p "$(dirname $ZINIT_HOME)"
+[ ! -d $ZINIT_HOME/.git ] && git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
+source "${ZINIT_HOME}/zinit.zsh"
 
-source "$HOME/.zinit/bin/zinit.zsh"
 autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
 
-# Load a few important annexes, without Turbo
-# (this is currently required for annexes)
-zinit light-mode for \
-    zinit-zsh/z-a-rust \
-    zinit-zsh/z-a-as-monitor \
-    zinit-zsh/z-a-patch-dl \
-    zinit-zsh/z-a-bin-gem-node
 
 # Plugins
 #zinit light "skywind3000/z.lua", from:github
@@ -146,6 +135,8 @@ alias emoj="emoji-fzf preview | fzf --preview 'emoji-fzf get --name {1}' | cut -
 alias check-deprecated-modules="cat package.json | jq '(.dependencies+.devDependencies) | keys | .[]' | xargs -I {} sh -c 'yarn info --json {} | jq \".data.name,.data.deprecated\"'"
 # alias serve="xdg-open 'http://localhost:8000/' & simple-http-server --silent --index"
 alias http="simple-http-server"
+alias ??="gh copilot suggest -t shell"
+alias explain="gh copilot explain"
 
 # crops
 # alias crop-1450-600="mogrify -gravity North -chop x458 -gravity South -chop x117 -shave 19x0"
@@ -166,6 +157,9 @@ alias bto='bt power off'
 alias b='bat'
 alias p='paru'
 alias ca='kalker'
+
+# sudo aliases https://linuxhandbook.com/run-alias-as-sudo/
+alias sudo='sudo '
 
 # tmux
 if [[ "$(uname)" = "Darwin" ]]; then
@@ -251,37 +245,6 @@ find-up() {
   echo "$path"
 }
 
-# closest-prettier-or-dprint() {
-#   local p_local_bin="node_modules/.bin/prettier"
-#   local d_local_bin="node_modules/.bin/dprint"
-
-#   local p_path=$(find-up "$p_local_bin")
-#   local d_path=$(find-up "$d_local_bin")
-
-#   # echo "pre prettier: $p_path $@"
-#   # echo "pre dprint: $d_path $@"
-#   # echo "prettier len: ${#p_path} $@"
-#   # echo "dprint len: ${#d_path} $@"
-
-#   if [ -z "$d_path" ] && [ -z "$p_path" ]; then
-#     p_path="prettier"
-#     d_path=""
-#   elif [ -z "$p_path" ] || [ ${#d_path} -le ${#p_path} ]; then
-#     p_path=""
-#     d_path="$d_path/$d_local_bin"
-#   elif [ -z "$d_path" ] || [ ${#p_path} -le ${#d_path} ]; then
-#     p_path="$p_path/$p_local_bin"
-#     d_path=""
-#   else
-#     p_path="prettier"
-#     d_path=""
-#   fi
-
-#   echo "prettier: $p_path $@"
-#   echo "dprint: $d_path $@"
-#   # eval "$p_path $@"
-# }
-
 closest-prettier() {
   local p_local_bin="node_modules/.bin/prettier"
   local p_path=$(find-up "$p_local_bin")
@@ -309,14 +272,8 @@ if [[ "$PROFILE_STARTUP" == true ]]; then
   exec 2>&3 3>&-
 fi
 
-# export FZF_DEFAULT_COMMAND='rg --files --no-ignore-vcs --hidden'
 export FZF_DEFAULT_COMMAND='rg --files'
-# export FZF_DEFAULT_COMMAND='ag -g ""'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-
-# tabtab source for electron-forge package
-# uninstall by removing these lines or running `tabtab uninstall electron-forge`
-# [[ -f /Users/pierre/src/ganache/node_modules/tabtab/.completions/electron-forge.zsh ]] && . /Users/pierre/src/ganache/node_modules/tabtab/.completions/electron-forge.zsh
 
 # Prevent create-react-app to try to launch vim / crash the tmux tab
 export REACT_EDITOR=none
@@ -327,22 +284,12 @@ export OPENCV_LOG_LEVEL=ERROR
 # asdf
 . /opt/asdf-vm/asdf.sh
 
-# keychain
-eval $(keychain --eval --quiet id_rsa)
+# ssh-agent (systemd user service: ssh-agent)
+export SSH_AUTH_SOCK=$XDG_RUNTIME_DIR/ssh-agent.socket
 
-# Base16 Shell
-# BASE16_SHELL="$HOME/.config/base16-shell/"
-# [ -n "$PS1" ] && \
-    # [ -s "$BASE16_SHELL/profile_helper.sh" ] && \
-        # eval "$("$BASE16_SHELL/profile_helper.sh")"
-
-# base16_snazzy
 eval "$(starship init zsh)"
 
 eval "$(zoxide init zsh --cmd c)"
-
-# Copilot
-eval "$(github-copilot-cli alias -- "$0")"
 
 # Python
 export PATH="/home/pierre/.local/bin:$PATH"
@@ -354,7 +301,7 @@ export PERL_LOCAL_LIB_ROOT="/home/pierre/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOC
 export PERL_MB_OPT="--install_base \"/home/pierre/perl5\""
 export PERL_MM_OPT="INSTALL_BASE=/home/pierre/perl5"
 
-source /home/pierre/.config/broot/launcher/bash/br
+# source /home/pierre/.config/broot/launcher/bash/br
 
 # pnpm
 export PNPM_HOME="/home/pierre/.local/share/pnpm"
@@ -373,3 +320,22 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 
 # foundry
 export PATH="$PATH:/home/pierre/.foundry/bin"
+
+# ruby gems
+export PATH="$PATH:/home/pierre/.local/share/gem/ruby/3.0.0/bin"
+
+# XDG Base Directory
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_DATA_HOME="$HOME/.local/share"
+export XDG_CACHE_HOME="$HOME/.cache"
+export XDG_STATE_HOME="$HOME/.local/state"
+
+export GPG_TTY=$(tty)
+
+# Load a few important annexes, without Turbo
+# (this is currently required for annexes)
+zinit light-mode for \
+    zdharma-continuum/zinit-annex-as-monitor \
+    zdharma-continuum/zinit-annex-bin-gem-node \
+    zdharma-continuum/zinit-annex-patch-dl \
+    zdharma-continuum/zinit-annex-rust
