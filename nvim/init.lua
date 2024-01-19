@@ -28,6 +28,10 @@ vim.filetype.add({
     [".babelrc"] = "json",
     [".swcrc"] = "json",
   },
+  pattern = {
+    ["${XDG_CONFIG_HOME}/waybar/config"] = "json",
+    ["${XDG_CONFIG_HOME}/nwg-panel/config"] = "json",
+  },
 })
 
 -- autojump to the last edited position when opening a buffer

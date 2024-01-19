@@ -23,6 +23,19 @@ local js_ts_file_types = {
   "typescriptreact",
 }
 
+-- Some files don’t have an extension, which some tools (e.g. formatters)
+-- require to determine file types. This is a mapping from known filetypes
+-- to extensions, which can be used in those cases.
+local filetype_to_extension = {
+  javascript = "js",
+  typescript = "ts",
+  javascriptreact = "jsx",
+  typescriptreact = "tsx",
+  solidity = "sol",
+  jsonc = "json",
+  json = "json",
+}
+
 require("lazy").setup({
   {
     "ellisonleao/gruvbox.nvim",
@@ -33,8 +46,8 @@ require("lazy").setup({
   },
   {
     "bpierre/carbon-now.nvim",
-    branch = "language-map",
-    dir = "~/d/carbon-now.nvim",
+    branch = "main",
+    -- dir = "~/d/carbon-now.nvim",
     cmd = "CarbonNow",
     lazy = true,
     config = true,
@@ -86,7 +99,7 @@ require("lazy").setup({
           "go",
           "graphql",
           "haskell",
-          "help",
+          "vimdoc",
           "html",
           "http",
           "java",
@@ -115,7 +128,6 @@ require("lazy").setup({
           "ruby",
           "rust",
           "solidity",
-          "sql",
           "svelte",
           "swift",
           "sxhkdrc",
@@ -241,7 +253,7 @@ require("lazy").setup({
           { name = "nvim_lua" },
           { name = "nvim_lsp" },
           { name = "path" },
-          { name = "ultisnips" },
+          -- { name = "ultisnips" },
           { name = "buffer", keyword_length = 5 },
         },
         sorting = {
@@ -255,11 +267,11 @@ require("lazy").setup({
             compare.order,
           },
         },
-        snippet = {
-          expand = function(args)
-            vim.fn["UltiSnips#Anon"](args.body)
-          end,
-        },
+        -- snippet = {
+        --   expand = function(args)
+        --     vim.fn["UltiSnips#Anon"](args.body)
+        --   end,
+        -- },
         formatting = {
           format = require("lspkind").cmp_format({
             with_text = true,
@@ -281,7 +293,7 @@ require("lazy").setup({
   "hrsh7th/cmp-buffer",
   "hrsh7th/cmp-path",
   "hrsh7th/cmp-nvim-lua",
-  "quangnguyen30192/cmp-nvim-ultisnips",
+  -- "quangnguyen30192/cmp-nvim-ultisnips",
 
   -- start screen
   {
@@ -341,15 +353,15 @@ require("lazy").setup({
     end,
   },
 
-  {
-    "SirVer/ultisnips",
-    config = function()
-      vim.g.UltiSnipsExpandTrigger = "<tab>"
-      vim.g.UltiSnipsJumpForwardTrigger = "<c-j>"
-      vim.g.UltiSnipsJumpBackwardTrigger = "<c-k>"
-    end,
-    dependencies = { "honza/vim-snippets" },
-  },
+  -- {
+  --   "SirVer/ultisnips",
+  --   config = function()
+  --     vim.g.UltiSnipsExpandTrigger = "<tab>"
+  --     vim.g.UltiSnipsJumpForwardTrigger = "<c-j>"
+  --     vim.g.UltiSnipsJumpBackwardTrigger = "<c-k>"
+  --   end,
+  --   dependencies = { "honza/vim-snippets" },
+  -- },
 
   {
     "nvim-telescope/telescope.nvim",
@@ -396,7 +408,7 @@ require("lazy").setup({
       local function conf(fn)
         return {
           function()
-            return fn(vim.api.nvim_buf_get_name(0))
+            return fn(vim.api.nvim_buf_get_name(0), filetype_to_extension[vim.bo.filetype] or nil)
           end,
         }
       end
@@ -410,13 +422,15 @@ require("lazy").setup({
           stdin = true,
         }
       end)
-      local dprint = conf(function(path)
+      local dprint = conf(function(path, extension)
+        -- print the command
+        print("dprint fmt --stdin '" .. (extension or path) .. "'")
         return {
           exe = "dprint",
           args = {
             "fmt",
             "--stdin",
-            '"' .. path .. '"',
+            '"' .. (extension or path) .. '"',
           },
           stdin = true,
         }
@@ -466,7 +480,6 @@ require("lazy").setup({
           typescriptreact = dprint,
           javascriptreact = dprint,
           javascript = dprint,
-          solidity = dprint,
           lua = stylua,
           rust = rustfmt,
           solidity = forgefmt,
