@@ -13,12 +13,12 @@ export EDITOR='vim'
 export SYSTEMD_EDITOR='vim'
 export VISUAL='vim'
 export PAGER='less'
-export LANG='en_GB.UTF-8'
-export LC_CTYPE='en_GB.UTF-8'
-export LC_ALL='en_GB.UTF-8'
-export LANG='en_GB.UTF-8'
+export LANG='en_US.UTF-8'
+export LC_CTYPE='en_US.UTF-8'
+export LC_ALL='en_US.UTF-8'
+export LANG='en_US.UTF-8'
 export BROWSER='firefox-nightly'
-export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+export MANPAGER="nvim +Man!"
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore-vcs --hidden'
 export GIT_PAGER="delta --dark"
 
@@ -44,32 +44,11 @@ export LDFLAGS=""
 # Ensure path arrays do not contain duplicates.
 typeset -gU cdpath fpath mailpath path
 
-# OS X $PATH
-if [[ "$OSTYPE" = darwin* ]]; then
-  path=(
-    $HOME/bin
-    $HOME/.yarn/bin
-    /usr/local/opt/php56/bin/php # PHP
-    /usr/local/opt/python/bin # Python
-    /usr/local/opt/ruby/bin # Ruby
-    $HOME/.rvm/bin # RVM (Ruby)
-    $HOME/.cabal/bin # Haskell
-    /usr/texbin # Latex
-    $ANDROID_HOME/platform-tools # Android SDK
-    $ANDROID_HOME/tools # Android SDK
-    /usr/local/opt/coreutils/libexec/gnubin # GNU coreutils
-    /usr/local/{bin,sbin}
-    $path
-  )
-
-# Linux Path
-else
-  path=(
-    $path
-    $HOME/.gem/ruby/3.0.0/bin
-    $HOME/.gem/ruby/2.7.0/bin
-  )
-fi
+path=(
+  $path
+  $HOME/.gem/ruby/3.0.0/bin
+  $HOME/.gem/ruby/2.7.0/bin
+)
 
 # Common Path
 path=(
