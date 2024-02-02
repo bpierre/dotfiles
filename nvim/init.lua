@@ -12,7 +12,7 @@ vim.cmd([[
   filetype indent on
 
   " theme (see settings.lua for opt.termguicolors and opt.background)
-  colorscheme gruvbox
+  colorscheme nightfox
 
   " tabs style
   highlight TabLineFill ctermfg=LightGreen ctermbg=DarkGreen

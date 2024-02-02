@@ -37,6 +37,7 @@ local filetype_to_extension = {
 }
 
 require("lazy").setup({
+  "EdenEast/nightfox.nvim",
   {
     "ellisonleao/gruvbox.nvim",
     opts = {
@@ -188,10 +189,53 @@ require("lazy").setup({
     end,
   },
 
+  -- {
+  --   "alvarosevilla95/luatab.nvim",
+  --   dependencies = { "nvim-tree/nvim-web-devicons" },
+  --   config = true,
+  -- },
+
   {
-    "alvarosevilla95/luatab.nvim",
-    dependencies = { "nvim-tree/nvim-web-devicons" },
-    config = true,
+    "nanozuki/tabby.nvim",
+    event = "VimEnter",
+    dependencies = "nvim-tree/nvim-web-devicons",
+    config = function()
+      local theme = {
+        fill = "TabLineFill", -- tabline background
+        head = "TabLine", -- head element highlight
+        current_tab = "TabLineSel", -- current tab label highlight
+        tab = "TabLine", -- other tab label highlight
+        win = "TabLine", -- window highlight
+        tail = "TabLine", -- tail element highlight
+      }
+      require("tabby.tabline").set(function(line)
+        return {
+          {
+            line.sep("   ", theme.head, theme.fill),
+          },
+          line.tabs().foreach(function(tab)
+            local hl = tab.is_current() and theme.current_tab or theme.tab
+            return {
+              line.sep("", hl, theme.fill),
+              " ",
+              tab.current_win().file_icon(),
+              "  ",
+              tab.name(),
+              " ",
+              line.sep("", hl, theme.fill),
+              hl = hl,
+              margin = "",
+            }
+          end),
+          line.spacer(),
+          {
+            line.sep("", theme.tail, theme.fill),
+            { "  ", hl = theme.tail },
+          },
+          hl = theme.fill,
+        }
+      end)
+    end,
   },
 
   "neovim/nvim-lspconfig",
