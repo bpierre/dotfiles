@@ -1,7 +1,7 @@
 # check `man sway` for a complete reference.
 
 # super key
-set $mod Mod4 
+set $mod Mod4
 
 set $left  h
 set $down  j
@@ -10,8 +10,8 @@ set $right l
 
 set $term alacritty
 
-set $screen        "Samsung Display Corp. 0x4193 Unknown"
-set $touchpad      "1267:12693:ELAN0676:00_04F3:3195_Touchpad"
+set $screen        "Samsung Display Corp. 0x4167 Unknown"
+set $touchpad      "11311:40:SNSL0028:00_2C2F:0028_Touchpad"
 set $trackpoint    "2:10:TPPS/2_Elan_TrackPoint"
 set $keyboard      "1:1:AT_Translated_Set_2_keyboard"
 set $keyd_keyboard "4012:2782:keyd_virtual_keyboard"
@@ -19,18 +19,15 @@ set $keyd_keyboard "4012:2782:keyd_virtual_keyboard"
 # using polkit-gnome for the polkit agent
 exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 
-# this is needed for flameshot to work
-exec systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK
-exec hash dbus-update-activation-environment 2>/dev/null && \
-     dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK
-
 # OSD server (volume, brightness, etc.)
 exec swayosd-server
+
+exec flameshot
 
 # apps
 
 # flameshot
-for_window [app_id="flameshot"] border pixel 0, floating enable, fullscreen disable, move absolute position 0 0
+for_window [app_id="flameshot"] border pixel 0, floating disable, fullscreen enable, move absolute position 0 0
 
 # galculator
 for_window [app_id="galculator"] floating enable, border normal, move position cursor
@@ -110,11 +107,18 @@ smart_borders on
 # Start a terminal
 bindsym $mod+Return exec $term
 
+# Files manager
+bindsym $mod+Shift+Return exec nautilus
+
 # Kill focused window
 bindsym $mod+w kill
 
 # Start your launcher
 bindsym $mod+d exec $menu
+
+# Screenshots
+
+bindsym Print exec flameshot gui
 
 # brightness
 bindsym XF86MonBrightnessUp exec swayosd-client --brightness raise
@@ -253,4 +257,14 @@ bindsym $mod+r mode "resize"
 
 bar swaybar_command waybar
 
+exec systemctl --user set-environment \
+  SDL_VIDEODRIVER=wayland \
+  _JAVA_AWT_WM_NONREPARENTING=1 \
+  QT_QPA_PLATFORM=wayland \
+  XDG_CURRENT_DESKTOP=sway \
+  XDG_SESSION_DESKTOP=sway \
+  DISPLAY=:1
+
 include /etc/sway/config.d/*
+
+xwayland enable
