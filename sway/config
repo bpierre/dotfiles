@@ -128,7 +128,7 @@ bindsym XF86MonBrightnessDown exec swayosd-client --brightness lower
 bindsym XF86AudioRaiseVolume exec swayosd-client --output-volume raise
 bindsym XF86AudioLowerVolume exec  swayosd-client --output-volume lower
 bindsym XF86AudioMute exec swayosd-client --output-volume mute-toggle
-bindsym XF86AudioMicMute exec swayosd-client --input-volume mute-toggle
+bindsym XF86AudioMicMute exec swayosd-client --input-volume mute-toggle && ~/dotfiles/utils/update-mic-led.sh
 
 # Drag floating windows by holding down $mod and left mouse button.
 # Resize them with right mouse button + $mod.
