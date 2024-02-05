@@ -16,15 +16,16 @@ set $trackpoint    "2:10:TPPS/2_Elan_TrackPoint"
 set $keyboard      "1:1:AT_Translated_Set_2_keyboard"
 set $keyd_keyboard "4012:2782:keyd_virtual_keyboard"
 
+# focus_on_window_activation focus
+
 # using polkit-gnome for the polkit agent
 exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 
 # OSD server (volume, brightness, etc.)
 exec swayosd-server
 
+# flameshot service
 exec flameshot
-
-# apps
 
 # flameshot
 for_window [app_id="flameshot"] border pixel 0, floating disable, fullscreen enable, move absolute position 0 0
@@ -40,17 +41,15 @@ for_window [app_id="galculator"] floating enable, border normal, move position c
 set $bemenu bemenu --ignorecase --list 3 --no-overlap --width-factor 1 --fixed-height -p '' --fn 'Iosevka Term 11' --hb '#000000FF' --ab '#000000FF' --fbb '#000000FF' --fb '#000000FF' --nb '#000000FF' --nf '#999999FF' --af '#999999FF' --hf '#FFFFFFFF'
 set $menu j4-dmenu-desktop --dmenu="$bemenu"
 
-### Output configuration
+### main screen
 output $screen {
   scale 2
 }
 
-bindswitch --locked lid:off output $screen disable
-bindswitch --locked lid:on output $screen enable
-
-#
-# Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
-output * background #000000 solid_color
+# screens background (swaybg should be installed)
+output * {
+  background #000000 solid_color
+}
 
 #
 # Example configuration:
@@ -76,6 +75,9 @@ exec swayidle -w \
          timeout 300 'swaylock -f -c 000000' \
          timeout 305 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
          before-sleep 'swaylock -f -c 000000'
+
+# swaylock when the lid is closed
+bindswitch --locked lid:off exec swaylock -f -c 000000
 
 # Input configuration (man sway-input)
 input $keyd_keyboard {
@@ -129,6 +131,9 @@ bindsym XF86AudioRaiseVolume exec swayosd-client --output-volume raise
 bindsym XF86AudioLowerVolume exec  swayosd-client --output-volume lower
 bindsym XF86AudioMute exec swayosd-client --output-volume mute-toggle
 bindsym XF86AudioMicMute exec swayosd-client --input-volume mute-toggle && ~/dotfiles/utils/update-mic-led.sh
+
+# execute the mic led script on startup
+exec ~/dotfiles/utils/update-mic-led.sh
 
 # Drag floating windows by holding down $mod and left mouse button.
 # Resize them with right mouse button + $mod.
