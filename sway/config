@@ -33,6 +33,9 @@ for_window [app_id="flameshot"] border pixel 0, floating disable, fullscreen ena
 # galculator
 for_window [app_id="galculator"] floating enable, border normal, move position cursor
 
+# for_window [app_id="firefox"] inhibit_idle fullscreen
+for_window [app_id="^.*"] inhibit_idle fullscreen
+
 # app launcher
 # note: pass the final command to swaymsg so that the resulting window
 # can be opened on the original workspace that the command was run on.
@@ -112,14 +115,14 @@ bindsym $mod+Return exec $term
 # Files manager
 bindsym $mod+Shift+Return exec nautilus
 
-# Kill focused window
+# Kill focused window (soft + hard)
 bindsym $mod+w kill
+bindsym $mod+Shift+w exec swaymsg -t get_tree | jq 'recurse(.nodes[], .floating_nodes[]) | select(.focused).pid' | xargs kill -9
 
 # Start your launcher
 bindsym $mod+d exec $menu
 
 # Screenshots
-
 bindsym Print exec flameshot gui
 
 # brightness
