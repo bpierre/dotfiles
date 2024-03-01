@@ -97,9 +97,6 @@ keymap("n", "<Leader>l", ":CocCommand explorer<CR>")
 local telescope_builtin = require("telescope.builtin")
 vim.keymap.set("n", "<c-t>", telescope_builtin.find_files, {})
 
--- formatter
-keymap("n", "<leader>r", ":FormatWrite<CR>")
-
 -- tmux: prompt for a command to run in a tmux pane
 keymap("n", "<Leader>tc", ':wa<CR>:lua open_vimux_prompt("v", "15")<CR>')
 keymap("n", "<Leader>tvc", ':wa<CR>:lua open_vimux_prompt("h", "40")<CR>')

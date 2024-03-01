@@ -447,92 +447,53 @@ require("lazy").setup({
   },
 
   {
-    "mhartington/formatter.nvim",
-    config = function()
-      local function conf(fn)
-        return {
-          function()
-            return fn(vim.api.nvim_buf_get_name(0), filetype_to_extension[vim.bo.filetype] or nil)
-          end,
-        }
-      end
-      local prettier = conf(function(path)
-        return {
-          exe = "prettier",
-          args = {
-            "--stdin-filepath",
-            '"' .. path .. '"',
-          },
-          stdin = true,
-        }
-      end)
-      local dprint = conf(function(path, extension)
-        -- print the command
-        print("dprint fmt --stdin '" .. (extension or path) .. "'")
-        return {
-          exe = "dprint",
-          args = {
-            "fmt",
-            "--stdin",
-            '"' .. (extension or path) .. '"',
-          },
-          stdin = true,
-        }
-      end)
-      local stylua = conf(function()
-        return {
-          exe = "stylua",
-          args = {
-            "--indent-type",
-            "Spaces",
-            "--indent-width",
-            "2",
-            "-",
-          },
-          stdin = true,
-        }
-      end)
-      local rustfmt = conf(function()
-        return {
-          exe = "rustfmt",
-          args = { "--edition", "2021" },
-          stdin = true,
-        }
-      end)
-      local forgefmt = conf(function()
-        return {
-          exe = "forge fmt",
-          args = { "--raw", "-" },
-          stdin = true,
-        }
-      end)
-      -- formatter.nvim obviously doesn’t need to be here,
-      -- but it’s nice to keep all the formatters together.
-      local zigfmt = conf(function()
-        vim.fn["zig#fmt#Format"]()
-        return {}
-      end)
-
-      require("formatter").setup({
-        filetype = {
-          css = prettier,
-          html = prettier,
-          markdown = dprint,
-          json = dprint,
-          jsonc = dprint,
-          typescript = dprint,
-          typescriptreact = dprint,
-          javascriptreact = dprint,
-          javascript = dprint,
-          lua = stylua,
-          rust = rustfmt,
-          solidity = forgefmt,
-          toml = dprint,
-          zig = zigfmt,
+    "stevearc/conform.nvim",
+    event = { "BufEnter" },
+    cmd = { "ConformInfo" },
+    keys = {
+      {
+        "<leader>r",
+        mode = "n",
+        desc = "Format buffer",
+        function()
+          require("conform").format({ async = true })
+        end,
+      },
+    },
+    opts = {
+      formatters_by_ft = {
+        lua = { "stylua" },
+        rust = { "rustfmt" },
+        ["_"] = function(bufnr)
+          local dprint_fts = {
+            "javascript",
+            "javascriptreact",
+            "typescript",
+            "typescriptreact",
+            "json",
+            "jsonc",
+            "markdown",
+            "toml",
+            "html",
+            "css",
+            "graphql",
+          }
+          local ft = vim.api.nvim_buf_get_option(bufnr, "filetype")
+          if vim.tbl_contains(dprint_fts, ft) then
+            return { "dprint" }
+          end
+          return {}
+        end,
+      },
+      formatters = {
+        stylua = {
+          prepend_args = { "--indent-type", "Spaces", "--indent-width", "2" },
         },
-        logging = false,
-      })
-    end,
+        rustfmt = {
+          prepend_args = { "--edition", "2021" },
+        },
+      },
+    },
   },
 
   -- languages
