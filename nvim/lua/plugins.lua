@@ -464,6 +464,7 @@ require("lazy").setup({
       formatters_by_ft = {
         lua = { "stylua" },
         rust = { "rustfmt" },
+        solidity = { "forge" },
         ["_"] = function(bufnr)
           local dprint_fts = {
             "javascript",
@@ -491,6 +492,11 @@ require("lazy").setup({
         },
         rustfmt = {
           prepend_args = { "--edition", "2021" },
+        },
+        forge = {
+          command = "forge",
+          args = { "fmt", "-r", "-" },
+          stdin = true,
         },
       },
     },
