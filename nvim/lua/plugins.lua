@@ -53,15 +53,15 @@ require("lazy").setup({
     lazy = true,
     config = true,
   },
-  {
-    "luckasRanarison/nvim-devdocs",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "nvim-telescope/telescope.nvim",
-      "nvim-treesitter/nvim-treesitter",
-    },
-    opts = {},
-  },
+  -- {
+  --   "luckasRanarison/nvim-devdocs",
+  --   dependencies = {
+  --     "nvim-lua/plenary.nvim",
+  --     "nvim-telescope/telescope.nvim",
+  --     "nvim-treesitter/nvim-treesitter",
+  --   },
+  --   opts = {},
+  -- },
   {
     "nvim-treesitter/nvim-treesitter",
     build = function()
