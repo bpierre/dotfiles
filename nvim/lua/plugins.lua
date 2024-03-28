@@ -497,6 +497,7 @@ require("lazy").setup({
             "graphql",
           }
           local ft = vim.api.nvim_buf_get_option(bufnr, "filetype")
+
           if vim.tbl_contains(dprint_fts, ft) then
             return { "dprint" }
           end
@@ -515,6 +516,29 @@ require("lazy").setup({
           args = { "fmt", "-r", "-" },
           stdin = true,
         },
+        dprint = function(bufnr)
+          local filename_arg = "$FILENAME"
+
+          local filename = vim.fs.basename(vim.api.nvim_buf_get_name(bufnr))
+          if string.find(filename, ".", 1, true) == nil then
+            local ft = vim.api.nvim_buf_get_option(bufnr, "filetype")
+            local extension = filetype_to_extension[ft]
+            if extension then
+              filename_arg = "$FILENAME." .. extension
+            end
+          end
+
+          return {
+            command = "dprint",
+            args = { "fmt", "--stdin", filename_arg },
+            cwd = require("conform.util").root_file({
+              "dprint.json",
+              ".dprint.json",
+              "dprint.jsonc",
+              ".dprint.jsonc",
+            }),
+          }
+        end,
       },
     },
   },
