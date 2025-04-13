@@ -1,3 +1,5 @@
+local secrets = require("secrets")
+
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({
@@ -14,6 +16,7 @@ vim.opt.rtp:prepend(lazypath)
 -- plugins to try:
 -- https://github.com/machakann/vim-sandwich
 -- https://github.com/machakann/vim-highlightedyank
+-- https://github.com/ray-x/aurora
 
 -- JS
 local js_ts_file_types = {
@@ -36,39 +39,32 @@ local filetype_to_extension = {
   json = "json",
 }
 
-require("lazy").setup({
-  "EdenEast/nightfox.nvim",
-  {
-    "ellisonleao/gruvbox.nvim",
-    opts = {
-      contrast = "hard",
-      transparent_mode = false,
-    },
+local lazy_opts = {
+  checker = {
+    enable = true,
   },
-  {
-    "bpierre/carbon-now.nvim",
-    branch = "main",
-    -- dir = "~/d/carbon-now.nvim",
-    cmd = "CarbonNow",
-    lazy = true,
-    config = true,
+  rocks = {
+    enabled = false,
   },
-  -- {
-  --   "luckasRanarison/nvim-devdocs",
-  --   dependencies = {
-  --     "nvim-lua/plenary.nvim",
-  --     "nvim-telescope/telescope.nvim",
-  --     "nvim-treesitter/nvim-treesitter",
-  --   },
-  --   opts = {},
-  -- },
+}
+
+local lazy_plugins = {
+  {
+    "catppuccin/nvim",
+    name = "catppuccin",
+    priority = 1000,
+    config = function()
+      require("catppuccin").setup({
+        flavour = "mocha",
+        background = { dark = "mocha" },
+      })
+      vim.cmd.colorscheme("catppuccin")
+    end,
+  },
+
   {
     "nvim-treesitter/nvim-treesitter",
-    build = function()
-      require("nvim-treesitter.install").update({
-        with_sync = true,
-      })
-    end,
+    build = ":TSUpdate",
     config = function()
       require("nvim-treesitter.configs").setup({
         additional_vim_regex_highlighting = true,
@@ -77,54 +73,31 @@ require("lazy").setup({
         ensure_installed = {
           "bash",
           "c",
-          "c_sharp",
-          "clojure",
-          "cmake",
           "comment",
-          "commonlisp",
           "cpp",
           "css",
-          "dart",
           "dockerfile",
           "dot",
-          "elixir",
-          "elm",
-          "elvish",
           "embedded_template",
-          "erlang",
-          "fennel",
-          "fish",
           "gitattributes",
           "gitignore",
           "glsl",
           "go",
           "graphql",
-          "haskell",
           "vimdoc",
           "html",
           "http",
-          "java",
           "javascript",
           "jsdoc",
           "json",
           "json5",
-          "kotlin",
-          "latex",
-          "llvm",
           "lua",
           "make",
           "markdown",
           "markdown_inline",
           "nix",
-          "ocaml",
-          "ocaml_interface",
-          "ocamllex",
-          "perl",
-          "php",
-          "phpdoc",
           "prisma",
           "python",
-          "qmljs",
           "regex",
           "ruby",
           "rust",
@@ -146,6 +119,105 @@ require("lazy").setup({
     end,
   },
 
+  -- LSP
+  {
+    "neovim/nvim-lspconfig",
+    config = function()
+      -- TypeScript
+      -- requires @vtsls/language-server installed globally:
+      -- pnpm add -g @vtsls/language-server
+      vim.lsp.enable("vtsls")
+
+      -- Lua
+      -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#lua_ls
+      -- requires lua_ls: paru -S lua-language-server
+      vim.lsp.enable("lua_ls")
+      vim.lsp.config("lua_ls", {
+        on_init = function(client)
+          local path = client.workspace_folders[1].name
+          if vim.loop.fs_stat(path .. "/.luarc.json") or vim.loop.fs_stat(path .. "/.luarc.jsonc") then
+            return
+          end
+
+          client.config.settings.Lua = vim.tbl_deep_extend("force", client.config.settings.Lua, {
+            runtime = {
+              -- Neovim uses LuaJIT
+              version = "LuaJIT",
+            },
+            -- make lua_ls aware of the Neovim runtime files
+            workspace = {
+              checkThirdParty = false,
+              library = { vim.env.VIMRUNTIME },
+            },
+          })
+        end,
+        settings = {
+          Lua = {},
+        },
+      })
+
+      -- Rust
+      vim.lsp.enable("rust_analyzer")
+      vim.lsp.config("rust_analyzer", {
+        settings = {
+          ["rust-analyzer"] = {
+            check = { command = "clippy" },
+            diagnostics = { enable = true },
+          },
+        },
+      })
+
+      -- Solidity
+      vim.lsp.enable("solidity_ls")
+      vim.lsp.config("solidity_ls", {
+        cmd = { "vscode-solidity-server", "--stdio" },
+        filetypes = { "solidity" },
+        root_dir = function(fname)
+          local root_files = {
+            "hardhat.config.js",
+            "foundry.toml",
+            ".git",
+          }
+          return vim.fs.dirname(vim.fs.find(root_files, {
+            path = fname,
+            upward = true,
+          })[1])
+        end,
+        settings = {
+          solidity = {
+            compileUsingRemoteVersion = "latest",
+            defaultCompiler = "remote",
+            enabledAsYouTypeCompilationErrorCheck = true,
+          },
+        },
+      })
+    end,
+  },
+
+  {
+    "nvimdev/lspsaga.nvim",
+    config = function()
+      require("lspsaga").setup({
+        lightbulb = {
+          enable = false,
+        },
+      })
+    end,
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+      "nvim-tree/nvim-web-devicons",
+    },
+  },
+
+  -- adds rust-specific functionality to lsp, sets up rust-analyzer
+  { "simrat39/rust-tools.nvim", dependencies = { "neovim/nvim-lspconfig" } },
+
+  -- display LSP progress on the bottom right
+  { "j-hui/fidget.nvim", tag = "legacy" },
+
+  -- LSP diagnostics in a panel (:Trouble)
+  { "folke/trouble.nvim", dependencies = { "nvim-tree/nvim-web-devicons" } },
+
   -- undo tree
   {
     "simnalamburt/vim-mundo",
@@ -154,29 +226,6 @@ require("lazy").setup({
       vim.g.mundo_preview_bottom = 1
     end,
   },
-
-  -- {
-  --   "folke/which-key.nvim",
-  --   event = "VeryLazy",
-  --   init = function()
-  --     vim.o.timeout = true
-  --     vim.o.timeoutlen = 300
-  --   end,
-  --   opts = {},
-  -- },
-
-  -- {
-  --   "nvimdev/lspsaga.nvim",
-  --   config = function()
-  --     require("lspsaga").setup({
-
-  --     })
-  --   end,
-  --   dependencies = {
-  --     "nvim-treesitter/nvim-treesitter",
-  --     "nvim-tree/nvim-web-devicons",
-  --   },
-  -- },
 
   -- remove the swap file messages
   "gioele/vim-autoswap",
@@ -189,65 +238,7 @@ require("lazy").setup({
     end,
   },
 
-  -- {
-  --   "alvarosevilla95/luatab.nvim",
-  --   dependencies = { "nvim-tree/nvim-web-devicons" },
-  --   config = true,
-  -- },
-
-  {
-    "nanozuki/tabby.nvim",
-    event = "VimEnter",
-    dependencies = "nvim-tree/nvim-web-devicons",
-    config = function()
-      local theme = {
-        fill = "TabLineFill", -- tabline background
-        head = "TabLine", -- head element highlight
-        current_tab = "TabLineSel", -- current tab label highlight
-        tab = "TabLine", -- other tab label highlight
-        win = "TabLine", -- window highlight
-        tail = "TabLine", -- tail element highlight
-      }
-      require("tabby.tabline").set(function(line)
-        return {
-          {
-            line.sep("   ", theme.head, theme.fill),
-          },
-          line.tabs().foreach(function(tab)
-            local hl = tab.is_current() and theme.current_tab or theme.tab
-            return {
-              line.sep("", hl, theme.fill),
-              " ",
-              tab.current_win().file_icon(),
-              "  ",
-              tab.name(),
-              " ",
-              line.sep("", hl, theme.fill),
-              hl = hl,
-              margin = "",
-            }
-          end),
-          line.spacer(),
-          {
-            line.sep("", theme.tail, theme.fill),
-            { "  ", hl = theme.tail },
-          },
-          hl = theme.fill,
-        }
-      end)
-    end,
-  },
-
-  "neovim/nvim-lspconfig",
-
-  -- adds rust-specific functionality to lsp, sets up rust-analyzer
-  { "simrat39/rust-tools.nvim", dependencies = { "neovim/nvim-lspconfig" } },
-
-  -- display LSP progress on the bottom right
-  { "j-hui/fidget.nvim", tag = "legacy" },
-
-  -- LSP diagnostics in a panel (:Trouble)
-  { "folke/trouble.nvim", dependencies = { "nvim-tree/nvim-web-devicons" } },
+  "tiagovla/scope.nvim",
 
   -- completion menu
   {
@@ -297,7 +288,6 @@ require("lazy").setup({
           { name = "nvim_lua" },
           { name = "nvim_lsp" },
           { name = "path" },
-          -- { name = "ultisnips" },
           { name = "buffer", keyword_length = 5 },
         },
         sorting = {
@@ -311,11 +301,6 @@ require("lazy").setup({
             compare.order,
           },
         },
-        -- snippet = {
-        --   expand = function(args)
-        --     vim.fn["UltiSnips#Anon"](args.body)
-        --   end,
-        -- },
         formatting = {
           format = require("lspkind").cmp_format({
             with_text = true,
@@ -337,7 +322,6 @@ require("lazy").setup({
   "hrsh7th/cmp-buffer",
   "hrsh7th/cmp-path",
   "hrsh7th/cmp-nvim-lua",
-  -- "quangnguyen30192/cmp-nvim-ultisnips",
 
   -- start screen
   {
@@ -358,10 +342,55 @@ require("lazy").setup({
     end,
   },
 
-  "ggandor/lightspeed.nvim",
-  { "windwp/nvim-autopairs", event = "InsertEnter", opts = {} },
+  {
+    "yetone/avante.nvim",
+    event = "VeryLazy",
+    lazy = false,
+    opts = {
+      mappings = {
+        ask = "<leader>aa",
+        refresh = "<leader>ar",
+        edit = "<leader>ae",
+      },
+    },
+    build = ":AvanteBuild",
+    dependencies = {
+      "stevearc/dressing.nvim",
+      "nvim-lua/plenary.nvim",
+      "MunifTanjim/nui.nvim",
 
-  -- "airblade/vim-gitgutter",
+      --- optional:
+      "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
+      -- "zbirenbaum/copilot.lua", -- for providers='copilot'
+      {
+        -- image pasting
+        "HakonHarnes/img-clip.nvim",
+        event = "VeryLazy",
+        opts = {
+          default = {
+            embed_image_as_base64 = false,
+            prompt_for_file_name = false,
+            drag_and_drop = { insert_mode = true },
+          },
+        },
+      },
+      {
+        -- Make sure to setup it properly if you have lazy=true
+        "MeanderingProgrammer/render-markdown.nvim",
+        opts = {
+          file_types = { "Avante" }, -- only Avante (no "markdown")
+        },
+        ft = { "Avante" }, -- only Avante (no "markdown")
+      },
+    },
+  },
+
+  {
+    "windwp/nvim-autopairs",
+    event = "InsertEnter",
+    opts = {},
+  },
+
   {
     "lewis6991/gitsigns.nvim",
     config = function()
@@ -380,11 +409,32 @@ require("lazy").setup({
 
   "tpope/vim-fugitive",
   "tpope/vim-repeat",
-  "tpope/vim-surround",
+  {
+    "tpope/vim-surround",
+    event = "BufEnter",
+    config = function()
+      vim.g.surround_no_mappings = 1
+      vim.keymap.set("n", "ds", "<Plug>Dsurround", { silent = true })
+      vim.keymap.set("n", "cs", "<Plug>Csurround", { silent = true })
+      vim.keymap.set("i", "<C-S>", "<Plug>Isurround", { silent = true })
+    end,
+  },
   "tpope/vim-commentary",
   "tpope/vim-eunuch",
   "tpope/vim-sleuth", -- adjusts 'shiftwidth' and 'expandtab' heuristically
 
+  -- use s or S then type two chars to move
+  -- use s or S again to move to the next match
+  -- move to a specific one using its char shortcut
+  {
+    "ggandor/leap.nvim",
+    config = function()
+      require("leap").create_default_mappings()
+    end,
+  },
+
+  -- use f or F then type a char to move
+  -- move to the next one with f or F
   "rhysd/clever-f.vim",
 
   -- tmux interaction
@@ -396,33 +446,6 @@ require("lazy").setup({
       vim.g.VimuxHeight = "15"
     end,
   },
-
-  -- {
-  --   "SirVer/ultisnips",
-  --   config = function()
-  --     vim.g.UltiSnipsExpandTrigger = "<tab>"
-  --     vim.g.UltiSnipsJumpForwardTrigger = "<c-j>"
-  --     vim.g.UltiSnipsJumpBackwardTrigger = "<c-k>"
-  --   end,
-  --   dependencies = { "honza/vim-snippets" },
-  -- },
-  -- {
-  --   "dcampos/nvim-snippy",
-  --   dependencies = "honza/vim-snippets",
-  --   config = function()
-  --     require("snippy").setup({
-  --       mappings = {
-  --         is = {
-  --           ["<Tab>"] = "expand_or_advance",
-  --           ["<S-Tab>"] = "previous",
-  --         },
-  --         nx = {
-  --           ["<leader>x"] = "cut_text",
-  --         },
-  --       },
-  --     })
-  --   end,
-  -- },
 
   {
     "nvim-telescope/telescope.nvim",
@@ -497,7 +520,6 @@ require("lazy").setup({
             "graphql",
           }
           local ft = vim.api.nvim_buf_get_option(bufnr, "filetype")
-
           if vim.tbl_contains(dprint_fts, ft) then
             return { "dprint" }
           end
@@ -508,9 +530,7 @@ require("lazy").setup({
         stylua = {
           prepend_args = { "--indent-type", "Spaces", "--indent-width", "2" },
         },
-        rustfmt = {
-          prepend_args = { "--edition", "2021" },
-        },
+        rustfmt = {},
         forge = {
           command = "forge",
           args = { "fmt", "-r", "-" },
@@ -543,6 +563,23 @@ require("lazy").setup({
     },
   },
 
+  {
+    "mikesmithgh/kitty-scrollback.nvim",
+    enabled = true,
+    lazy = true,
+    cmd = {
+      "KittyScrollbackGenerateKittens",
+      "KittyScrollbackCheckHealth",
+      "KittyScrollbackGenerateCommandLineEditing",
+    },
+    event = { "User KittyScrollbackLaunch" },
+    -- version = '*', -- latest stable version, may have breaking changes if major version changed
+    -- version = '^6.0.0', -- pin major version, include fixes and features that do not have breaking changes
+    config = function()
+      require("kitty-scrollback").setup()
+    end,
+  },
+
   -- languages
   { "terrastruct/d2-vim", ft = { "d2" } },
   { "justinj/vim-pico8-syntax", ft = { "lua", "pico8" } },
@@ -551,30 +588,7 @@ require("lazy").setup({
   { "vim-scripts/nginx.vim", ft = { "nginx" } },
   { "zah/nim.vim", ft = { "nim" } },
   { "tikhomirov/vim-glsl", ft = { "glsl" } },
-  {
-    "ziglang/zig.vim",
-    ft = { "zig" },
-    dependencies = { "neovim/nvim-lspconfig" },
-    config = function()
-      vim.g.zig_fmt_autosave = 0
 
-      local lspconfig = require("lspconfig")
-      local on_attach = function(_, bufnr)
-        vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
-        require("completion").on_attach()
-      end
-
-      local servers = { "zls" }
-      for _, lsp in ipairs(servers) do
-        lspconfig[lsp].setup({ on_attach = on_attach })
-      end
-    end,
-  },
-  {
-    "pmizio/typescript-tools.nvim",
-    dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
-    opts = {},
-  },
   {
     "plasticboy/vim-markdown",
     ft = { "markdown" },
@@ -591,4 +605,22 @@ require("lazy").setup({
   { "jxnblk/vim-mdx-js", ft = js_ts_file_types },
   { "moll/vim-node", ft = js_ts_file_types },
   { "posva/vim-vue", ft = { "vue" } },
-})
+
+  {
+    "stevearc/oil.nvim",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    config = function()
+      require("oil").setup({
+        columns = { "icon" },
+        view_options = {
+          show_hidden = true,
+        },
+      })
+      vim.keymap.set("n", "-", "<CMD>Oil<CR>", {
+        desc = "Open parent directory",
+      })
+    end,
+  },
+}
+
+require("lazy").setup(lazy_plugins, lazy_opts)

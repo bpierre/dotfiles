@@ -4,20 +4,10 @@ require("mappings")
 require("utils")
 
 vim.cmd([[
-  " syntax coloration
-  syntax on
   " detect filetypes and load corresponding plugins
   filetype plugin on
   " detect filetypes and load corresponding indent files
   filetype indent on
-
-  " theme (see settings.lua for opt.termguicolors and opt.background)
-  colorscheme nightfox
-
-  " tabs style
-  highlight TabLineFill ctermfg=LightGreen ctermbg=DarkGreen
-  highlight TabLine ctermfg=Blue ctermbg=Yellow
-  highlight TabLineSel ctermfg=Red ctermbg=Yellow
 ]])
 
 -- filetypes
@@ -27,6 +17,7 @@ vim.filetype.add({
     [".eslintrc"] = "json",
     [".babelrc"] = "json",
     [".swcrc"] = "json",
+    [".env.local"] = "sh",
   },
   pattern = {
     ["${XDG_CONFIG_HOME}/waybar/config"] = "json",

@@ -31,12 +31,15 @@ keymap("n", "<Leader>c", "<C-]>", { noremap = true })
 -- switch between tabs
 keymap("n", "<C-l>", ":tabnext<cr>")
 keymap("n", "<C-h>", ":tabprev<cr>")
+-- keymap("n", "<C-l>", ":BufferNext<CR>")
+-- keymap("n", "<C-h>", ":BufferPrevious<CR>")
 
 -- cycle between the windows (panes)
 keymap("n", "<C-c>", "<C-w><C-w>")
 
 -- close window (delete buffer)
 keymap("n", "<Leader>w", ":bdelete<cr>")
+-- keymap("n", "<Leader>w", ":BufferClose<CR>")
 
 -- new tab
 keymap("n", "<C-n>", ":tabnew<cr>")
@@ -80,8 +83,13 @@ keymap("n", "<Leader>md", ":lua create_dirs_to_current_file()<CR>", { silent = t
 -- toggle between last open buffers
 keymap("n", "<backspace>", "<c-^>")
 
--- file explorer
-keymap("n", "<Leader>l", ":CocCommand explorer<CR>")
+-- restart lsp clients
+keymap("n", "<Leader>l", ":LspRestart<CR>")
+
+-- show LSP signature help
+-- keymap("n", "<Space>", ":lua vim.lsp.buf.hover()<CR>")
+keymap("n", "<Space>", ":Lspsaga hover_doc<CR>")
+keymap("n", "<c-Space>", ":Lspsaga peek_definition<CR>")
 
 -- auto complete imports on enter
 -- function coc_complete_auto_imports()
