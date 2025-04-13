@@ -2,6 +2,7 @@ require("plugins")
 require("settings")
 require("mappings")
 require("utils")
+require("lsp")
 
 vim.cmd([[
   " detect filetypes and load corresponding plugins

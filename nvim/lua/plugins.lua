@@ -119,81 +119,6 @@ local lazy_plugins = {
     end,
   },
 
-  -- LSP
-  {
-    "neovim/nvim-lspconfig",
-    config = function()
-      -- TypeScript
-      -- requires @vtsls/language-server installed globally:
-      -- pnpm add -g @vtsls/language-server
-      vim.lsp.enable("vtsls")
-
-      -- Lua
-      -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#lua_ls
-      -- requires lua_ls: paru -S lua-language-server
-      vim.lsp.enable("lua_ls")
-      vim.lsp.config("lua_ls", {
-        on_init = function(client)
-          local path = client.workspace_folders[1].name
-          if vim.loop.fs_stat(path .. "/.luarc.json") or vim.loop.fs_stat(path .. "/.luarc.jsonc") then
-            return
-          end
-
-          client.config.settings.Lua = vim.tbl_deep_extend("force", client.config.settings.Lua, {
-            runtime = {
-              -- Neovim uses LuaJIT
-              version = "LuaJIT",
-            },
-            -- make lua_ls aware of the Neovim runtime files
-            workspace = {
-              checkThirdParty = false,
-              library = { vim.env.VIMRUNTIME },
-            },
-          })
-        end,
-        settings = {
-          Lua = {},
-        },
-      })
-
-      -- Rust
-      vim.lsp.enable("rust_analyzer")
-      vim.lsp.config("rust_analyzer", {
-        settings = {
-          ["rust-analyzer"] = {
-            check = { command = "clippy" },
-            diagnostics = { enable = true },
-          },
-        },
-      })
-
-      -- Solidity
-      vim.lsp.enable("solidity_ls")
-      vim.lsp.config("solidity_ls", {
-        cmd = { "vscode-solidity-server", "--stdio" },
-        filetypes = { "solidity" },
-        root_dir = function(fname)
-          local root_files = {
-            "hardhat.config.js",
-            "foundry.toml",
-            ".git",
-          }
-          return vim.fs.dirname(vim.fs.find(root_files, {
-            path = fname,
-            upward = true,
-          })[1])
-        end,
-        settings = {
-          solidity = {
-            compileUsingRemoteVersion = "latest",
-            defaultCompiler = "remote",
-            enabledAsYouTypeCompilationErrorCheck = true,
-          },
-        },
-      })
-    end,
-  },
-
   {
     "nvimdev/lspsaga.nvim",
     config = function()
@@ -208,9 +133,6 @@ local lazy_plugins = {
       "nvim-tree/nvim-web-devicons",
     },
   },
-
-  -- adds rust-specific functionality to lsp, sets up rust-analyzer
-  { "simrat39/rust-tools.nvim", dependencies = { "neovim/nvim-lspconfig" } },
 
   -- display LSP progress on the bottom right
   { "j-hui/fidget.nvim", tag = "legacy" },
