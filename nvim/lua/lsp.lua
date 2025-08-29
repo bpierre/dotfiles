@@ -23,6 +23,26 @@ vim.lsp.config("vtsls", {
   },
 })
 
+-- TypeScript
+-- requires typescript and typescript-language-server installed globally:
+-- pnpm add -g typescript typescript-language-server
+-- vim.lsp.enable("ts_ls")
+-- vim.lsp.config("ts_ls", {
+--   filetypes = {
+--     "javascript",
+--     "javascriptreact",
+--     "javascript.jsx",
+--     "typescript",
+--     "typescriptreact",
+--     "typescript.tsx",
+--   },
+--   root_markers = {
+--     "tsconfig.json",
+--     "jsconfig.json",
+--     ".git",
+--   },
+-- })
+
 -- Lua
 -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#lua_ls
 -- requires lua_ls: paru -S lua-language-server
@@ -41,26 +61,30 @@ vim.lsp.config("lua_ls", {
     ".git",
   },
   on_init = function(client)
-    local path = client.workspace_folders[1].name
-    if vim.loop.fs_stat(path .. "/.luarc.json") or vim.loop.fs_stat(path .. "/.luarc.jsonc") then
-      return
+    if client.workspace_folders then
+      local path = client.workspace_folders[1].name
+      if
+        path ~= vim.fn.stdpath("config")
+        and (vim.uv.fs_stat(path .. "/.luarc.json") or vim.uv.fs_stat(path .. "/.luarc.jsonc"))
+      then
+        return
+      end
     end
 
     client.config.settings.Lua = vim.tbl_deep_extend("force", client.config.settings.Lua, {
       runtime = {
-        -- Neovim uses LuaJIT
+        -- Tell the language server which version of Lua you're using
+        -- (most likely LuaJIT in the case of Neovim)
         version = "LuaJIT",
       },
-      -- make lua_ls aware of the Neovim runtime files
+      -- Make the server aware of Neovim runtime files
       workspace = {
         checkThirdParty = false,
         library = { vim.env.VIMRUNTIME },
       },
     })
   end,
-  settings = {
-    Lua = {},
-  },
+  settings = { Lua = {} },
 })
 
 -- Solidity

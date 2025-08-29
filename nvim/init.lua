@@ -1,4 +1,5 @@
-require("plugins")
+vim.g.mapleader = ","
+require("packages")
 require("settings")
 require("mappings")
 require("utils")

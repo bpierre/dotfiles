@@ -4,8 +4,6 @@ require("fns")
 -- leader key
 vim.g.mapleader = ","
 
-keymap("v", "<Leader>c", ":'<,'>!~/dotfiles/nvim/js/css-literal-to-object.js<CR>", { noremap = true })
-
 -- remap increment as C-g (C-a is used by tmux)
 keymap("n", "<C-g>", "<C-a>", {})
 
@@ -86,6 +84,8 @@ keymap("n", "<backspace>", "<c-^>")
 -- restart lsp clients
 keymap("n", "<Leader>l", ":LspRestart<CR>")
 
+vim.keymap.set("n", "<leader>d", vim.diagnostic.open_float)
+
 -- show LSP signature help
 -- keymap("n", "<Space>", ":lua vim.lsp.buf.hover()<CR>")
 keymap("n", "<Space>", ":Lspsaga hover_doc<CR>")
@@ -102,23 +102,21 @@ keymap("n", "<c-Space>", ":Lspsaga peek_definition<CR>")
 -- keymap('n', '<expr> <cr>', ':lua coc_complete_auto_imports()<CR>')
 
 -- telescope
-local telescope_builtin = require("telescope.builtin")
-vim.keymap.set("n", "<c-t>", telescope_builtin.find_files, {})
+-- local telescope_builtin = require("telescope.builtin")
+-- vim.keymap.set("n", "<c-t>", telescope_builtin.find_files, {})
 
 -- tmux: prompt for a command to run in a tmux pane
-keymap("n", "<Leader>tc", ':wa<CR>:lua open_vimux_prompt("v", "15")<CR>')
-keymap("n", "<Leader>tvc", ':wa<CR>:lua open_vimux_prompt("h", "40")<CR>')
+-- keymap("n", "<Leader>tc", ':wa<CR>:lua open_vimux_prompt("v", "15")<CR>')
+-- keymap("n", "<Leader>tvc", ':wa<CR>:lua open_vimux_prompt("h", "40")<CR>')
 
 -- tmux: run last command executed by RunVimTmuxCommand
-keymap("n", "<Leader>tr", ":wa<CR>:VimuxRunLastCommand<CR>")
+-- keymap("n", "<Leader>tr", ":wa<CR>:VimuxRunLastCommand<CR>")
 
 -- tmux: inspect runner pane
-keymap("n", "<Leader>ti", ":VimuxInspectRunner<CR>")
+-- keymap("n", "<Leader>ti", ":VimuxInspectRunner<CR>")
 
 -- tmux: close all other tmux panes in current window
-keymap("n", "<Leader>tx", ":VimuxCloseRunner<CR>")
+-- keymap("n", "<Leader>tx", ":VimuxCloseRunner<CR>")
 
 -- mundo plugin
 keymap("n", "<leader>u", ":MundoToggle<CR>")
-
-vim.keymap.set("n", "<leader>d", vim.diagnostic.open_float)
