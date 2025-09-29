@@ -178,6 +178,9 @@ pack_add({
 pack_add({
   src = gh("neovim/nvim-lspconfig"),
   name = "lspconfig",
+  setup = function()
+    -- vim.lsp.config()
+  end,
 })
 
 -- LSP diagnostics in a panel (:Trouble)
@@ -223,7 +226,21 @@ pack_add({ src = gh("tpope/vim-sleuth"), name = "vim-sleuth" })
 pack_add({
   src = gh("kylechui/nvim-surround"),
   name = "nvim-surround",
-  setup = {},
+  setup = {
+    keymaps = {
+      insert = "<C-g>s",
+      insert_line = "<C-g>S",
+      normal = "ys",
+      normal_cur = "yss",
+      normal_line = "yS",
+      normal_cur_line = "ySS",
+      visual = false,
+      visual_line = false,
+      delete = "ds",
+      change = "cs",
+      change_line = "cS",
+    },
+  },
 })
 
 -- auto close pairs
@@ -344,19 +361,6 @@ pack_add({
   end,
 })
 
--- tailwind
--- dependencies:
---   "nvim-treesitter/nvim-treesitter"
---   "nvim-telescope/telescope.nvim"
---   "neovim/nvim-lspconfig"
---
--- rebuild: ":UpdateRemotePlugins"
-pack_add({
-  src = gh("luckasRanarison/tailwind-tools.nvim"),
-  name = "tailwind-tools",
-  setup = {},
-})
-
 -- dependencies:
 --   "nvim-tree/nvim-web-devicons"
 pack_add({
@@ -409,7 +413,7 @@ pack_add({
               action = ":lua Snacks.dashboard.pick('files', {cwd = vim.fn.stdpath('config')})",
             },
             -- { key = "s", desc = "restore session", section = "session" },
-            { key = "l", desc = "lazy", action = ":Lazy" },
+            -- { key = "l", desc = "lazy", action = ":Lazy" },
             { key = "q", desc = "quit", action = ":qa" },
           },
         },
