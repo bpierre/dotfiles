@@ -11,7 +11,7 @@ threshold = 9
 [character]      # The name of the module we are configuring is "character"
 success_symbol = "[↘](bold green)"
 error_symbol = "[↘](bold red)"
-vicmd_symbol = "[↙️](bold green)"
+vicmd_symbol = "[_](bold green)"
 
 [git_branch]
 truncation_length = 20

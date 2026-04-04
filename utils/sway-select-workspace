@@ -1,0 +1,61 @@
+#!/usr/bin/env bun
+// vi: ft=typescript
+
+import { $ } from "bun";
+
+const PERSISTENT_WORKSPACES = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+async function workspaces() {
+  const { stdout: workspacesOutput } = await $`swaymsg -t get_workspaces`.quiet();
+  const activeWorkspaces = JSON
+    .parse(workspacesOutput)
+    .filter(({ type }) => type === "workspace");
+  return {
+    actives: activeWorkspaces.map(({ num }) => num),
+    focused: activeWorkspaces.find((workspace) => workspace.focused).num ?? 1,
+    persistents: PERSISTENT_WORKSPACES,
+  };
+}
+
+function siblingWorkspace(workspaces: number[], focused: number, direction: 1 | -1) {
+  const focusedIndex = workspaces.findIndex((num) => num === focused);
+  console.log({ focusedIndex, workspaces, focused });
+  const requestedWorkspace = workspaces[focusedIndex + direction];
+  return requestedWorkspace ?? workspaces[direction === 1 ? 0 : workspaces.length - 1];
+}
+
+function params(): [
+  category: "active" | "persistent",
+  direction: 1 | -1,
+] {
+  const arg = Bun.argv[2];
+  if (arg === "next-active" || arg === "prev-active") {
+    return ["active", arg === "next-active" ? 1 : -1];
+  }
+  if (arg === "next" || arg === "prev") {
+    return ["persistent", arg === "next" ? 1 : -1];
+  }
+  throw new Error("Invalid argument. Use 'next', 'prev', 'next-active' or 'prev-active'.");
+}
+
+async function main() {
+  const [category, direction] = params();
+  const { actives, persistents, focused } = await workspaces();
+
+  const selection = siblingWorkspace(
+    category === "persistent" ? persistents : actives,
+    focused,
+    direction,
+  );
+
+  await $`swaymsg workspace number ${selection}`.quiet();
+}
+
+await main()
+  .then(() => {
+    process.exit(0);
+  })
+  .catch((err) => {
+    console.error(err);
+    process.exit(1);
+  });

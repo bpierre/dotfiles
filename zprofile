@@ -4,8 +4,8 @@ if [[ -f "$HOME/.profile" ]]; then
   source "$HOME/.profile"
 fi
 
-if [[ -s "$HOME/dotfiles/private.zsh" ]]; then
-  source "$HOME/dotfiles/private.zsh"
+if [[ -s "$HOME/dotfiles/env-private.zsh" ]]; then
+  source "$HOME/dotfiles/env-private.zsh"
 fi
 
 # Env
@@ -17,7 +17,7 @@ export LANG='en_US.UTF-8'
 export LC_CTYPE='en_US.UTF-8'
 export LC_ALL='en_US.UTF-8'
 export LANG='en_US.UTF-8'
-export BROWSER='firefox-nightly'
+export BROWSER='/home/pierre/apps/firefox-nightly/firefox'
 export MANPAGER="nvim +Man!"
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore-vcs --hidden'
 export GIT_PAGER="delta --dark"

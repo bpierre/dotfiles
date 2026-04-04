@@ -1,6 +1,7 @@
 [user]
   name = Pierre Bertet
   email = hi@bpier.re
+  signingKey = ~/.ssh/id_ed25519.pub
 [gist]
   private = yes
   extension = txt
@@ -8,9 +9,9 @@
   st = status
   co = checkout
   ci = commit
-  cs = commit --gpg-sign
   br = branch
   lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --
+  sw = switch
   permission-reset = "!git diff -p | grep -E '^(diff|old mode|new mode)' | sed -e 's/^old/NEW/;s/^new/old/;s/^NEW/new/' | git apply"
   zip = !N=$(basename `git rev-parse --show-toplevel`) sh -c 'git archive --prefix=$N/ -o $N.zip `git rev-parse --abbrev-ref HEAD`'
   showtrackedignored = ls-files -i --exclude-standard
@@ -41,8 +42,6 @@
   pager = delta --dark
 [interactive]
   diffFilter = delta --color-only --features=interactive
-[add.interactive]
-  useBuiltin = false # required for git 2.37.0
 [delta]
   light = false
   features = decorations
@@ -70,7 +69,7 @@
 [merge]
   conflictstyle = merge
 [gpg]
-  program = gpg
+  format = ssh
 [commit]
   gpgSign = true
 	verbose = true
@@ -92,3 +91,9 @@
 	rebase = false
 [init]
 	defaultBranch = main
+[credential "https://github.com"]
+	helper = 
+	helper = !/usr/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper = 
+	helper = !/usr/bin/gh auth git-credential

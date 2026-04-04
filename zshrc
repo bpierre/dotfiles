@@ -52,6 +52,10 @@ zinit light g-plane/zsh-yarn-autocompletions
 zplugin ice from"gh" atinit"zpcompinit; zpcdreplay" lucid
 zplugin light zdharma/fast-syntax-highlighting
 
+# pnpm completion
+zinit ice atload"zpcdreplay" atclone"./zplug.zsh" atpull"%atclone"
+zinit light g-plane/pnpm-shell-completion
+
 # Completion style
 zstyle ':completion:*' menu select
 
@@ -72,6 +76,9 @@ setopt HIST_IGNORE_SPACE
 setopt HIST_SAVE_NO_DUPS
 setopt HIST_VERIFY
 setopt HIST_BEEP
+
+# Vim mode
+bindkey -v
 
 # History substring search options
 bindkey '^[[A' history-substring-search-up
@@ -119,7 +126,7 @@ alias pgstart="pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/serv
 alias pgstop="pg_ctl -D /usr/local/var/postgres stop -s -m fast"
 alias mongodb_start="mongod run --config /usr/local/etc/mongod.conf"
 alias pubkey="more ~/.ssh/id_rsa.pub | pbcopy | printf 'Public SSH key copied.\n'";
-alias gist="gist --copy --shorten";
+alias gist="gh gist create";
 alias killphantom="ps aux | grep phantomjs | awk '{print }' | xargs kill -9"
 alias gti="echo '🚗  vroom vroom';git"
 alias g=hub
@@ -134,7 +141,8 @@ alias history-stat="history 0 | awk '{print \$2}' | sort | uniq -c | sort -n -r 
 alias emoj="emoji-fzf preview | fzf --preview 'emoji-fzf get --name {1}' | cut -d \" \" -f 1 | emoji-fzf get | xclip -selection clipboard"
 alias check-deprecated-modules="cat package.json | jq '(.dependencies+.devDependencies) | keys | .[]' | xargs -I {} sh -c 'yarn info --json {} | jq \".data.name,.data.deprecated\"'"
 # alias serve="xdg-open 'http://localhost:8000/' & simple-http-server --silent --index"
-alias http="simple-http-server"
+alias http="http-server"
+alias serve="http-server"
 alias ??="gh copilot suggest -t shell"
 alias explain="gh copilot explain"
 
@@ -275,6 +283,9 @@ fi
 export FZF_DEFAULT_COMMAND='rg --files'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
+# time command output format
+# export TIMEFMT=$'\n================\nCPU\t%P\nuser\t%*Us\nsystem\t%*Ss\ntotal\t%*Es'
+
 # Prevent create-react-app to try to launch vim / crash the tmux tab
 export REACT_EDITOR=none
 
@@ -339,3 +350,6 @@ zinit light-mode for \
     zdharma-continuum/zinit-annex-bin-gem-node \
     zdharma-continuum/zinit-annex-patch-dl \
     zdharma-continuum/zinit-annex-rust
+
+# Vite+ bin (https://viteplus.dev)
+. "$HOME/.vite-plus/env"

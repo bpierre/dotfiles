@@ -6,3 +6,8 @@ source "${ZDOTDIR:-$HOME}/.zprofile"
 # fi
 
 if [ -e /home/pierre/.nix-profile/etc/profile.d/nix.sh ]; then . /home/pierre/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
+
+export PATH="$PATH:/home/pierre/.config/.foundry/bin"
+
+# Vite+ bin (https://viteplus.dev)
+. "$HOME/.vite-plus/env"

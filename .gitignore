@@ -1,3 +1,10 @@
-/private.zsh
-/nvim/persistence.nvim-sessions
-/nvim/lazy-lock.json
+/env-private.zsh
+nvim/persistence.nvim-sessions
+nvim/lazy-lock.json
+nvim/lua/secrets.lua
+
+## Panda
+styled-system
+styled-system-studio
+
+.claude/

@@ -3,9 +3,19 @@
   "height": 28,
   "modules-left": ["sway/workspaces", "sway/mode"],
   "modules-center": ["sway/window"],
-  "modules-right": ["battery", "wireplumber", "bluetooth", "network", "clock", "tray"],
+  "modules-right": [
+    "custom/rec",
+    "battery",
+    "wireplumber",
+    "bluetooth",
+    "network",
+    "custom/clock2",
+    "tray",
+    "custom/close-app"
+  ],
   "sway/workspaces": {
     "current-only": false,
+    "on-click": "activate",
     "persistent-workspaces": {
       "1": [],
       "2": [],
@@ -16,7 +26,8 @@
       "7": [],
       "8": [],
       "9": []
-    }
+    },
+    "sort-by-number": true
   },
   "sway/window": {
     "format": "{}",
@@ -27,9 +38,9 @@
     }
   },
   "battery": {
-    "format": "{capacity}%",
-    "format-charging": "P {capacity}%",
-    "format-discharging": "U {capacity}%",
+    "format": "PL {capacity}%",
+    "format-charging": "PL {capacity}%",
+    "format-discharging": "BA {capacity}%",
     "format-icons": ["", "", "", "", ""],
     "full-at": 98,
     "states": {
@@ -37,9 +48,24 @@
       "critical": 15
     }
   },
-  "clock": {
-    "format": "{:%A %H:%M}",
-    "format-alt": "{:%d/%m/%y %H:%M}"
+  "custom/clock2": {
+    "format": "{text}",
+    "format-alt": "{alt}",
+    "exec": "/home/pierre/bin/clock2",
+    "interval": 1,
+    "return-type": "json"
+  },
+  "custom/close-app": {
+    "format": "×",
+    "on-click": "swaymsg focus tiling && swaymsg kill"
+  },
+  "custom/rec": {
+    "exec": "cat /tmp/rec-status 2>/dev/null",
+    "return-type": "json",
+    "interval": "once",
+    "signal": 10,
+    "on-click": "/home/pierre/bin/stt --gui --mode copy &",
+    "on-click-right": "/home/pierre/bin/stt --toggle-lang"
   },
   "tray": {
     "icon-size": 14,
@@ -48,35 +74,37 @@
   },
   "wireplumber": {
     "format-icons": ["", "", ""],
-    "format": "V {volume}%",
-    "format-muted": "V (M)",
-    "on-click": "pamixer --toggle-mute",
+    "format": "VO {volume}%",
+    "format-muted": "VO MUT",
+    "on-click": "swayosd-client --output-volume mute-toggle",
     "on-click-right": "pavucontrol",
     "on-click-middle": "helvum",
-    "on-scroll-up": "pamixer --decrease 1",
-    "on-scroll-down": "pamixer --increase 1",
+    "on-scroll-up": "swayosd-client --output-volume raise",
+    "on-scroll-down": "swayosd-client --output-volume lower",
     "max-volume": 100
   },
-  "network": {
-    "format": "{ifname}",
-    "format-wifi": "W",
-    "format-ethernet": "E",
-    "format-disconnected": "",
-    "tooltip-format": "{ifname} via {gwaddr}",
-    "tooltip-format-wifi": "{essid} ({signalStrength}%) ",
-    "tooltip-format-ethernet": "{ifname} · {ipaddr}/{cidr}",
-    "tooltip-format-disconnected": "Disconnected",
-    "max-length": 50
-  },
   "bluetooth": {
-    "format": "B",
+    "format": "",
     "format-off": "",
-    "format-connected": "B {device_alias}",
-    "format-connected-battery": "B {device_alias}",
+    "format-connected": "BL {device_alias}",
+    "format-connected-battery": "BL {device_alias}",
     "format-device-preference": ["device1", "device2"],
     "tooltip-format": "{controller_alias}\t{controller_address}\n\n{num_connections} connected",
     "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}",
     "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
-    "tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%"
+    "tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%",
+    "max-length": 14
+  },
+  "network": {
+    "format": "{ifname}",
+    "format-wifi": "WI {essid}",
+    "format-ethernet": "ET",
+    "format-disconnected": "WI …",
+    "format-disabled": "WI OFF",
+    "tooltip-format": "{ifname} via {gwaddr}",
+    "tooltip-format-wifi": "{essid} ({signalStrength}%)",
+    "tooltip-format-ethernet": "{ifname} · {ipaddr}/{cidr}",
+    "tooltip-format-disconnected": "Disconnected",
+    "max-length": 24
   }
 }

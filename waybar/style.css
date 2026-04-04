@@ -5,7 +5,7 @@
 window#waybar {
   /* otf-font-awesome is required for the icons */
   font-family: FontAwesome, Iosevka, sans-serif;
-  background-color: rgba(0, 0, 0, 1);
+  background-color: #000000;
   /* border-bottom: 3px solid #ccc; */
   color: #ffffff;
   transition-property: background-color;
@@ -24,15 +24,6 @@ window#waybar.solo {
   background-color: #FFFFFF;
 }
 */
-
-window#waybar.termite {
-  background-color: #3F3F3F;
-}
-
-/* window#waybar.chromium { */
-/*   background-color: #000000; */
-/*   border: none; */
-/* } */
 
 button {
   /* Use box-shadow instead of border so the text isn't offset */
@@ -73,14 +64,21 @@ label:focus {
 #network,
 #pulseaudio,
 #wireplumber,
-#custom-media,
+#custom-clock2,
+#custom-close-app,
+#custom-rec,
 #tray,
 #mode,
 #idle_inhibitor,
 #scratchpad,
 #mpd {
-  padding: 0 6px;
+  padding: 0 8px;
   color: #ffffff;
+}
+#custom-close-app {
+  font-size: 18px;
+  padding-left: 4px;
+  padding-right: 12px;
 }
 
 #window,
@@ -102,6 +100,7 @@ label:focus {
 }
 
 #battery {
+  background-color: transparent;
 }
 #battery.charging, #battery.plugged {
 }
@@ -127,20 +126,6 @@ label:focus {
 #wireplumber {
 }
 #wireplumber.muted {
-}
-
-#custom-media {
-  background-color: #66cc99;
-  color: #2a5c45;
-  min-width: 100px;
-}
-
-#custom-media.custom-spotify {
-  background-color: #66cc99;
-}
-
-#custom-media.custom-vlc {
-  background-color: #ffa000;
 }
 
 #temperature {
@@ -249,7 +234,7 @@ label:focus {
   color: #ffffff;
 }
 #workspaces button.focused {
-  background: rgba(255, 255, 255, 0.1);
+  background: #16181a;
 }
 /* workspaces with no opened window */
 #workspaces button.persistent {

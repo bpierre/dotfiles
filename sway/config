@@ -8,10 +8,11 @@ set $down  j
 set $up    k
 set $right l
 
-set $term alacritty
+# set $term alacritty
+set $term kitty
 
 set $screen        "Samsung Display Corp. 0x4167 Unknown"
-set $touchpad      "11311:40:SNSL0028:00_2C2F:0028_Touchpad"
+# set $touchpad      "11311:40:SNSL0028:00_2C2F:0028_Touchpad"
 set $trackpoint    "2:10:TPPS/2_Elan_TrackPoint"
 set $keyboard      "1:1:AT_Translated_Set_2_keyboard"
 set $keyd_keyboard "4012:2782:keyd_virtual_keyboard"
@@ -21,28 +22,49 @@ set $keyd_keyboard "4012:2782:keyd_virtual_keyboard"
 # using polkit-gnome for the polkit agent
 exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 
-# OSD server (volume, brightness, etc.)
-exec swayosd-server
-
-# flameshot service
-exec flameshot
-
 # flameshot
 for_window [app_id="flameshot"] border pixel 0, floating disable, fullscreen enable, move absolute position 0 0
+
+# speedcrunch
+for_window [app_id="speedcrunch"] floating enable, border pixel 2, move position cursor
 
 # galculator
 for_window [app_id="galculator"] floating enable, border normal, move position cursor
 
+
+
+# wayfarer
+# for_window [app_id="wayfarer"] floating enable, border pixel 2, move position cursor
+
 # for_window [app_id="firefox"] inhibit_idle fullscreen
 for_window [app_id="^.*"] inhibit_idle fullscreen
+
+# google-chrome pop-up
+for_window [class="Google-chrome" window_role="pop-up"] floating enable
+for_window [app_id="^chrome-.*" window_role="pop-up"] floating enable
+for_window [app_id="chromium"] floating enable
+
+# pop-up windows
+for_window [window_role="pop-up"] floating enable
+for_window [window_role="About"] floating enable
+
+# firefox bitwarden
+# for_window [app_id="firefox-nightly" title="Bitwarden Password Manager"] border pixel 2, exec "sleep 0.1; swaymsg floating enable; swaymsg floating disable; swaymsg floating enable"
+# for_window [app_id="firefox-nightly"] border pixel 2, exec "sleep 0.1; swaymsg floating enable; swaymsg floating disable; swaymsg floating enable"
+for_window [app_id="firefox-nightly"] border none
+for_window [app_id="firefox-nightly" title=".*Bitwarden.*"] floating enable, border pixel 2
+exec ~/dotfiles/sway/float-firefox-popup.sh
 
 # app launcher
 # note: pass the final command to swaymsg so that the resulting window
 # can be opened on the original workspace that the command was run on.
 # set $menu dmenu_path | dmenu | xargs swaymsg exec --
 # set $menu fuzzel | xargs swaymsg exec --
-set $bemenu bemenu --ignorecase --list 3 --no-overlap --width-factor 1 --fixed-height -p '' --fn 'Iosevka Term 11' --hb '#000000FF' --ab '#000000FF' --fbb '#000000FF' --fb '#000000FF' --nb '#000000FF' --nf '#999999FF' --af '#999999FF' --hf '#FFFFFFFF'
-set $menu j4-dmenu-desktop --dmenu="$bemenu"
+# exec systemctl --user set-environment BEMENU_OPTS="--ignorecase --list 5 --no-overlap --width-factor 1 --line-height 24 -p '' --fn 'Iosevka Term 10' --hb '#000000FF' --ab '#000000FF' --fbb '#000000FF' --fb '#000000FF' --nb '#000000FF' --nf '#999999FF' --af '#999999FF' --hb '#1A1A1AFF' --hf '#FFFFFFFF'"
+# set $bemenu_font 'Departure Mono 11'
+set $bemenu_font 'Iosevka Term 10'
+set $dmenu bemenu --ignorecase --list 5 --no-overlap --width-factor 1 --line-height 24 -p '' --fn $bemenu_font --hb '#000000FF' --ab '#000000FF' --fbb '#000000FF' --fb '#000000FF' --nb '#000000FF' --nf '#999999FF' --af '#999999FF' --hb '#1A1A1AFF' --hf '#FFFFFFFF'
+set $menu j4-dmenu-desktop --display-binary --usage-log "/home/pierre/.config/j4-dmenu-desktop-usage-log.json" --dmenu="$dmenu" > /dev/null 2>&1
 
 ### main screen
 output $screen {
@@ -74,12 +96,16 @@ output * {
 # your displays after another 300 seconds, and turn your screens back on when
 # resumed. It will also lock your screen before your computer goes to sleep.
 
+# exec swayidle -w \
+#          timeout 300 'swaylock -f -c 000000' \
+#          timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
+#          before-sleep 'swaylock -f -c 000000'
+
 exec swayidle -w \
-         timeout 300 'swaylock -f -c 000000' \
-         timeout 305 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
+         timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
          before-sleep 'swaylock -f -c 000000'
 
-# swaylock when the lid is closed
+# lockscreen when the lid is closed
 bindswitch --locked lid:off exec swaylock -f -c 000000
 
 # Input configuration (man sway-input)
@@ -89,7 +115,15 @@ input $keyd_keyboard {
   repeat_delay 300
   repeat_rate 30
 }
-input $touchpad {
+
+input type:pointer {
+  # accel_profile flat
+  accel_profile adaptive
+  # pointer_accel -0.7
+  pointer_accel -0.6 # pulsar mouse − green speed
+}
+
+input type:touchpad {
   tap enabled
   natural_scroll enabled
   pointer_accel 0.1
@@ -102,7 +136,8 @@ input $touchpad {
 }
 
 gaps inner 0
-default_border none
+# default_border none
+default_border pixel 1
 smart_borders on
 
 ### Key bindings
@@ -112,18 +147,37 @@ smart_borders on
 # Start a terminal
 bindsym $mod+Return exec $term
 
+# Calculator
+bindsym $mod+c exec speedcrunch
+# bindsym $mod+c exec swaymsg [app_id="org.speedcrunch.speedcrunch"] focus || exec speedcrunch
+
+# Color picker
+bindsym $mod+i exec hyprpicker --autocopy --lowercase-hex
+
+# bindsym $mod+c exec sway-focus speedcrunch speedcrunch
+# bindsym --no-repeat $mod+c exec pidof speedcrunch && swaymsg [app_id=^speedcrunch$] focus || speedcrunch
+
 # Files manager
-bindsym $mod+Shift+Return exec nautilus
+# bindsym $mod+Shift+Return exec nautilus
+# bindsym $mod+Shift+Return exec nemo
+bindsym $mod+Shift+Return exec thunar
 
 # Kill focused window (soft + hard)
 bindsym $mod+w kill
 bindsym $mod+Shift+w exec swaymsg -t get_tree | jq 'recurse(.nodes[], .floating_nodes[]) | select(.focused).pid' | xargs kill -9
 
-# Start your launcher
+# Start launcher
 bindsym $mod+d exec $menu
 
 # Screenshots
-bindsym Print exec flameshot gui
+# bindsym Print exec flameshot gui
+# bindsym Print exec "grim -t ppm - | satty --filename -"
+bindsym Print exec "flameshot gui"
+
+# Speech to text (toggle)
+bindsym $mod+Shift+s exec /home/pierre/bin/stt --gui --mode copy
+bindsym $mod+Shift+t exec /home/pierre/bin/stt --gui --mode type
+exec /home/pierre/bin/stt --init
 
 # brightness
 bindsym XF86MonBrightnessUp exec swayosd-client --brightness raise
@@ -160,10 +214,12 @@ bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. 
 # bindsym $mod+$up focus up
 # bindsym $mod+$right focus right
 # Or use $mod+[up|down|left|right] bindsym $mod+Left focus left bindsym $mod+Down focus down bindsym $mod+Up focus up bindsym $mod+Right focus right Move the focused window with the same, but add Shift
-bindsym $mod+Shift+$left move left
-bindsym $mod+Shift+$down move down
-bindsym $mod+Shift+$up move up
-bindsym $mod+Shift+$right move right
+
+# bindsym $mod+Shift+$left move left
+# bindsym $mod+Shift+$down move down
+# bindsym $mod+Shift+$up move up
+# bindsym $mod+Shift+$right move right
+
 # Ditto, with arrow keys
 bindsym $mod+Shift+Left move left
 bindsym $mod+Shift+Down move down
@@ -183,8 +239,10 @@ bindsym $mod+plus workspace number 7
 bindsym $mod+minus workspace number 8
 bindsym $mod+slash workspace number 9
 
-bindsym $mod+$left  exec swaymsg workspace number $(/home/pierre/bin/sway-sibling-workspace prev)
-bindsym $mod+$right exec swaymsg workspace number $(/home/pierre/bin/sway-sibling-workspace next)
+bindsym $mod+$left        exec PATH=$PATH:/home/pierre/.bun/bin /home/pierre/dotfiles/utils/sway-select-workspace prev-active
+bindsym $mod+$right       exec PATH=$PATH:/home/pierre/.bun/bin /home/pierre/dotfiles/utils/sway-select-workspace next-active
+bindsym $mod+$left+Shift  exec PATH=$PATH:/home/pierre/.bun/bin /home/pierre/dotfiles/utils/sway-select-workspace prev
+bindsym $mod+$right+Shift exec PATH=$PATH:/home/pierre/.bun/bin /home/pierre/dotfiles/utils/sway-select-workspace next
 
 # Super + Shift + 1-9 (bepo)
 bindsym $mod+1 move container to workspace number 1
@@ -266,6 +324,7 @@ bindsym $mod+r mode "resize"
 bar swaybar_command waybar
 
 exec systemctl --user set-environment \
+  QT_WAYLAND_DISABLE_WINDOWDECORATION=1 \
   SDL_VIDEODRIVER=wayland \
   _JAVA_AWT_WM_NONREPARENTING=1 \
   QT_QPA_PLATFORM=wayland \
@@ -273,6 +332,70 @@ exec systemctl --user set-environment \
   XDG_SESSION_DESKTOP=sway \
   DISPLAY=:1
 
+# start systemd user services
+exec --no-startup-id systemctl start --user sway-session.service
+
 include /etc/sway/config.d/*
 
 xwayland enable
+
+## catppuccin-mocha theme
+set $rosewater #f5e0dc
+set $flamingo #f2cdcd
+set $pink #f5c2e7
+set $mauve #cba6f7
+set $red #f38ba8
+set $maroon #eba0ac
+set $peach #fab387
+set $yellow #f9e2af
+set $green #a6e3a1
+set $teal #94e2d5
+set $sky #89dceb
+set $sapphire #74c7ec
+set $blue #89b4fa
+set $lavender #b4befe
+set $text #cdd6f4
+set $subtext1 #bac2de
+set $subtext0 #a6adc8
+set $overlay2 #9399b2
+set $overlay1 #7f849c
+set $overlay0 #6c7086
+set $surface2 #585b70
+set $surface1 #45475a
+set $surface0 #313244
+set $base #1e1e2e
+set $mantle #181825
+set $crust #11111b
+
+client.focused           $overlay2 $base $text  $rosewater $overlay2
+client.focused_inactive  $overlay0 $base $text  $rosewater $overlay0
+client.unfocused         $overlay0 $base $text  $rosewater $overlay0
+client.urgent            $peach    $base $peach $overlay0  $peach
+client.placeholder       $overlay0 $base $text  $overlay0  $overlay0
+client.background        $base
+
+# set $base00 #282828
+# set $base01 #3c3836
+# set $base02 #504945
+# set $base03 #665c54
+# set $base04 #d5c4a1
+# set $base05 #ebdbb2
+# set $base06 #fbf1c7
+# set $base07 #ebdbb2
+# set $base08 #cc241d
+# set $base09 #d65d0e
+# set $base0A #d79921
+# set $base0B #98971a
+# set $base0C #458588
+# set $base0D #b16286
+# set $base0E #689d6a
+# set $base0F #a89984
+
+# ## Window Colours
+# # client.<class>         <border> <background> <text>   [<indicator> [<child_border>]]
+# client.focused           $base0D  $base00      $base06  $base08      $base09
+# client.focused_inactive  $base02  $base00      $base06  $base08      $base02
+# client.unfocused         $base01  $base00      $base06  $base08      $base02
+# client.urgent            $base07  $base00      $base08  $base0B      $base02
+# client.placeholder       $base02  $base00      $base06  $base03      $base04
+# client.background        $base00
