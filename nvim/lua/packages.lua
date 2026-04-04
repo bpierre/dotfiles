@@ -367,11 +367,22 @@ pack_add({
       "dprint.json",
       "dprint.jsonc",
     }
+    local oxfmt_config_files = {
+      ".oxfmtrc.json",
+      ".oxfmtrc.jsonc",
+      "oxfmt.config.ts",
+    }
     local biome_config_files = {
       ".biome.json",
       ".biome.jsonc",
       "biome.json",
       "biome.jsonc",
+    }
+    local oxfmt_fts = {
+      "javascript",
+      "javascriptreact",
+      "typescript",
+      "typescriptreact",
     }
     local biome_fts = {
       "css",
@@ -400,6 +411,9 @@ pack_add({
     local function find_formatter(buffer_num)
       local path = vim.api.nvim_buf_get_name(buffer_num)
       local ft = vim.api.nvim_get_option_value("filetype", { buf = buffer_num })
+      if vim.tbl_contains(oxfmt_fts, ft) and vim.fs.root(path, oxfmt_config_files) then
+        return "oxfmt"
+      end
       if vim.tbl_contains(biome_fts, ft) and vim.fs.root(path, biome_config_files) then
         return "biome"
       end
