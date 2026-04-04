@@ -1,12 +1,6 @@
--- LSP configs, usually started from the nvim-lspconfig repository:
--- https://github.com/neovim/nvim-lspconfig/blob/master/lsp/*
-
--- TypeScript
--- requires @vtsls/language-server installed globally:
--- pnpm add -g @vtsls/language-server
-vim.lsp.enable("vtsls")
-vim.lsp.config("vtsls", {
-  cmd = { "vtsls", "--stdio" },
+vim.lsp.enable("tsgo")
+vim.lsp.config("tsgo", {
+  cmd = { "tsgo", "--lsp", "--stdio" },
   filetypes = {
     "javascript",
     "javascriptreact",
@@ -15,60 +9,22 @@ vim.lsp.config("vtsls", {
     "typescriptreact",
     "typescript.tsx",
   },
-  root_markers = {
-    "tsconfig.json",
-    "package.json",
-    "jsconfig.json",
-    ".git",
-  },
+  root_dir = function(bufnr, on_dir)
+    local root_markers = {
+      {
+        "package-lock.json",
+        "yarn.lock",
+        "pnpm-lock.yaml",
+        "bun.lockb",
+        "bun.lock",
+        "deno.lock",
+      },
+      { ".git" },
+    }
+    local project_root = vim.fs.root(bufnr, root_markers) or vim.fn.getcwd()
+    on_dir(project_root)
+  end,
 })
-
--- vim.lsp.enable("tsgo")
--- vim.lsp.config("tsgo", {
---   cmd = { "tsgo", "--lsp", "--stdio" },
---   filetypes = {
---     "javascript",
---     "javascriptreact",
---     "javascript.jsx",
---     "typescript",
---     "typescriptreact",
---     "typescript.tsx",
---   },
---   root_dir = function(bufnr, on_dir)
---     -- The project root is where the LSP can be started from
---     -- As stated in the documentation above, this LSP supports monorepos and simple projects.
---     -- We select then from the project root, which is identified by the presence of a package
---     -- manager lock file.
---     local root_markers = { "package-lock.json", "yarn.lock", "pnpm-lock.yaml", "bun.lockb", "bun.lock", "deno.lock" }
---     -- Give the root markers equal priority by wrapping them in a table
---     root_markers = vim.fn.has("nvim-0.11.3") == 1 and { root_markers, { ".git" } }
---       or vim.list_extend(root_markers, { ".git" })
---     -- We fallback to the current working directory if no project root is found
---     local project_root = vim.fs.root(bufnr, root_markers) or vim.fn.getcwd()
-
---     on_dir(project_root)
---   end,
--- })
-
--- TypeScript
--- requires typescript and typescript-language-server installed globally:
--- pnpm add -g typescript typescript-language-server
--- vim.lsp.enable("ts_ls")
--- vim.lsp.config("ts_ls", {
---   filetypes = {
---     "javascript",
---     "javascriptreact",
---     "javascript.jsx",
---     "typescript",
---     "typescriptreact",
---     "typescript.tsx",
---   },
---   root_markers = {
---     "tsconfig.json",
---     "jsconfig.json",
---     ".git",
---   },
--- })
 
 -- Lua
 -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#lua_ls

@@ -86,10 +86,12 @@ keymap("n", "<Leader>l", ":LspRestart<CR>")
 
 vim.keymap.set("n", "<leader>d", vim.diagnostic.open_float)
 
--- show LSP signature help
--- keymap("n", "<Space>", ":lua vim.lsp.buf.hover()<CR>")
-keymap("n", "<Space>", ":Lspsaga hover_doc<CR>")
-keymap("n", "<c-Space>", ":Lspsaga peek_definition<CR>")
+vim.keymap.set("n", "<Space>", function()
+  vim.lsp.buf.hover({
+    max_width = 80,
+  })
+end)
+keymap("n", "<c-Space>", ":lua vim.lsp.buf.definition()<CR>")
 
 -- auto complete imports on enter
 -- function coc_complete_auto_imports()

@@ -8,14 +8,6 @@ local function pack_add(conf, load)
     error("plugin configuration missing or invalid.")
   end
 
-  -- -- list of plugins
-  -- if conf[1] then
-  --   for _, c in ipairs(conf) do
-  --     pack_add(c)
-  --   end
-  --   return
-  -- end
-
   if not conf.name then
     error("name missing in plugin configuration.")
   end
@@ -30,14 +22,6 @@ local function pack_add(conf, load)
   } }, {
     load = load == nil and true or load,
   })
-
-  -- add the plugin's lua directory to the package path
-  -- this helps when lazy.nvim interferes with module loading
-  -- local plugin_path = vim.fn.stdpath("data") .. "/site/pack/core/opt/" .. conf.name
-  -- local lua_path = plugin_path .. "/lua"
-  -- if vim.fn.isdirectory(lua_path) then
-  --   package.path = lua_path .. "/?.lua;" .. lua_path .. "/?/init.lua;" .. package.path
-  -- end
 
   local main_module = nil
   local function require_plugin(name)
@@ -118,6 +102,32 @@ pack_add({
   end,
 })
 
+pack_add({
+  src = gh("nvim-treesitter/nvim-treesitter"),
+  name = "nvim-treesitter",
+  version = "main",
+  setup = function(req)
+    req().install({
+      "lua",
+      "vim",
+      "vimdoc",
+      "markdown",
+      "markdown_inline",
+      "javascript",
+      "typescript",
+      "tsx",
+      "json",
+      "html",
+      "css",
+      "rust",
+      "python",
+      "bash",
+      "toml",
+      "yaml",
+    })
+  end,
+})
+
 -- auto cd to project directory
 pack_add({
   src = gh("ahmedkhalf/project.nvim"),
@@ -126,21 +136,6 @@ pack_add({
     detection_methods = { "pattern" },
     patterns = { ".git" },
   },
-})
-
--- treesitter: better syntax highlighting, selection, indentation
-pack_add({
-  src = gh("nvim-treesitter/nvim-treesitter"),
-  name = "nvim-treesitter",
-  setup = function()
-    require("nvim-treesitter.configs").setup({
-      additional_vim_regex_highlighting = true,
-      -- auto_install = true,
-      ensure_installed = "all",
-      highlight = { enable = true, additional_vim_regex_highlighting = true },
-      indent = { enable = true },
-    })
-  end,
 })
 
 -- icons used in various plugins
@@ -166,23 +161,6 @@ pack_add({
     })
   end,
 })
--- pack_add({
---   src = gh("github/copilot.vim"),
---   name = "copilot.vim",
---   setup = function()
---     vim.g.copilot_filetypes = { markdown = true }
---   end,
--- })
-
--- LSP
-pack_add({
-  src = gh("neovim/nvim-lspconfig"),
-  name = "lspconfig",
-  setup = function()
-    -- vim.lsp.config()
-  end,
-})
-
 -- LSP diagnostics in a panel (:Trouble)
 -- opt. deps: nvim-web-devicons
 pack_add({
@@ -212,35 +190,10 @@ pack_add({ src = gh("tpope/vim-eunuch"), name = "vim-eunuch" })
 -- adjusts 'shiftwidth' and 'expandtab' heuristically
 pack_add({ src = gh("tpope/vim-sleuth"), name = "vim-sleuth" })
 
--- {
---   src = gh("tpope/vim-surround"),
---   name = "vim-surround",
---   setup = function()
---     vim.g.surround_no_mappings = 1
---     vim.keymap.set("n", "ds", "<Plug>Dsurround", { silent = true })
---     vim.keymap.set("n", "cs", "<Plug>Csurround", { silent = true })
---     vim.keymap.set("i", "<C-S>", "<Plug>Isurround", { silent = true })
---   end,
--- },
-
 pack_add({
   src = gh("kylechui/nvim-surround"),
   name = "nvim-surround",
-  setup = {
-    keymaps = {
-      insert = "<C-g>s",
-      insert_line = "<C-g>S",
-      normal = "ys",
-      normal_cur = "yss",
-      normal_line = "yS",
-      normal_cur_line = "ySS",
-      visual = false,
-      visual_line = false,
-      delete = "ds",
-      change = "cs",
-      change_line = "cS",
-    },
-  },
+  setup = {},
 })
 
 -- auto close pairs
@@ -276,10 +229,13 @@ pack_add({
 -- use s or S again to move to the next match
 -- move to a specific one using its char shortcut
 pack_add({
-  src = gh("ggandor/leap.nvim"),
+  src = "https://codeberg.org/andyg/leap.nvim",
+  -- src = gh("ggandor/leap.nvim"),
   name = "leap",
   setup = function(require)
-    require().create_default_mappings()
+    vim.keymap.set({ "n", "x", "o" }, "s", "<Plug>(leap-forward)")
+    vim.keymap.set({ "n", "x", "o" }, "S", "<Plug>(leap-backward)")
+    vim.keymap.set("n", "gs", "<Plug>(leap-from-window)")
   end,
 })
 
@@ -320,20 +276,6 @@ pack_add({
         ["<c-t>"] = { "select_and_accept" },
         ["<C-n>"] = { "show", "select_next", "fallback_to_mappings" },
         ["<C-space>"] = { "show", "show_documentation", "hide_documentation" },
-
-        -- ["<C-space>"] = { "show", "show_documentation", "hide_documentation" },
-        -- ["<C-e>"] = { "hide" },
-
-        -- ["<C-p>"] = { "select_prev", "fallback_to_mappings" },
-        -- ["<C-n>"] = { "select_next", "fallback_to_mappings" },
-
-        -- ["<C-b>"] = { "scroll_documentation_up", "fallback" },
-        -- ["<C-f>"] = { "scroll_documentation_down", "fallback" },
-
-        -- ["<Tab>"] = { "snippet_forward", "fallback" },
-        -- ["<S-Tab>"] = { "snippet_backward", "fallback" },
-
-        -- ["<C-k>"] = { "show_signature", "hide_signature", "fallback" },
       },
       sources = {
         default = {
@@ -379,16 +321,9 @@ pack_add({
   end,
 })
 
--- Improved LSP experience
--- dependencies:
---   "nvim-treesitter/nvim-treesitter"
---   "nvim-tree/nvim-web-devicons"
 pack_add({
-  src = gh("nvimdev/lspsaga.nvim"),
-  name = "lspsaga",
-  setup = {
-    lightbulb = { enable = false },
-  },
+  src = gh("sourcegraph/amp.nvim"),
+  name = "amp.nvim",
 })
 
 pack_add({
@@ -398,32 +333,6 @@ pack_add({
     require().setup({
       picker = { enabled = true },
       explorer = { enabled = true },
-      dashboard = {
-        enabled = true,
-        preset = {
-          header = "ok",
-          keys = {
-            { key = "e", desc = "edit buffer", action = ":ene | startinsert" },
-            { key = "f", desc = "find file", action = ":lua Snacks.dashboard.pick('files')" },
-            { key = "s", desc = "search text", action = ":lua Snacks.dashboard.pick('live_grep')" },
-            { key = "r", desc = "recent files", action = ":lua Snacks.dashboard.pick('oldfiles')" },
-            {
-              key = "c",
-              desc = "config",
-              action = ":lua Snacks.dashboard.pick('files', {cwd = vim.fn.stdpath('config')})",
-            },
-            -- { key = "s", desc = "restore session", section = "session" },
-            -- { key = "l", desc = "lazy", action = ":Lazy" },
-            { key = "q", desc = "quit", action = ":qa" },
-          },
-        },
-        sections = {
-          { section = "header" },
-          { section = "keys", gap = 1, padding = 1 },
-          -- { section = "projects", gap = 1, padding = 1 },
-          -- { section = "startup" },
-        },
-      },
     })
 
     -- keys
@@ -431,36 +340,11 @@ pack_add({
       Snacks.picker.smart()
     end, { desc = "Smart Find Files" })
   end,
-  -- keys = {
-  --   {
-  --     "<c-t>",
-  --     function()
-  --       Snacks.picker.smart()
-  --     end,
-  --     desc = "Smart Find Files",
-  --   },
-  --   {
-  --     "<c-m>",
-  --     function()
-  --       Snacks.picker.keymaps()
-  --     end,
-  --     desc = "Keymaps",
-  --   },
-  --   {
-  --     "<c-s>",
-  --     function()
-  --       -- Snacks.explorer.open()
-  --       Snacks.explorer.reveal()
-  --     end,
-  --     desc = "File Explorer",
-  --   },
-  -- },
 })
 
 pack_add({
   src = gh("stevearc/conform.nvim"),
   name = "conform",
-  -- cmd = { "ConformInfo" },
   setup = function(require)
     vim.keymap.set("n", "<leader>r", function()
       require().format({ async = true })
@@ -563,8 +447,8 @@ pack_add({
           end
 
           return {
-            command = "biome",
-            args = { "format", "--stdin-file-path", filename_arg },
+            command = "bun",
+            args = { "biome", "format", "--stdin-file-path", filename_arg },
             cwd = require("conform.util").root_file(biome_config_files),
           }
         end,
@@ -584,7 +468,6 @@ pack_add({
           return {
             command = "dprint",
             args = { "fmt", "--stdin", filename_arg },
-            cwd = require("conform.util").root_file(dprint_config_files),
           }
         end,
       },
@@ -592,18 +475,10 @@ pack_add({
   end,
 })
 
--- {
---   "mikesmithgh/kitty-scrollback.nvim",
---   enabled = true,
---   lazy = true,
---   cmd = {
---     "KittyScrollbackGenerateKittens",
---     "KittyScrollbackCheckHealth",
---     "KittyScrollbackGenerateCommandLineEditing",
---   },
---   event = { "User KittyScrollbackLaunch" },
---   version = "*",
---   config = function()
---     require("kitty-scrollback").setup()
---   end,
--- },
+pack_add({
+  src = gh("mikesmithgh/kitty-scrollback.nvim"),
+  name = "kitty-scrollback",
+  setup = function(require)
+    require().setup()
+  end,
+})
