@@ -1,65 +1,64 @@
 // Important: keep the semicolons or a parsing
 // error will prevent the file to be executed.
 
-// user_pref('widget.content.gtk-theme-override', 'Adwaita');
-user_pref('layout.css.devPixelsPerPx', '2');
-user_pref('browser.fixup.alternate.enabled', false);
-user_pref('general.warnOnAboutConfig', false);
-user_pref('ui.key.menuAccessKeyFocuses', false);
-user_pref('devtools.theme', 'dark');
-user_pref('layout.word_select.stop_at_punctuation', true);
-user_pref('full-screen-api.warning.timeout', 0);
-user_pref('image.mem.min_discard_timeout_ms', 2100000000);
-user_pref('image.mem.max_decoded_image_kb', 30000);
+// Disable wake lock to prevent crashes (mWakeLockType assert in Nightly 151)
+user_pref("dom.wakelock.enabled", false);
 
-// Hide the title bar
-user_pref('browser.tabs.drawInTitlebar', false);
+// const remoteDebug = false;
+user_pref("devtools.chrome.enabled", false);
+user_pref("devtools.debugger.remote-enabled", false);
+user_pref("devtools.debugger.prompt-connection", true);
 
-// No warning on about:config
-user_pref('browser.aboutConfig.showWarning', false);
+user_pref("layout.css.devPixelsPerPx", "2"); // 2x scaling
+user_pref("browser.fixup.alternate.enabled", false); // don't fixup URLs
+user_pref("ui.key.menuAccessKeyFocuses", false); // don't focus the menu bar with alt
+user_pref("devtools.theme", "dark"); // devtools dark theme
+user_pref("layout.word_select.stop_at_punctuation", true); // select words only
+user_pref("full-screen-api.warning.timeout", 0); // disable full-screen warning
 
-// Compact UI density
-user_pref('browser.uidensity', 1);
-
-// No warning when closing the browser
-user_pref('browser.tabs.warnOnClose', false);
-
-user_pref('gfx.font_rendering.fontconfig.max_generic_substitutions', 127);
-
-// Navigate in the URL bar suggestions using <tab>
-user_pref('browser.urlbar.update1.restrictTabAfterKeyboardFocus', false);
-
-// Don’t open the URL bar suggestions on focus.
-user_pref('browser.urlbar.openViewOnFocus', false);
-
-// Other URL bar things
-user_pref('browser.urlbar.trimURLs', false);
-user_pref('browser.urlbar.clickSelectsAll', true);
-user_pref('browser.urlbar.doubleClickSelectsAll', false);
-
-// Enable userChrome.css
-user_pref('toolkit.legacyUserProfileCustomizations.stylesheets', true);
-
-// VA-API hardware video acceleration
-// user_pref('media.gstreamer.enabled', true);
-// user_pref('media.ffmpeg.vaapi.enabled', true);
-// user_pref('media.ffmpeg.vaapi-drm-display.enabled', true);
-// user_pref('media.hardware-video-decoding.force-enabled', true);
-
-// Enable hardware VA-API decoding for WebRTC
-user_pref('media.navigator.mediadatadecoder_vpx_enabled', true);
-
-// Use libvpx instead of ffvpx to decode vp9
-// user_pref('media.ffvpx.enabled', false);
-
-// Disable the remote data decoder process for VP8/VP9
-// user_pref('media.rdd-vpx.enabled', false);
-
-// Disable EGL on X11 (see also MOZ_X11_EGL=1 in ~/.profile)
-// user_pref('gfx.x11-egl.force-disabled', false);
-// user_pref('gfx.x11-egl.force-enabled', true);
+user_pref("browser.tabs.notes.enabled", false); // disable tab notes
 
 // Scroll
-user_pref('mousewheel.min_line_scroll_amount', 40);
-user_pref('general.smoothScroll', false);
-user_pref('general.smoothScroll.pages', false);
+user_pref("mousewheel.min_line_scroll_amount", 40); // scroll amount
+user_pref("general.smoothScroll", false); // disable smooth scroll
+user_pref("general.smoothScroll.pages", false); // disable smooth scroll for pages
+
+// Hide the title bar
+user_pref("browser.tabs.drawInTitlebar", false);
+
+// Other tabs settings
+user_pref("browser.tabs.tooltipsShowPidAndActiveness", false); // don't show pid
+user_pref("browser.tabs.hoverPreview.showThumbnails", false); // don't show thumbnails
+
+// about:config warning
+user_pref("browser.aboutConfig.showWarning", false);
+
+// Compact UI
+user_pref("browser.uidensity", 1);
+
+// Disable opened tabs warning on close
+user_pref("browser.tabs.warnOnClose", false);
+user_pref("browser.warnOnQuit", false);
+
+user_pref("browser.ml.linkPreview.enabled", false);
+
+// Other URL bar things
+user_pref("browser.urlbar.clickSelectsAll", true);
+user_pref("browser.urlbar.doubleClickSelectsAll", false);
+user_pref("browser.urlbar.suggest.quickactions", false);
+user_pref("browser.urlbar.suggest.searches", false);
+user_pref("browser.urlbar.suggest.topsites", false);
+user_pref("browser.urlbar.trimURLs", false);
+
+user_pref("view_source.wrap_long_lines", true);
+
+// Enable userChrome.css
+// user_pref("toolkit.legacyUserProfileCustomizations.stylesheets", true);
+
+// VA-API hardware video acceleration
+user_pref("media.ffmpeg.vaapi.enabled", true);
+
+// Attempt to fix crashes by not force-enabling HW decoding (vaapi should be enough)
+// user_pref("media.hardware-video-decoding.force-enabled", false);
+
+user_pref("widget.wayland.opaque-region.enabled", false);
