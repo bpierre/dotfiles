@@ -1,0 +1,3 @@
+# Disable Wake-on-LAN whenever the Realtek USB Ethernet adapter connects.
+# Run after interface naming; leave normal Ethernet connectivity enabled.
+ACTION=="add", SUBSYSTEM=="net", DRIVERS=="r8152", RUN+="/usr/bin/ethtool -s $name wol d"

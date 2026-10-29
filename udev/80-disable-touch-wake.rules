@@ -1,0 +1,4 @@
+# Prevent the internal touchpad and touchscreen/pen from waking the laptop.
+# Keep normal input operation and lid/power-button wake unchanged.
+ACTION=="add|bind", SUBSYSTEM=="i2c", KERNEL=="i2c-SNSL0028:00", TEST=="power/wakeup", ATTR{power/wakeup}="disabled"
+ACTION=="add|bind", SUBSYSTEM=="i2c", KERNEL=="i2c-WACF2200:00", TEST=="power/wakeup", ATTR{power/wakeup}="disabled"

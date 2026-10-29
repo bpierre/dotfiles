@@ -1,0 +1,2 @@
+# Block system wake from the AMD audio coprocessor; keep normal audio enabled.
+ACTION=="add|bind", SUBSYSTEM=="pci", ATTR{vendor}=="0x1022", ATTR{device}=="0x15e2", TEST=="power/wakeup", ATTR{power/wakeup}="disabled"
