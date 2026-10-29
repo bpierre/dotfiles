@@ -13,6 +13,14 @@
       "src": "https://github.com/saghen/blink.cmp",
       "version": "'v1.6.0'"
     },
+    "canola": {
+      "rev": "94243648851aabb173c589d583f6d9fe014ddf76",
+      "src": "https://github.com/barrettruth/canola.nvim"
+    },
+    "canola.nvim": {
+      "rev": "94243648851aabb173c589d583f6d9fe014ddf76",
+      "src": "https://github.com/barrettruth/canola.nvim"
+    },
     "catppuccin": {
       "rev": "edefef779ab08ce1a4a404713e3012b0d202bd35",
       "src": "https://github.com/catppuccin/nvim"
