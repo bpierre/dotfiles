@@ -307,7 +307,7 @@ pack_add({
 -- dependencies:
 --   "nvim-tree/nvim-web-devicons"
 pack_add({
-  src = gh("stevearc/oil.nvim"),
+  src = gh("barrettruth/canola.nvim"),
   name = "oil",
   setup = function(require)
     require().setup({
