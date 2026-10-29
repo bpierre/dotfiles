@@ -9,7 +9,7 @@
     "wireplumber",
     "bluetooth",
     "network",
-    "custom/clock2",
+    "clock",
     "tray",
     "custom/close-app"
   ],
@@ -48,12 +48,11 @@
       "critical": 15
     }
   },
-  "custom/clock2": {
-    "format": "{text}",
-    "format-alt": "{alt}",
-    "exec": "/home/pierre/bin/clock2",
-    "interval": 1,
-    "return-type": "json"
+  "clock": {
+    "format": "{:%d/%m/%y %H:%M}",
+    "format-alt": "{:%a %H:%M}",
+    "tooltip-format": "{:%A %d %B %Y at %H:%M}",
+    "interval": 60
   },
   "custom/close-app": {
     "format": "×",
