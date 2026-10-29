@@ -193,7 +193,7 @@ bindsym XF86MonBrightnessDown exec swayosd-client --brightness lower
 bindsym XF86AudioRaiseVolume exec swayosd-client --output-volume raise
 bindsym XF86AudioLowerVolume exec  swayosd-client --output-volume lower
 bindsym XF86AudioMute exec swayosd-client --output-volume mute-toggle
-bindsym XF86AudioMicMute exec swayosd-client --input-volume mute-toggle && ~/dotfiles/utils/update-mic-led.sh
+bindsym XF86AudioMicMute exec wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle && ~/dotfiles/utils/update-mic-led.sh
 
 # execute the mic led script on startup
 exec ~/dotfiles/utils/update-mic-led.sh
