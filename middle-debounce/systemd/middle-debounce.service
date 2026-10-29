@@ -1,0 +1,34 @@
+[Unit]
+Description=Debounce the Pulsar mouse middle button
+After=systemd-udevd.service
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/middle-debounce --verbose /dev/input/by-id/usb-Pulsar_1K_Dongle-event-mouse
+Restart=always
+RestartSec=2s
+
+# The filter needs the real input device and /dev/uinput, but no filesystem
+# writes, capabilities, elevated syscalls, or access to home directories.
+NoNewPrivileges=yes
+CapabilityBoundingSet=
+LockPersonality=yes
+MemoryDenyWriteExecute=yes
+PrivateTmp=yes
+ProtectClock=yes
+ProtectControlGroups=yes
+ProtectHome=yes
+ProtectHostname=yes
+ProtectKernelLogs=yes
+ProtectKernelModules=yes
+ProtectKernelTunables=yes
+ProtectSystem=strict
+RestrictNamespaces=yes
+RestrictRealtime=yes
+RestrictSUIDSGID=yes
+SystemCallArchitectures=native
+UMask=0077
+
+[Install]
+WantedBy=multi-user.target
