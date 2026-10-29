@@ -32,6 +32,12 @@
   lo = pull origin
   p = pull-request --browse -b main
   prune-squashed-branches="!git checkout -q main && git for-each-ref refs/heads/ \"--format=%(refname:short)\" | while read branch; do mergeBase=$(git merge-base main $branch) && [[ $(git cherry main $(git commit-tree $(git rev-parse \"$branch^{tree}\") -p $mergeBase -m _)) == \"-\"* ]] && git branch -D $branch; done"
+  # https://piechowski.io/post/git-commands-before-reading-code/
+  churn = !git log --format=format: --name-only --since=\"1 year ago\" | sort | uniq -c | sort -nr | head -20
+  contributors = shortlog -sn --no-merges
+  bug-clusters = !git log -i -E --grep=\"fix|bug|broken\" --name-only --format='' | sort | uniq -c | sort -nr | head -20
+  velocity = !git log --format='%ad' --date=format:'%Y-%m' | sort | uniq -c
+  crises = !git log --oneline --since=\"1 year ago\" | grep -iE 'revert|hotfix|emergency|rollback'
 [color]
   ui = true
 [core]
