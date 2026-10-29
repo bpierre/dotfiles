@@ -71,6 +71,12 @@ output $screen {
   scale 2
 }
 
+### TV
+output DP-1 {
+  mode 3840x2160@30Hz
+  scale 1
+}
+
 # screens background (swaybg should be installed)
 output * {
   background #000000 solid_color
