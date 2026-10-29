@@ -146,21 +146,22 @@ pack_add({
 })
 
 -- copilot
-pack_add({
-  src = gh("zbirenbaum/copilot.lua"),
-  name = "copilot",
-  setup = function(req)
-    req().setup({
-      suggestion = {
-        auto_trigger = true,
-        enabled = true,
-        keymap = {
-          accept = "<tab>",
-        },
-      },
-    })
-  end,
-})
+-- pack_add({
+--   src = gh("zbirenbaum/copilot.lua"),
+--   name = "copilot",
+--   setup = function(req)
+--     req().setup({
+--       suggestion = {
+--         auto_trigger = true,
+--         enabled = true,
+--         keymap = {
+--           accept = "<tab>",
+--         },
+--       },
+--     })
+--   end,
+-- })
+
 -- LSP diagnostics in a panel (:Trouble)
 -- opt. deps: nvim-web-devicons
 pack_add({
