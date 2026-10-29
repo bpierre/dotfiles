@@ -36,6 +36,9 @@ user_pref("browser.aboutConfig.showWarning", false);
 // Compact UI
 user_pref("browser.uidensity", 1);
 
+// Disable the Nova UI redesign
+user_pref("browser.nova.enabled", false);
+
 // Disable opened tabs warning on close
 user_pref("browser.tabs.warnOnClose", false);
 user_pref("browser.warnOnQuit", false);
