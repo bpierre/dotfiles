@@ -1,0 +1,2 @@
+# Disable only the built-in SunplusIT infrared camera.
+ACTION=="add", SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", ATTR{idVendor}=="13d3", ATTR{idProduct}=="8222", ATTR{authorized}="0"
