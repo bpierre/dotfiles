@@ -26,6 +26,13 @@ vim.lsp.config("tsgo", {
   end,
 })
 
+vim.lsp.enable("rust_analyzer")
+vim.lsp.config("rust_analyzer", {
+  settings = {
+    ["rust-analyzer"] = {},
+  },
+})
+
 -- Lua
 -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#lua_ls
 -- requires lua_ls: paru -S lua-language-server
