@@ -327,19 +327,30 @@ mode "resize" {
 }
 bindsym $mod+r mode "resize"
 
-bar swaybar_command waybar
+# Waybar is launched by waybar.service via sway-session.target.
+# Launching it as a Sway bar races the cold-login session setup.
+# bar swaybar_command waybar
 
-exec systemctl --user set-environment \
+# start systemd user services
+exec --no-startup-id systemctl --user set-environment \
   QT_WAYLAND_DISABLE_WINDOWDECORATION=1 \
   SDL_VIDEODRIVER=wayland \
   _JAVA_AWT_WM_NONREPARENTING=1 \
   QT_QPA_PLATFORM=wayland \
   XDG_CURRENT_DESKTOP=sway \
   XDG_SESSION_DESKTOP=sway \
-  DISPLAY=:1
-
-# start systemd user services
-exec --no-startup-id systemctl start --user sway-session.service
+  DISPLAY=:1 && \
+  systemctl --user import-environment \
+    DISPLAY \
+    SWAYSOCK \
+    WAYLAND_DISPLAY \
+    XDG_CURRENT_DESKTOP \
+    XDG_SESSION_DESKTOP \
+    QT_QPA_PLATFORM \
+    SDL_VIDEODRIVER \
+    _JAVA_AWT_WM_NONREPARENTING \
+    QT_WAYLAND_DISABLE_WINDOWDECORATION && \
+  systemctl --user start sway-session.service
 
 include /etc/sway/config.d/*
 
