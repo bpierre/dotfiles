@@ -7,6 +7,7 @@
     "custom/rec",
     "battery",
     "wireplumber",
+    "custom/mic",
     "bluetooth",
     "network",
     "clock",
@@ -70,6 +71,12 @@
     "icon-size": 14,
     "spacing": 10,
     "show-passive-items": true
+  },
+  "custom/mic": {
+    "exec": "wpctl get-volume @DEFAULT_AUDIO_SOURCE@ | awk '{if ($3 == \"[MUTED]\") print \"MUT\"; else printf \"%.0f%%\\n\", $2*100}'",
+    "format": "MI {}",
+    "interval": 1,
+    "on-click": "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
   },
   "wireplumber": {
     "format-icons": ["", "", ""],
