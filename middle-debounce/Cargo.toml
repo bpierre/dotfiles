@@ -1,0 +1,12 @@
+[package]
+name = "middle-debounce"
+version = "0.1.0"
+edition = "2024"
+description = "A focused BTN_MIDDLE debounce filter for a Pulsar mouse"
+license = "MIT"
+publish = false
+
+[dependencies]
+clap = { version = "4.5.60", features = ["derive"] }
+evdev = "0.13.2"
+nix = { version = "0.29.0", features = ["poll"] }
