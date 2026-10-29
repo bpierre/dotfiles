@@ -8,3 +8,8 @@ styled-system
 styled-system-studio
 
 .claude/
+
+# Ignore Markdown unless its exact path is explicitly allowed here.
+*.md
+!/README.md
+!/middle-debounce/README.md
