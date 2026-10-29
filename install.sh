@@ -14,8 +14,11 @@ lk() {
   /bin/echo -e "$msg"
 }
 
+mkdir -p "$HOME/.config/fish/conf.d"
+
 lk nvim       ~/.config/nvim
 lk wireplumber ~/.config/wireplumber
+lk fish/conf.d/kernel-reboot-required.fish ~/.config/fish/conf.d/kernel-reboot-required.fish
 lk tmux.conf ~/.tmux.conf
 lk zshrc     ~/.zshrc
 lk zprofile  ~/.zprofile
