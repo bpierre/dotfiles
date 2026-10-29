@@ -15,6 +15,7 @@ lk() {
 }
 
 lk nvim       ~/.config/nvim
+lk wireplumber ~/.config/wireplumber
 lk tmux.conf ~/.tmux.conf
 lk zshrc     ~/.zshrc
 lk zprofile  ~/.zprofile
