@@ -1,0 +1,14 @@
+[Unit]
+Description=Niri idle
+PartOf=graphical-session.target
+After=graphical-session.target
+Requisite=graphical-session.target
+ConditionEnvironment=XDG_CURRENT_DESKTOP=niri
+
+[Service]
+ExecStart=/usr/bin/swayidle -w timeout 600 'niri msg action power-off-monitors' resume 'niri msg action power-on-monitors' before-sleep 'swaylock -f -c 000000'
+Restart=on-failure
+RestartSec=2
+
+[Install]
+WantedBy=niri.service

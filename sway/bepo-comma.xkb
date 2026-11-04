@@ -1,0 +1,11 @@
+// Standard BEPO, with Shift+AltGr+E (physical F) producing a comma.
+xkb_keymap {
+    xkb_keycodes { include "evdev+aliases(azerty)" };
+    xkb_types { include "complete" };
+    xkb_compat { include "complete" };
+    xkb_symbols {
+        include "pc+fr(bepo)+inet(evdev)"
+        key <AC04> { [ e, E, EuroSign, comma ] };
+    };
+    xkb_geometry { include "pc(pc105)" };
+};

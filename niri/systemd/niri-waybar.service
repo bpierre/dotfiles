@@ -1,0 +1,14 @@
+[Unit]
+Description=Niri waybar
+PartOf=graphical-session.target
+After=graphical-session.target
+Requisite=graphical-session.target
+ConditionEnvironment=XDG_CURRENT_DESKTOP=niri
+
+[Service]
+ExecStart=/usr/bin/waybar -c %h/dotfiles/niri/waybar.json -s %h/dotfiles/niri/waybar.css
+Restart=on-failure
+RestartSec=2
+
+[Install]
+WantedBy=niri.service
