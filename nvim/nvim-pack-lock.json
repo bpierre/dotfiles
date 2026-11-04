@@ -14,11 +14,11 @@
       "version": "'v1.6.0'"
     },
     "canola": {
-      "rev": "94243648851aabb173c589d583f6d9fe014ddf76",
+      "rev": "d666c3b9eae1704bbaae2de45e8013bf6308488a",
       "src": "https://github.com/barrettruth/canola.nvim"
     },
     "canola.nvim": {
-      "rev": "94243648851aabb173c589d583f6d9fe014ddf76",
+      "rev": "d666c3b9eae1704bbaae2de45e8013bf6308488a",
       "src": "https://github.com/barrettruth/canola.nvim"
     },
     "catppuccin": {
@@ -30,7 +30,7 @@
       "src": "https://github.com/stevearc/conform.nvim"
     },
     "copilot": {
-      "rev": "82607bbb8528222a9a28bfcab0aceb3a7fed7e85",
+      "rev": "192b297ef37d9f6a8b889c07fb9a3dd16f1cb86f",
       "src": "https://github.com/zbirenbaum/copilot.lua"
     },
     "fidget": {
@@ -42,7 +42,7 @@
       "src": "https://github.com/rafamadriz/friendly-snippets"
     },
     "gitsigns": {
-      "rev": "1e9d0fbfe7ff848bc402d2c2e2854fb4eff2dce7",
+      "rev": "4bcd99167c265f135886b282baad77afe06206b2",
       "src": "https://github.com/lewis6991/gitsigns.nvim"
     },
     "kitty-scrollback": {
@@ -54,7 +54,7 @@
       "src": "https://codeberg.org/andyg/leap.nvim"
     },
     "lspconfig": {
-      "rev": "4b2b045b8ceb035f5c8bc9cab19b95706bfa6a19",
+      "rev": "cc404d425c7752f56b8eaa269107be44d888ea51",
       "src": "https://github.com/neovim/nvim-lspconfig"
     },
     "lspsaga": {
@@ -74,7 +74,7 @@
       "src": "https://github.com/kylechui/nvim-surround"
     },
     "nvim-treesitter": {
-      "rev": "a2f694478be07f89c2d03cc17858a8745a400c4b",
+      "rev": "610734c5d3e59761d5f79318d120633374537fa5",
       "src": "https://github.com/nvim-treesitter/nvim-treesitter",
       "version": "'main'"
     },
