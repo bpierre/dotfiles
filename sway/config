@@ -116,8 +116,7 @@ bindswitch --locked lid:off exec swaylock -f -c 000000
 
 # Input configuration (man sway-input)
 input $keyd_keyboard {
-  xkb_layout "fr"
-  xkb_variant "bepo"
+  xkb_file ~/dotfiles/sway/bepo-comma.xkb
   repeat_delay 300
   repeat_rate 30
 }
